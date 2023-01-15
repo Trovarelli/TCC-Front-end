@@ -1,8 +1,7 @@
 
 import React from 'react';
-import './App.css'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Home } from './pages';
+import { Home, Perfil } from './pages';
 
 function App() {
 
@@ -16,6 +15,7 @@ function App() {
         </ul> */}
         <Routes>
             <Route path='/' element={<Home />} />
+            <Route path='/perfil' element={<Perfil />} />
             {/* <Route path='allGames' element={<AllGames />} />
             <Route path='*' element={<h1>Not Found</h1>} />
             <Route path='game/:id' element={<GameAds />} >
