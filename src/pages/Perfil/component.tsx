@@ -8,8 +8,8 @@ export const Perfil = ()=>{
     }
     return (
         <>
-        <div className="bg-slate-600 rounded-xl text-center flex justify-center items-center">Perfilllll</div>
-        <PrimaryButton onClick={Navigate} btnName="Home" icon="home" rounded/>
+        <h1>Perfil</h1>
+        <PrimaryButton onClick={Navigate} btnName="Home" icon="home"/>
         </>
     )
 }
