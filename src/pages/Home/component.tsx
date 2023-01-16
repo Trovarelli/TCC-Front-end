@@ -1,5 +1,5 @@
-import { Button } from "../../components";
 import { useNavigate } from "react-router-dom";
+import { SecondaryButton } from "../../components";
 
 export function Home() {
     const navigate = useNavigate()
@@ -13,7 +13,7 @@ export function Home() {
         Install & Setup Vite + React + Typescript + Tailwind CSS 3
         </h1>
       </div>
-      <Button onClick={Navigate} btnName="Perfil"/>
+      <SecondaryButton onClick={Navigate} btnName="Perfil" icon="home"/>
       </>
       
     );

@@ -1,14 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap');
 
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Manrope', sans-serif;
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
-
-
   color-scheme: light dark;
   color: rgb(245, 245, 245);
   background-color: rgb(31, 31, 31);
