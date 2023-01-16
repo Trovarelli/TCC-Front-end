@@ -10,8 +10,8 @@
 
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: rgb(245, 245, 245);
+  background-color: rgb(31, 31, 31);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,8 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
-
-
 
 body {
   margin: 0;
@@ -33,26 +31,28 @@ h1 {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    color: rgb(245, 245, 245);
+    background-color: rgb(245, 245, 245);
   }
   a:hover {
-    color: #747bff;
+    color: rgb(116, 123, 255);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgb(245, 245, 245);
   }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    color: #db1212;
-    background-color: #1f1f1f;
+    color: rgb(245, 245, 245);
+    background-color: rgb(31, 31, 31);
   }
   a:hover {
-    color: #747bff;
+    color: rgb(31, 31, 31);
   }
   button {
-    background-color: #f9f9f9;
+    background-color: rgb(245, 245, 245);
   }
 }
+
+/*#FF4444 vermelho*/
