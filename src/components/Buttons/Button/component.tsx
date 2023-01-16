@@ -1,9 +1,7 @@
-interface buttonProps{
-    btnName: string
-    onClick: ()=>void
-}
-export const Button = ({onClick, btnName}:buttonProps)=>{
+import { buttonProps } from "./types"
+
+export const Button = ({ btnName, ...rest}:buttonProps)=>{
     return(
-        <button onClick={onClick} className="m-1 px-10 py-3  rounded bg-[#5344FF] text-red">{btnName}</button>
+        <button {...rest} className="m-1 px-10 py-3  rounded bg-[#5344FF]">{btnName}</button>
     )
 }
