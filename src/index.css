@@ -28,12 +28,19 @@ h1 {
   line-height: 1.1;
 }
 
+input {
+  border: solid 2px rgb(116, 123, 255);
+  border-radius: 5px;
+  padding: 5px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: rgb(31, 31, 31);
     background-color: rgb(245, 245, 245);
   }
   a:hover {
+    cursor: pointer;
     color: rgb(116, 123, 255);
   }
   button {
@@ -49,11 +56,15 @@ h1 {
     background-color: rgb(31, 31, 31);
   }
   a:hover {
+    cursor: pointer;
     color: rgb(116, 123, 255);
   }
   button {
     background-color: rgb(245, 245, 245);
+
   }
 }
 
-/*#FF4444 vermelho*/
+/*#FF4444 vermelho
+  #747bff roxo
+*/
