@@ -1,5 +1,5 @@
 export interface PrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     btnName: string
-    icon?: "camera" | "home" | undefined
+    icon?: "trash" | "home" | "user" | undefined
     rounded?: boolean
 }

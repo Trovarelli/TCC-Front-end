@@ -1,12 +1,14 @@
-import { Camera, Home } from 'react-feather';
+import { Trash, Home, User } from 'react-feather';
 import { ReactElement } from "react";
 
 export const getIcon = (v: string):ReactElement<any, any> => {
     switch(v) {
-        case 'camera':
-            return <Camera />
+        case 'trash':
+            return <Trash/>
         case 'home':
-            return <Home />
+            return <Home/>
+        case 'user':
+            return <User/>
         default:
             return <></>
     }
