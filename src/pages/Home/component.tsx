@@ -2,19 +2,22 @@ import { useNavigate } from "react-router-dom";
 import { SecondaryButton } from "../../components";
 
 export function Home() {
-    const navigate = useNavigate()
-    const Navigate = ()=>{
-      navigate("/Perfil")
-    }
-    return (
-      <>
+  const navigate = useNavigate();
+  const goToPerfil = () => {
+    navigate("/perfil");
+  };
+  const goToLogin = () => {
+    navigate("/login");
+  };
+  return (
+    <>
       <div className="min-h-screen flex justify-center items-center">
         <h1 className="text-3xl font-bold text-blue-600">
-        Install & Setup Vite + React + Typescript + Tailwind CSS 3
+          Install & Setup Vite + React + Typescript + Tailwind CSS 3
         </h1>
       </div>
-      <SecondaryButton onClick={Navigate} btnName="Perfil" icon="home"/>
-      </>
-      
-    );
-  }
+      <SecondaryButton onClick={goToPerfil} btnName="Perfil" icon="home" />
+      <SecondaryButton onClick={goToLogin} btnName="Login" icon="home" />
+    </>
+  );
+}
