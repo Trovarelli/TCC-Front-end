@@ -4,10 +4,10 @@ import { PrimaryButton, SecondaryButton } from "../../components";
 export function Home() {
   const navigate = useNavigate();
   const Navigate = () => {
-    navigate("/Perfil");
+    navigate("/perfil");
   };
   const navLogin = () => {
-    navigate("/Login");
+    navigate("/login");
   };
   return (
     <>
