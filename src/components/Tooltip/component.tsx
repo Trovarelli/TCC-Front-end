@@ -8,25 +8,14 @@ export const ToolTip: FC<ToolTipProps> = ({
   state = "info",
 }): JSX.Element => {
   const tooltipRef = useRef<HTMLSpanElement>(null);
-  const container = useRef<HTMLDivElement>(null);
 
   return (
-    <div
-      ref={container}
-      onMouseEnter={({ clientX }) => {
-        if (!tooltipRef.current || !container.current) return;
-        const { left } = container.current.getBoundingClientRect();
-
-        tooltipRef.current.style.left = clientX - left + "px";
-      }}
-      className="group"
-    >
+    <div className="group">
       {children}
       {tooltip ? (
-        <span
-          ref={tooltipRef}
+        <div
           className={clsx(
-            "invisible group-hover:visible opacity-0 group-hover:opacity-100 duration-100 bg-info text-white p-2 rounded absolute top-full mt-1 whitespace-nowrap",
+            "invisible z-[20] group-hover:visible opacity-0 group-hover:opacity-100 duration-100 bg-info text-white p-2 rounded absolute top-full mr-0 right-0 mt-1 whitespace-nowrap",
             { "bg-error": state === "error" },
             {
               "bg-info": state === "info",
@@ -39,8 +28,23 @@ export const ToolTip: FC<ToolTipProps> = ({
             }
           )}
         >
-          {tooltip}
-        </span>
+          <div
+            className={clsx(
+              "bg-info absolute -top-3 h-3 w-3 origin-bottom-left right-[1.35rem] rotate-45 transform",
+              { "bg-error": state === "error" },
+              {
+                "bg-info": state === "info",
+              },
+              {
+                "bg-success": state === "success",
+              },
+              {
+                "bg-warning": state === "warning",
+              }
+            )}
+          ></div>
+          <span ref={tooltipRef}>{tooltip}</span>
+        </div>
       ) : null}
     </div>
   );
