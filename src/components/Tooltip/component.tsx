@@ -6,7 +6,7 @@ export const ToolTip: FC<ToolTipProps> = ({
   children,
   tooltip,
   state = "info",
-}): JSX.Element => {
+}) => {
   const tooltipRef = useRef<HTMLSpanElement>(null);
 
   return (

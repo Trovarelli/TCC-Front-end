@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { PrimaryButton } from "../../components";
-import { TextInput } from "../../components/Inputs/TextInput";
+import { CheckBox, PrimaryButton, TextInput } from "../../components";
+
 export const Require = (value: any) => {
   if (!value) return "Campo obrigatório";
 };
@@ -21,9 +21,11 @@ export const LoginPage = () => {
   return (
     <div className="bg-login w-full h-[100vh] bg-no-repeat bg-cover flex sm:justify-start justify-center items-center">
       <div className="sm:h-full sm:w-[40vw] w-[100vw] h-[100vh] max-[639px]:rounded-md bg-white sm:p-16 p-10">
-        <h1 className="text-primary text-title text-center font-bold">TAHR</h1>
+        <div className="flex justify-center">
+          <img src="src/assets/img/logo/logo-text.svg" width="250px"></img>
+        </div>
         <h1 className="text-title text-center font-bold text-black mt-14">
-          Entrar em nossa plataforma
+          Entre em nossa plataforma
         </h1>
         <form onSubmit={fnHandleSubmit}>
           <TextInput
@@ -43,7 +45,16 @@ export const LoginPage = () => {
             helperText={errors.password}
             state={errors.password ? "error" : undefined}
           />
+          <CheckBox
+            label="Manter-se conectado."
+            id="checkBox"
+            onChange={(event) => console.log(event.target.checked)}
+            sm
+          />
           <PrimaryButton btnName="Entrar" onClick={fnHandleSubmit} fullWidth />
+          <div className="text-primary text-sm text-center mt-4 cursor-pointer">
+            Ainda não possui conta? Cadastre-se aqui!
+          </div>
         </form>
       </div>
     </div>
