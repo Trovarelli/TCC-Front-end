@@ -3,4 +3,5 @@ export interface PrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButto
     icon?: "trash" | "home" | "user" | undefined
     rounded?: boolean
     fullWidth?: boolean
+    loading?: boolean
 }

@@ -2,7 +2,7 @@ import clsx from "clsx";
 import {
   CheckCircle,
   Eye,
-  EyeClosed,
+  EyeSlash,
   Info,
   Warning,
   WarningCircle,
@@ -48,7 +48,7 @@ export const TextInput = ({
       <input
         {...props}
         className={clsx(
-          "block px-2.5 pb-2.5 pt-4 focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black bg-transparent rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
+          "block px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
           { "border-error": state === "error" },
           { "border-info": state === "info" },
           { "border-warning": state === "warning" },
@@ -98,7 +98,7 @@ export const TextInput = ({
             { "right-10": !!state }
           )}
         >
-          {showPassword ? <Eye size={26} /> : <EyeClosed size={26} />}
+          {showPassword ? <Eye size={26} /> : <EyeSlash size={26} />}
         </div>
       )}
     </div>

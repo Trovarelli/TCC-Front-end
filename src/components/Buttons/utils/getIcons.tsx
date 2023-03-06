@@ -1,15 +1,15 @@
-import { Trash, Home, User } from 'react-feather';
+import { Trash, User, House } from "phosphor-react";
 import { ReactElement } from "react";
 
-export const getIcon = (v: string):ReactElement<any, any> => {
-    switch(v) {
-        case 'trash':
-            return <Trash/>
-        case 'home':
-            return <Home/>
-        case 'user':
-            return <User/>
-        default:
-            return <></>
-    }
-}
+export const getIcon = (v: string): ReactElement<any, any> => {
+  switch (v) {
+    case "trash":
+      return <Trash />;
+    case "home":
+      return <House />;
+    case "user":
+      return <User />;
+    default:
+      return <></>;
+  }
+};

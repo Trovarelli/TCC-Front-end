@@ -1,19 +1,10 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-
-interface CheckBoxProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value"> {
-  label?: string;
-  value?: boolean;
-  sm?: boolean;
-}
+import { CheckBoxProps } from "./types";
 
 export const CheckBox = ({
   label,
   id = "chbx1",
   sm = false,
-  value,
-  checked,
   ...props
 }: CheckBoxProps) => {
   return (

@@ -7,20 +7,32 @@
   font-family: 'Manrope', sans-serif;
   font-size: 16px;
   line-height: 24px;
+  /* display: flex;
+  justify-content: center; */
   font-weight: 400;
-  color-scheme: light dark;
-  color: rgb(245, 245, 245);
-  background-color: rgb(31, 31, 31);
-
+  color: rgb(31, 31, 31);
+  background-color: rgb(245, 245, 245);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  
+}
+
+a:hover {
+  cursor: pointer;
+  color: rgb(116, 123, 255);
+}
+button {
+  background-color: rgb(245, 245, 245);
+  font-weight: 700;
+  color: rgb(245, 245, 245)
 }
 
 body {
   margin: 0;
+  padding: 0;
 }
 
 h1 {
@@ -28,43 +40,18 @@ h1 {
   line-height: 1.1;
 }
 
-input {
-  border: solid 2px rgb(116, 123, 255);
-  border-radius: 5px;
-  padding: 5px;
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+  transition: background-color 600000s 0s, color 600000s 0s;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: rgb(31, 31, 31);
-    background-color: rgb(245, 245, 245);
-  }
-  a:hover {
-    cursor: pointer;
-    color: rgb(116, 123, 255);
-  }
-  button {
-    background-color: rgb(245, 245, 245);
-    font-weight: 700;
-    color: rgb(245, 245, 245)
-  }
+/* width */
+::-webkit-scrollbar {
+  @apply w-2 bg-[#c0c0c0]
+
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: rgb(245, 245, 245);
-    background-color: rgb(31, 31, 31);
-  }
-  a:hover {
-    cursor: pointer;
-    color: rgb(116, 123, 255);
-  }
-  button {
-    background-color: rgb(245, 245, 245);
-
-  }
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-primary rounded-full
 }
-
-/*#FF4444 vermelho
-  #747bff roxo
-*/
