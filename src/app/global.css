@@ -44,5 +44,5 @@ input:-webkit-autofill:focus {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary rounded-full
+  @apply bg-slate-400 rounded-full
 }

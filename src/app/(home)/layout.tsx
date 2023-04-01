@@ -17,7 +17,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div>
       <DesktopNav />
-      <div className="mt-16">{children}</div>
+      <main>{children}</main>
     </div>
   );
 }

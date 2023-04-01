@@ -8,7 +8,7 @@ export default function DesktopNav() {
 
   return (
     <>
-      <div className="fixed mr-0 top-0 right-0 left-0 border-b border-[#747bff] bg-white px-2 sm:px-4 py-2.5 rounded">
+      <div className="fixed mr-0 top-0 right-0 left-0 border-b border-[#747bff] backdrop-blur-md bg-black bg-opacity-5 px-2 sm:px-4 py-2.5 rounded">
         <div className="container flex flex-wrap items-center justify-between mx-auto">
           <div className="flex items-center">
             <div className="self-center">

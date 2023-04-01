@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-
 import "./global.css";
+import { Footer } from "@/components";
 
 export const metadata = {
   title: {
@@ -12,7 +12,10 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ptBr">
-      <body>{children}</body>
+      <body>
+        <main>{children}</main>
+        <Footer />
+      </body>
     </html>
   );
 }
