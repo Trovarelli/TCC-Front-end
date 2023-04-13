@@ -17,6 +17,7 @@
     "concurrently": "^7.6.0",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "jose": "^4.13.2",
     "js-cookie": "^3.0.1",
     "next": "13.2.4",
     "phosphor-react": "^1.4.1",

@@ -1,6 +1,6 @@
 "use client";
-import DesktopNav from "@/components/Navbar/Desktop/component";
 import { ReactNode } from "react";
+import DesktopNav from "@/components/Navbar/Desktop/component";
 
 export const metadata = {
   title: {
@@ -17,7 +17,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div>
       <DesktopNav />
-      <main>{children}</main>
+      <main className="mt-[4.4rem] min-h-screen">{children}</main>
     </div>
   );
 }

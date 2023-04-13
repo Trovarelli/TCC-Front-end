@@ -4,24 +4,13 @@ export const Footer = () => (
       <div className="flex justify-end items-center p-4">
         <img src="img/logo/logo-text-white.png" width="150px" />
       </div>
-      <div className="grid grid-cols-2 gap-3 p-4">
-        <label
-          htmlFor="mailInput"
-          className="text-white font-semibold text-sm col-span-2"
+      <div className="flex flex-col p-4">
+        <div
+          className="text-white font-semibold text-sm text-center mb-4"
         >
           Inscreva-se em nossa newsletter
-        </label>
-        <div className="max-md:col-span-2">
-          <input
-            id="mailInput"
-            className="p-2.5 bg-transparent w-full border-white border text-white text-sm rounded-md borde appearance-none focus:outline-none focus:ring-0 focus:border-2 peer"
-          />
         </div>
-        <div className="max-md:col-span-2">
-          <button className="rounded-md bg-white p-2.5 text-primary max-md:w-full">
-            <span className="text-sm">Inscrever-se</span>
-          </button>
-        </div>
+        <a id="mailInput" className="text-sm text-center rounded-md bg-white p-2.5 text-primary w-full" href="mailto:newsletter@tahr.com?cc=company@tahr.com&subject=Inscrição">Inscrever-se</a>
       </div>
     </div>
   </footer>

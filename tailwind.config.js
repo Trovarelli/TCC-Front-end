@@ -36,7 +36,8 @@ module.exports = {
         'error': '#ef4444',
         'success': '#10b981',
         'info': '#3b82f6',
-        'warning': '#eab308'
+        'warning': '#eab308',
+        'background': '#E0DDFF'
       },
       fontSize: {
         'title': '2rem',

@@ -56,13 +56,14 @@ export default function Login() {
         Cookies.set("token", res.data.token, {
           expires: userLogin.remember ? 1200 : 1,
         });
-        router.push("home/64044f027a17dfa4fdafb434");
+        router.push("/dashboard");
       })
       .catch((err) => {
         toast.error(err.response?.data.message);
+        setLoading(false)
         console.log(err);
       })
-      .finally(() => setLoading(false));
+      
   };
   return (
     <div
