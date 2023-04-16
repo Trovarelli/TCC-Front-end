@@ -22,6 +22,7 @@ export async function middleware(req: NextRequest) {
         return new Response(JSON.stringify({error: {message: 'autenticação necessária'}}))
     }
     console.log(req.nextUrl)
+    
     return NextResponse.redirect(new URL('/login', req.url))
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode } from "react";
 import DesktopNav from "@/components/Navbar/Desktop/component";
+import MobileNav from "@/components/Navbar/Mobile/component";
 
 export const metadata = {
   title: {
@@ -17,7 +18,8 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
   return (
     <div>
       <DesktopNav />
-      <main className="mt-[4.4rem] min-h-screen">{children}</main>
+      <MobileNav />
+      <main className="mt-[4.4rem]">{children}</main>
     </div>
   );
 }

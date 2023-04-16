@@ -1,5 +1,6 @@
 "use client";
-import { Button } from "@/components";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import {
   ChartBar,
@@ -10,9 +11,18 @@ import {
   Heart,
   UserList,
 } from "phosphor-react";
+import { Button } from "@/components";
+import clsx from "clsx";
 
 export default function Home() {
   const router = useRouter();
+  const [hasToken, setToken] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    setToken(!!token);
+  }, []);
+
   return (
     <div className="grid grid-cols-2 mt-20">
       <div className="ml-[1.5rem] max-[600px]:mr-[1.5rem] py-10 max-[600px]:col-span-2 flex items-center">
@@ -24,7 +34,7 @@ export default function Home() {
             Oferecemos um sistema de gerenciamento de Candidatos poderoso em uma
             única plataforma de recrutamento.
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className={clsx("grid grid-cols-2 gap-2", { hidden: hasToken })}>
             <div className="md:col-span-1 col-span-2">
               <Button
                 onClick={() => router.push("/register")}

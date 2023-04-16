@@ -7,6 +7,7 @@ import {
   Eye,
   EyeSlash,
   Info,
+  MagnifyingGlass,
   Warning,
   WarningCircle,
 } from "phosphor-react";
@@ -18,6 +19,7 @@ export function TextInput({
   value,
   state,
   helperText,
+  fullWidth,
   inputType,
   ...props
 }: TextInputProps) {
@@ -46,7 +48,7 @@ export function TextInput({
     }
   };
   return (
-    <div className="relative">
+    <div className={clsx("relative", { "w-full": fullWidth })}>
       <input
         {...props}
         className={clsx(
@@ -101,6 +103,16 @@ export function TextInput({
           )}
         >
           {showPassword ? <Eye size={26} /> : <EyeSlash size={26} />}
+        </div>
+      )}
+      {inputType === "search" && (
+        <div
+          className={clsx(
+            "absolute text-primary cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
+            { "right-10": !!state }
+          )}
+        >
+          <MagnifyingGlass size={26} />
         </div>
       )}
     </div>

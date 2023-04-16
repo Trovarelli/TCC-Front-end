@@ -60,10 +60,9 @@ export default function Login() {
       })
       .catch((err) => {
         toast.error(err.response?.data.message);
-        setLoading(false)
+        setLoading(false);
         console.log(err);
-      })
-      
+      });
   };
   return (
     <div
@@ -91,6 +90,7 @@ export default function Login() {
             onChange={(e) => handleOnChange(e)}
             helperText={errors.email}
             state={errors.email ? "error" : undefined}
+            disabled={loading}
           />
           <TextInput
             id="password"
@@ -100,6 +100,7 @@ export default function Login() {
             inputType="password"
             helperText={errors.password}
             state={errors.password ? "error" : undefined}
+            disabled={loading}
           />
           <CheckBox
             label="Manter-se conectado."
@@ -109,12 +110,14 @@ export default function Login() {
               setUserLogin({ ...userLogin, remember: event.target?.checked })
             }
             sm
+            disabled={loading}
           />
           <Button
             btnName="Entrar"
             onClick={fnHandleSubmit}
             fullWidth
             loading={loading}
+            disabled={loading}
           />
           <div className="text-primary text-sm text-center mt-3 cursor-pointer">
             Ainda não possui conta? Cadastre-se aqui!
