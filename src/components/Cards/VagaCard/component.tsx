@@ -2,7 +2,7 @@
 import { PencilSimple, Trash } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { useState } from "react";
-import { ConfirmationModal } from "@/components/Modal/ConfirmationModal";
+import { DefaultModal, ConfirmationModal } from "@/components";
 
 export const VagaCard = ({
   title,
@@ -10,25 +10,39 @@ export const VagaCard = ({
   onDelete,
   onEdit,
 }: VagaCardProps) => {
-  const [open, setOpen] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
   const handleDelete = () => {
-    setOpen(false);
+    setOpenDelete(false);
     onDelete && onDelete();
+  };
+
+  const handleEdit = () => {
+    setOpenEdit(false);
+    onEdit && onEdit();
   };
 
   return (
     <>
       <ConfirmationModal
         type="delete"
-        open={open}
-        setOpen={() => setOpen(!open)}
+        open={openDelete}
+        setOpen={() => setOpenDelete(!openDelete)}
         onConfirm={handleDelete}
         title="Deseja excluir está vaga ?"
         description={
           "Ao deletar esta vaga todos os dados salvos serão perdidos."
         }
       />
+      <DefaultModal open={openEdit}>
+        <div
+          onClick={() => setOpenEdit(false)}
+          className="bg-primary w-72 h-w-72"
+        >
+          AAAAAAAAAAA
+        </div>
+      </DefaultModal>
       <div className="flex my-2 justify-between items-center w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6">
         <div>
           <div className="font-bold text-primary">{title}</div>
@@ -36,13 +50,13 @@ export const VagaCard = ({
         </div>
         <div className="flex">
           <PencilSimple
-            onClick={onEdit}
+            onClick={() => setOpenEdit(!openEdit)}
             size={20}
             className="cursor-pointer text-primary"
             weight="fill"
           />
           <Trash
-            onClick={() => setOpen(!open)}
+            onClick={() => setOpenDelete(!openDelete)}
             size={20}
             className="cursor-pointer text-error ml-5"
             weight="fill"
