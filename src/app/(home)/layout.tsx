@@ -19,7 +19,7 @@ export default function HomeLayout({ children }: HomeLayoutProps) {
     <div>
       <DesktopNav />
       <MobileNav />
-      <main className="mt-[4.4rem]">{children}</main>
+      <main className="mt-[4.4rem] min-h-screen">{children}</main>
     </div>
   );
 }

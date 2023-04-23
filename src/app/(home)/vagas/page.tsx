@@ -12,7 +12,7 @@ export default function Vagas() {
     }, 3000);
   }, []);
   return (
-    <div className="bg-background p-4 flex items-center justify-center">
+    <div className="bg-background p-4 flex items-center min-h-screen justify-center">
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
           <Spinner color="primary" size="lg" />

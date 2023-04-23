@@ -27,7 +27,7 @@ export const ConfirmationModal = ({
     <DefaultModal open={open} size={size}>
       <div className="w-full text-lg font-bold">{title}</div>
       <div className="w-full mt-3">{description}</div>
-      <div className="w-full mt-6 flex justify-evenly items-center">
+      <div className="w-full mt-6 flex justify-end items-center">
         <div
           onClick={() => setOpen(false)}
           className="text-center px-4 text-primary cursor-pointer"

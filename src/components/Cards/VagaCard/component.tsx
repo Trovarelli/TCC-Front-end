@@ -2,7 +2,21 @@
 import { PencilSimple, Trash } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { useState } from "react";
-import { DefaultModal, ConfirmationModal } from "@/components";
+import {
+  DefaultModal,
+  ConfirmationModal,
+  Button,
+  TextInput,
+  TextArea,
+  ChipInput,
+} from "@/components";
+
+interface VagaModel {
+  titulo: string;
+  descricao: string;
+  tags: string[];
+  candidatos?: any[];
+}
 
 export const VagaCard = ({
   title,
@@ -12,6 +26,11 @@ export const VagaCard = ({
 }: VagaCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [values, setValues] = useState<VagaModel>({
+    titulo: "",
+    descricao: "",
+    tags: [],
+  });
 
   const handleDelete = () => {
     setOpenDelete(false);
@@ -23,6 +42,10 @@ export const VagaCard = ({
     onEdit && onEdit();
   };
 
+  const handleOnChange = (v: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [v.target.id]: v.target.value });
+  };
+
   return (
     <>
       <ConfirmationModal
@@ -31,16 +54,31 @@ export const VagaCard = ({
         setOpen={() => setOpenDelete(!openDelete)}
         onConfirm={handleDelete}
         title="Deseja excluir está vaga ?"
-        description={
-          "Ao deletar esta vaga todos os dados salvos serão perdidos."
-        }
+        description="Ao deletar esta vaga todos os dados salvos serão perdidos."
       />
-      <DefaultModal open={openEdit}>
-        <div
-          onClick={() => setOpenEdit(false)}
-          className="bg-primary w-72 h-w-72"
-        >
-          AAAAAAAAAAA
+      <DefaultModal open={openEdit} size="md">
+        <div className="text-xl font-bold text-primary text-center mb-4">
+          Editar Vaga
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <TextInput id="titulo" label="Titulo" onChange={handleOnChange} />
+          <ChipInput />
+          <div className="col-span-2">
+            <TextArea
+              id="descricao"
+              label="Descrição da vaga"
+              onChange={handleOnChange}
+            />
+          </div>
+        </div>
+        <div className="w-full mt-6 flex justify-end items-center">
+          <div
+            onClick={() => setOpenEdit(false)}
+            className="text-center px-4 text-primary cursor-pointer"
+          >
+            Cancelar
+          </div>
+          <Button btnName="Gravar" color="success" onClick={handleEdit} />;
         </div>
       </DefaultModal>
       <div className="flex my-2 justify-between items-center w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6">
