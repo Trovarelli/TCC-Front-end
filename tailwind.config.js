@@ -15,7 +15,7 @@ module.exports = {
         'vagas': 'repeat(5, minmax(30px, 1fr))',
       },
       gridTemplateRows: {
-        'vagas': 'repeat(5, minmax(30px, 3fr))',
+        'vagas': 'repeat(3, minmax(30px, 1fr) 0px)',
       },
       backgroundSize: {
         'auto': 'auto',
@@ -42,10 +42,15 @@ module.exports = {
       },
       colors: {
         'primary': '#5344FF',
+        'primary-active': '#3023c9',
         'error': '#ef4444',
+        'error-active': '#e61a1a',
         'success': '#10b981',
+        'success-active': '#08B922',
         'info': '#3b82f6',
+        'info-active': '#2877F6',
         'warning': '#eab308',
+        'warning-active': '#EADE00',
         'background': '#E0DDFF'
       },
       fontSize: {

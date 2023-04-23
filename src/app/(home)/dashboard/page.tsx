@@ -11,18 +11,77 @@ import Spinner from "@/components/Spinner/component";
 
 export default function Dashboard() {
   const [renderLoading, setRenderLoading] = useState(true);
+  const [data, setData] = useState<{
+    dayOfWeek: string;
+    day: number;
+    month: string;
+    year: number;
+    formattedHours: number;
+    formattedMinutes: string;
+    amOrPm: string;
+  } | null>(null);
 
   useEffect(() => {
     setTimeout(() => {
       setRenderLoading(false);
     }, 3000);
+    handleGetDate();
+    setInterval(() => {
+      handleGetDate();
+    }, 10000);
   }, []);
+
+  const handleGetDate = () => {
+    const date = new Date();
+    const weekdays = [
+      "DOMINGO",
+      "SEGUNDA",
+      "TERÇA",
+      "QUARTA",
+      "QUINTA",
+      "SEXTA",
+      "SABADO",
+    ];
+    const months = [
+      "JAN",
+      "FEV",
+      "MAR",
+      "ABR",
+      "MAI",
+      "JUN",
+      "JUL",
+      "AGO",
+      "SET",
+      "OUT",
+      "NOV",
+      "DEZ",
+    ];
+    const dayOfWeek = weekdays[date.getDay()];
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const amOrPm = hours >= 12 ? "PM" : "AM";
+    const formattedHours = hours % 12 === 0 ? 12 : hours % 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes.toString();
+
+    setData({
+      dayOfWeek,
+      day,
+      month,
+      year,
+      formattedHours,
+      formattedMinutes,
+      amOrPm,
+    });
+  };
 
   return (
     <div className="bg-background p-4 min-h-screen flex justify-center">
       {renderLoading ? (
         <div className="flex h-screen w-full justify-center items-center">
-          <Spinner color="primary" size={40} />
+          <Spinner color="primary" size="lg" />
         </div>
       ) : (
         <div className="md:p-20 flex flex-col max-w-[1000px] max-h-[1000px]">
@@ -51,13 +110,14 @@ export default function Dashboard() {
               <PlusCircle size={32} className="mt-4" />
             </div>
             <div className="bg-white cursor-pointer max-sm:col-span-2 rounded-md p-4 flex justify-center flex-col items-center">
-              TERÇA FEIRA
+              {data?.dayOfWeek}
               <div>
-                <span className="text-black">28</span> MAR.
-                <span className="text-black">2023</span>
+                <span className="text-black">{data?.day}</span> {data?.month}.
+                <span className="text-black">{data?.year}</span>
               </div>
               <div>
-                <span className="text-black">13:39</span> PM
+                <span className="text-black">{`${data?.formattedHours}:${data?.formattedMinutes}`}</span>{" "}
+                {data?.amOrPm}
               </div>
             </div>
 

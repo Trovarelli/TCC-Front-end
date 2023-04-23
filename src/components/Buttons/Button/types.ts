@@ -5,4 +5,5 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     fullWidth?: boolean
     loading?: boolean
     secondary?: boolean
+    color?: 'primary' | 'info' | 'success' | 'error' | 'warning'
 }

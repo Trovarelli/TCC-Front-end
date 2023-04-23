@@ -1,13 +1,7 @@
 "use client";
-
-import { TextInput } from "@/components";
+import { TextInput, VagaCard } from "@/components";
 import Spinner from "@/components/Spinner/component";
-import {
-  BriefcaseMetal,
-  MagnifyingGlass,
-  PlusCircle,
-  UserList,
-} from "phosphor-react";
+import { BriefcaseMetal, PlusCircle, UserList } from "phosphor-react";
 import { useEffect, useState } from "react";
 
 export default function Vagas() {
@@ -18,10 +12,10 @@ export default function Vagas() {
     }, 3000);
   }, []);
   return (
-    <div className="bg-background p-4 min-h-screen flex items-center justify-center">
+    <div className="bg-background p-4 flex items-center justify-center">
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
-          <Spinner color="primary" size={40} />
+          <Spinner color="primary" size="lg" />
         </div>
       ) : (
         <div className="md:p-10 max-w-[1200px] grid grid-cols-vagas grid-rows-vagas gap-4">
@@ -46,8 +40,10 @@ export default function Vagas() {
               fullWidth
             />
           </div>
-          <div className="bg-white rounded-md p-4 flex items-center col-span-3 row-start-2 row-span-full ">
-            AAAAAAA
+          <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
+            <div className="w-full max-h-80 overflow-y-auto">
+              <VagaCard title="UX Designer" quantity={25} />
+            </div>
           </div>
         </div>
       )}

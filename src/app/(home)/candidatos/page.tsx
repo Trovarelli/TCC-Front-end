@@ -14,7 +14,7 @@ export default function Candidatos() {
     <div className="bg-background p-4 min-h-screen">
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
-          <Spinner color="primary" size={40} />
+          <Spinner color="primary" size="lg" />
         </div>
       ) : (
         <div></div>
