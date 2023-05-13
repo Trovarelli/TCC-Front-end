@@ -28,11 +28,12 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
   return (
     <div
       className={clsx(
-        "flex flex-wrap gap-2 p-2 px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
+        " flex flex-wrap gap-2 p-2 px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
         { "border-error": state === "error" },
         { "border-info": state === "info" },
         { "border-warning": state === "warning" },
-        { "border-success": state === "success" }
+        { "border-success": state === "success" },
+        { "border-primary": !state }
       )}
     >
       {chips.map((chip, index) => (
@@ -50,11 +51,10 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
         </div>
       ))}
       <input
-        className="flex-grow outline-none"
+        className="flex-grow outline-none relative"
         value={inputValue}
         onChange={handleInputChange}
-        onKeyPress={handleInputKeyPress}
-        // label={label}
+        onKeyDown={handleInputKeyPress}
         {...props}
       />
       <label
@@ -64,7 +64,8 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
           { "peer-focus:text-error text-error": state === "error" },
           { "peer-focus:text-info text-info": state === "info" },
           { "peer-focus:text-warning text-warning": state === "warning" },
-          { "peer-focus:text-success text-success": state === "success" }
+          { "peer-focus:text-success text-success": state === "success" },
+          { "text-gray-500": !state }
         )}
       >
         {label}

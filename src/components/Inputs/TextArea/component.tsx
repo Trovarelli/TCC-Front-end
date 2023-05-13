@@ -36,7 +36,8 @@ export function TextArea({
           { "border-error": state === "error" },
           { "border-info": state === "info" },
           { "border-warning": state === "warning" },
-          { "border-success": state === "success" }
+          { "border-success": state === "success" },
+          { "border-primary": !state }
         )}
         placeholder=" "
         value={value}
@@ -48,7 +49,8 @@ export function TextArea({
           { "peer-focus:text-error text-error": state === "error" },
           { "peer-focus:text-info text-info": state === "info" },
           { "peer-focus:text-warning text-warning": state === "warning" },
-          { "peer-focus:text-success text-success": state === "success" }
+          { "peer-focus:text-success text-success": state === "success" },
+          { "text-gray-500": !state }
         )}
       >
         {label}

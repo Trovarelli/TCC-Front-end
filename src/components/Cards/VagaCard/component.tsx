@@ -62,7 +62,7 @@ export const VagaCard = ({
         </div>
         <div className="grid grid-cols-2 gap-3">
           <TextInput id="titulo" label="Titulo" onChange={handleOnChange} />
-          <ChipInput label="AAAA" />
+          <ChipInput label="Caracteristicas" state="error" />
           <div className="col-span-2">
             <TextArea
               id="descricao"
