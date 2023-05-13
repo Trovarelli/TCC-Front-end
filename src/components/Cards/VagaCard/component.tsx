@@ -8,8 +8,8 @@ import {
   Button,
   TextInput,
   TextArea,
-  ChipInput,
 } from "@/components";
+import ChipInput from "@/components/Inputs/ChipInput/component";
 
 interface VagaModel {
   titulo: string;
@@ -62,7 +62,7 @@ export const VagaCard = ({
         </div>
         <div className="grid grid-cols-2 gap-3">
           <TextInput id="titulo" label="Titulo" onChange={handleOnChange} />
-          <ChipInput />
+          <ChipInput label="AAAA" />
           <div className="col-span-2">
             <TextArea
               id="descricao"

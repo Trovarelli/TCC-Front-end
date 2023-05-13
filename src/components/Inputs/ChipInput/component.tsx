@@ -1,47 +1,61 @@
 "use client";
 
-import ToolTip from "@/components/Tooltip/component";
-import clsx from "clsx";
-import { CheckCircle, Info, Warning, WarningCircle } from "phosphor-react";
+import React, { useState } from "react";
+import { TextInput } from "../TextInput";
 import { ChipInputProps } from "./types";
-import TagsInput from "react-tagsinput";
-import { useState } from "react";
+import clsx from "clsx";
 
-export function ChipInput({
-  label,
-  value,
-  state,
-  helperText,
-  fullWidth,
-  ...props
-}: ChipInputProps) {
-  const [tags, setTags] = useState<string[]>([]);
-  const changeIcon = (state: ChipInputProps["state"]) => {
-    switch (state) {
-      case "error":
-        return <WarningCircle size={26} />;
-      case "warning":
-        return <Warning size={26} />;
-      case "info":
-        return <Info size={26} />;
-      case "success":
-        return <CheckCircle size={32} />;
-      default:
-        return <></>;
+const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
+  const [chips, setChips] = useState<string[]>([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
+
+  const handleInputKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter" && inputValue.trim() !== "") {
+      setChips([...chips, inputValue.trim()]);
+      setInputValue("");
     }
   };
+
+  const handleChipRemove = (index: number) => {
+    const updatedChips = chips.filter((_, chipIndex) => chipIndex !== index);
+    setChips(updatedChips);
+  };
+
   return (
-    <div className={clsx("relative", { "w-full": fullWidth })}>
-      <TagsInput
+    <div
+      className={clsx(
+        "flex flex-wrap gap-2 p-2 px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
+        { "border-error": state === "error" },
+        { "border-info": state === "info" },
+        { "border-warning": state === "warning" },
+        { "border-success": state === "success" }
+      )}
+    >
+      {chips.map((chip, index) => (
+        <div
+          key={index}
+          className="flex items-center px-2 bg-gray-200 rounded-md text-gray-700"
+        >
+          <span className="mr-1">{chip}</span>
+          <button
+            className="text-gray-500 hover:text-gray-700 focus:outline-none"
+            onClick={() => handleChipRemove(index)}
+          >
+            X
+          </button>
+        </div>
+      ))}
+      <input
+        className="flex-grow outline-none"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyPress={handleInputKeyPress}
+        // label={label}
         {...props}
-        className={clsx(
-          "block px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
-          { "border-error": state === "error" },
-          { "border-info": state === "info" },
-          { "border-warning": state === "warning" },
-          { "border-success": state === "success" }
-        )}
-        value={tags}
       />
       <label
         htmlFor={props.id}
@@ -55,26 +69,8 @@ export function ChipInput({
       >
         {label}
       </label>
-      <ToolTip tooltip={helperText} state={state}>
-        <div
-          className={clsx(
-            "absolute bg-white top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 z-10",
-            { hidden: !state },
-            { "text-error": state === "error" },
-            {
-              "text-info": state === "info",
-            },
-            {
-              "text-success": state === "success",
-            },
-            {
-              "text-warning": state === "warning",
-            }
-          )}
-        >
-          {!!state && changeIcon(state)}
-        </div>
-      </ToolTip>
     </div>
   );
-}
+};
+
+export default ChipInput;

@@ -48,7 +48,7 @@ export function TextInput({
     }
   };
   return (
-    <div className={clsx("relative", { "w-full": fullWidth })}>
+    <div className={clsx("relative max-h-[48px]", { "w-full": fullWidth })}>
       <input
         {...props}
         className={clsx(
