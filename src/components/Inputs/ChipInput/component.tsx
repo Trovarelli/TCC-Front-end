@@ -28,7 +28,7 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
   return (
     <div
       className={clsx(
-        " flex flex-wrap gap-2 p-2 px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
+        " flex relative flex-wrap gap-2 p-2 px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border border-primary appearance-none focus:outline-none focus:ring-0 focus:border-2",
         { "border-error": state === "error" },
         { "border-info": state === "info" },
         { "border-warning": state === "warning" },
@@ -50,13 +50,6 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
           </button>
         </div>
       ))}
-      <input
-        className="flex-grow outline-none relative"
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleInputKeyPress}
-        {...props}
-      />
       <label
         htmlFor={props.id}
         className={clsx(
@@ -70,6 +63,13 @@ const ChipInput = ({ label, state, ...props }: ChipInputProps) => {
       >
         {label}
       </label>
+      <input
+        className="flex-grow outline-none peer"
+        value={inputValue}
+        onChange={handleInputChange}
+        onKeyDown={handleInputKeyPress}
+        {...props}
+      />
     </div>
   );
 };
