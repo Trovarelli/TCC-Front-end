@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner/component";
 
-export default function Dashboard() {
+const Dashboard = () => {
   const [renderLoading, setRenderLoading] = useState(true);
   const [data, setData] = useState<{
     dayOfWeek: string;
@@ -137,4 +137,6 @@ export default function Dashboard() {
       )}
     </div>
   );
-}
+};
+
+export default Dashboard;

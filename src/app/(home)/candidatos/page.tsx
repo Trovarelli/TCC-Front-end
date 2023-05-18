@@ -3,7 +3,7 @@
 import Spinner from "@/components/Spinner/component";
 import { useEffect, useState } from "react";
 
-export default function Candidatos() {
+const Candidatos = () => {
   const [renderLoading, setRenderLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => {
@@ -21,4 +21,6 @@ export default function Candidatos() {
       )}
     </div>
   );
-}
+};
+
+export default Candidatos;

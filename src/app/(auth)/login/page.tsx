@@ -14,7 +14,7 @@ export const Require = (value: any) => {
   if (!value) return "Campo obrigatório";
 };
 
-export default function Login() {
+const Login = () => {
   const remember = Cookies.get("autoLogin");
   const [userLogin, setUserLogin] = useState({
     email: "",
@@ -126,4 +126,6 @@ export default function Login() {
       </div>
     </div>
   );
-}
+};
+
+export default Login;
