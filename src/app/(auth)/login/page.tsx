@@ -10,10 +10,6 @@ import Link from "next/link";
 import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
 
-export const Require = (value: any) => {
-  if (!value) return "Campo obrigatório";
-};
-
 const Login = () => {
   const remember = Cookies.get("autoLogin");
   const [userLogin, setUserLogin] = useState({
@@ -25,6 +21,10 @@ const Login = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
+
+  const Require = (value: any) => {
+    if (!value) return "Campo obrigatório";
+  };
 
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUserLogin({ ...userLogin, [event.target?.id]: event.target?.value });
