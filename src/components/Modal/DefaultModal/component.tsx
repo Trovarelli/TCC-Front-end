@@ -1,7 +1,12 @@
 import clsx from "clsx";
 import { DefaultModalProps } from "./types";
 
-export const DefaultModal = ({ open, size, children }: DefaultModalProps) => {
+export const DefaultModal = ({
+  open,
+  size,
+  children,
+  className,
+}: DefaultModalProps) => {
   return (
     <div
       className={clsx(
@@ -11,9 +16,10 @@ export const DefaultModal = ({ open, size, children }: DefaultModalProps) => {
     >
       <div
         className={clsx(
-          "bg-white shadow-lg min-h-[150px] max-h-[90vh] w-96 max-w-[90vw] p-4 rounded-md",
+          "bg-white shadow-lg max-h-[90vh] max-w-[90vw] p-4 rounded-md h-fit",
           { "w-[70vw]": size === "md" },
-          { "w-[90vw]": size === "lg" }
+          { "w-[90vw]": size === "lg" },
+          { className }
         )}
       >
         {children}

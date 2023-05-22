@@ -1,4 +1,4 @@
-import { TextareaHTMLAttributes } from "react"
+import { TextareaHTMLAttributes } from 'react'
 
 export interface TextAreaProps extends Omit<TextareaHTMLAttributes<any>, 'type'> {
     label: string

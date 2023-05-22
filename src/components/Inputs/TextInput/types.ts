@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react"
+import { InputHTMLAttributes } from 'react'
 
 export interface TextInputProps extends Omit<InputHTMLAttributes<any>, 'type'> {
     label: string

@@ -56,7 +56,7 @@ const Login = () => {
         Cookies.set("token", res.data.token, {
           expires: userLogin.remember ? 1200 : 1,
         });
-        router.push("/dashboard");
+        setTimeout(() => router.push("/dashboard"), 1200);
       })
       .catch((err) => {
         toast.error(err.response?.data.message);

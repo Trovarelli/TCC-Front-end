@@ -32,6 +32,10 @@ export const VagaCard = ({
     tags: [],
   });
 
+  const handleSetTags = (v: string[]) => {
+    setValues({ ...values, tags: v });
+  };
+
   const handleDelete = () => {
     setOpenDelete(false);
     onDelete && onDelete();
@@ -61,17 +65,28 @@ export const VagaCard = ({
           Editar Vaga
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <TextInput id="titulo" label="Titulo" onChange={handleOnChange} />
-          <ChipInput label="Caracteristicas" state="error" />
+          <TextInput
+            id="titulo"
+            label="Titulo"
+            onChange={handleOnChange}
+            value={values.titulo}
+          />
+          <ChipInput
+            label="Caracteristicas"
+            state="error"
+            chipsValue={values.tags}
+            setChipsValue={handleSetTags}
+          />
           <div className="col-span-2">
             <TextArea
               id="descricao"
               label="Descrição da vaga"
               onChange={handleOnChange}
+              value={values.descricao}
             />
           </div>
         </div>
-        <div className="w-full mt-6 flex justify-end items-center">
+        <div className="w-full mt-12 flex justify-end items-center">
           <div
             onClick={() => setOpenEdit(false)}
             className="text-center px-4 text-primary cursor-pointer"

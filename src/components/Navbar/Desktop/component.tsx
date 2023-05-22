@@ -13,12 +13,12 @@ export default function DesktopNav() {
   const path = usePathname();
   const [hasToken, setToken] = useState(false);
   const [loading, setLoading] = useState(false);
+  const token = Cookies.get("token");
 
   useEffect(() => {
-    const token = Cookies.get("token");
     console.log(path);
     setToken(!!token);
-  }, []);
+  }, [token]);
 
   const selectedItem = (link: string) => {
     if (link === path) return "text-primary border-primary";

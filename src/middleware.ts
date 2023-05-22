@@ -1,4 +1,5 @@
 import { verifyAuth } from '@/middleware/auth'
+import Cookies from 'js-cookie'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -6,7 +7,8 @@ export async function middleware(req: NextRequest) {
   const token = req.cookies.get('token')?.value
 
   const verifiedToken = token && (await verifyAuth(token).catch((err) => {
-    console.log(err.message)
+      Cookies.remove('token')
+      return
   }))
 
   if(req.nextUrl.pathname.startsWith('/login') && !verifiedToken) {
