@@ -11,12 +11,12 @@ export function CheckBox({
     <div className="flex items-center rounded">
       <input
         {...props}
-        id={id}
+        id={`${id}-${label}`}
         type="checkbox"
         className="w-4 h-4 text-white rounded focus:ring-transparent accent-primary "
       />
       <label
-        htmlFor={id}
+        htmlFor={`${id}-${label}`}
         className={clsx("w-full ml-2 font-medium text-gray-900 rounded", {
           "text-sm": sm,
         })}

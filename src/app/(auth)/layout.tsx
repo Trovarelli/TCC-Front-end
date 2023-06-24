@@ -4,13 +4,13 @@ interface AuthLayoutProps {
   children: ReactNode;
 }
 
-// export const metadata = {
-//   title: {
-//     default: "Auth",
-//     template: "%s | Auth",
-//   },
-// };
+export const metadata = {
+  title: {
+    default: "Login",
+    template: "%s | Login",
+  },
+};
 
 export default function AuthLayout({ children }: AuthLayoutProps) {
-  return <div>{children}</div>;
+  return <>{children}</>;
 }

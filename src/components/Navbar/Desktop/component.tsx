@@ -7,6 +7,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/Buttons";
 import Spinner from "@/components/Spinner/component";
 import { BriefcaseMetal, SquaresFour, UserList } from "phosphor-react";
+import { Profile } from "@/components/Profile";
 
 export default function DesktopNav() {
   const router = useRouter();
@@ -139,16 +140,11 @@ export default function DesktopNav() {
           {loading ? (
             <Spinner color="primary" />
           ) : hasToken ? (
-            <div
-              className="flex items-center cursor-pointer"
-              onClick={handleLogout}
-            >
-              Sair
-            </div>
+            <Profile logout={handleLogout} />
           ) : (
             <Button
               onClick={() => router.push("/login")}
-              btnName="Entrar na plataforma"
+              btnName="Entrar"
               rounded
             />
           )}

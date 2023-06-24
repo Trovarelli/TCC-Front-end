@@ -2,15 +2,7 @@
 import { PencilSimple, Trash } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { useState } from "react";
-import {
-  DefaultModal,
-  ConfirmationModal,
-  Button,
-  TextInput,
-  TextArea,
-  VagaFormModal,
-} from "@/components";
-import ChipInput from "@/components/Inputs/ChipInput/component";
+import { ConfirmationModal, VagaFormModal } from "@/components";
 
 export const VagaCard = ({
   title,
@@ -42,6 +34,7 @@ export const VagaCard = ({
         description="Ao deletar esta vaga todos os dados salvos serão perdidos."
       />
       <VagaFormModal
+        title="Editar Vaga"
         setOpen={setOpenEdit}
         action={handleEdit}
         open={openEdit}

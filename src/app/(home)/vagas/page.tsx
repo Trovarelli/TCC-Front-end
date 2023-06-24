@@ -1,25 +1,39 @@
 "use client";
-import { TextInput, VagaCard } from "@/components";
+import { TextInput, VagaCard, VagaFormModal } from "@/components";
 import Spinner from "@/components/Spinner/component";
 import { BriefcaseMetal, PlusCircle, UserList } from "phosphor-react";
 import { useEffect, useState } from "react";
 
 export default function Vagas() {
   const [renderLoading, setRenderLoading] = useState(true);
+  const [openCreate, setOpenCreate] = useState(false);
+
   useEffect(() => {
     setTimeout(() => {
       setRenderLoading(false);
     }, 3000);
   }, []);
+
+  const handleCreate = () => {};
+
   return (
     <div className="bg-background p-4 flex items-center min-h-screen justify-center">
+      <VagaFormModal
+        title="Criar Vaga"
+        setOpen={setOpenCreate}
+        action={handleCreate}
+        open={openCreate}
+      />
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
           <Spinner color="primary" size="lg" />
         </div>
       ) : (
         <div className="md:p-10 max-w-[1200px] grid grid-cols-vagas grid-rows-vagas gap-4">
-          <div className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-between flex-col col-span-2 row-span-2">
+          <div
+            onClick={() => setOpenCreate(true)}
+            className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-between flex-col col-span-2 row-span-2"
+          >
             Adicionar novas vagas de emprego
             <PlusCircle size={32} className="mt-4" />
           </div>

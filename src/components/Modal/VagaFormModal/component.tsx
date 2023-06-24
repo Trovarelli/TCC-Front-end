@@ -3,22 +3,16 @@
 import { TextArea, TextInput } from "@/components/Inputs";
 import { DefaultModal } from "../DefaultModal";
 import ChipInput from "@/components/Inputs/ChipInput/component";
-import { VagaFormModalProps } from "./types";
+import { VagaFormModalProps, VagaModel } from "./types";
 import { Button } from "@/components/Buttons";
-import { useState } from "react";
-
-interface VagaModel {
-  id?: string;
-  titulo: string;
-  descricao: string;
-  tags: string[];
-  candidatos?: any[];
-}
+import { useEffect, useState } from "react";
 
 export const VagaFormModal = ({
   open,
+  title,
   setOpen,
   action,
+  vaga,
 }: VagaFormModalProps) => {
   const [values, setValues] = useState<VagaModel>({
     id: "",
@@ -26,6 +20,13 @@ export const VagaFormModal = ({
     descricao: "",
     tags: [],
   });
+
+  useEffect(() => {
+    if (vaga) {
+      setValues(vaga);
+    }
+  }, [vaga]);
+
   const handleSetTags = (v: string[]) => {
     setValues({ ...values, tags: v });
   };
@@ -37,7 +38,7 @@ export const VagaFormModal = ({
   return (
     <DefaultModal open={open} size="md">
       <div className="text-xl font-bold text-primary text-center mb-4">
-        Editar Vaga
+        {title}
       </div>
       <div className="grid grid-cols-2 gap-3">
         <TextInput

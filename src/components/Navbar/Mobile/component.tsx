@@ -161,7 +161,7 @@ export default function MobileNav() {
               ) : (
                 <Button
                   onClick={() => router.push("/login")}
-                  btnName="Entrar na plataforma"
+                  btnName="Entrar"
                   rounded
                 />
               )}
