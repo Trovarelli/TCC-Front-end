@@ -8,22 +8,24 @@ export const DefaultModal = ({
   className,
 }: DefaultModalProps) => {
   return (
-    <div
-      className={clsx(
-        "absolute overflow-x-hidden z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  bg-black bg-opacity-30 h-full w-full flex justify-center items-start md:items-center",
-        { hidden: !open }
-      )}
-    >
+    <div className={clsx({ hidden: !open })}>
       <div
-        className={clsx(
-          "bg-white shadow-lg max-h-[90vh] max-w-[90vw] p-4 rounded-md h-fit",
-          { "w-[70vw]": size === "md" },
-          { "w-[90vw]": size === "lg" },
-          { className }
-        )}
+        className={
+          "justify-center items-center flex overflow-x-hidden overflow-y-auto fixed top-14 inset-0 z-50 outline-none focus:outline-none"
+        }
       >
-        {children}
+        <div
+          className={clsx(
+            "relative my-6 mx-auto bg-white shadow-lg max-w-[80vw] rounded-md overflow-hidden",
+            { "w-[70vw]": size === "md" },
+            { "w-[90vw]": size === "lg" },
+            className
+          )}
+        >
+          {children}
+        </div>
       </div>
+      <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
     </div>
   );
 };

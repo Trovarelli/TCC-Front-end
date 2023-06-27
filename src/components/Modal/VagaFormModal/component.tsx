@@ -36,7 +36,7 @@ export const VagaFormModal = ({
   };
 
   return (
-    <DefaultModal open={open} size="md">
+    <DefaultModal open={open} size="md" className="p-4">
       <div className="text-xl font-bold text-primary text-center mb-4">
         {title}
       </div>

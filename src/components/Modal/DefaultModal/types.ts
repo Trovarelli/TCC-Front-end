@@ -4,5 +4,5 @@ export interface DefaultModalProps {
   open: boolean;
   size?: "sm" | "md" | "lg";
   children: ReactNode;
-  className?: string
+  className?: string;
 }
