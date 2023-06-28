@@ -1,6 +1,6 @@
 "use client";
 
-import { CandidatoCard, CheckBox } from "@/components";
+import { CandidatoCard, CheckBox, UploadModal } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import clsx from "clsx";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 
 const Candidatos = () => {
   const [renderLoading, setRenderLoading] = useState(true);
+  const [openUpload, setOpenUpload] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
   useEffect(() => {
@@ -30,6 +31,8 @@ const Candidatos = () => {
   };
   return (
     <div className="bg-background p-4 min-h-screen">
+      <UploadModal setOpen={setOpenUpload} open={openUpload} />
+      <button onClick={() => setOpenUpload(true)}>UPLOAD</button>
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
           <Spinner color="primary" size="lg" />

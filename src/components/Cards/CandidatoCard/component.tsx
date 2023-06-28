@@ -1,10 +1,9 @@
 "use client";
-import { ArrowRight, PencilSimple, Trash } from "phosphor-react";
+import { ArrowRight, Trash } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { ChangeEvent, useState } from "react";
 import { ConfirmationModal } from "@/components";
 import React from "react";
-import axios from "axios";
 import { PDFRenderModal } from "@/components/Modal/PDFRender";
 
 export const CandidatoCard = ({
@@ -15,53 +14,16 @@ export const CandidatoCard = ({
 }: VagaCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openPDF, setOpenPDF] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [view, setView] = useState("");
 
   const handleDelete = () => {
     setOpenDelete(false);
     onDelete && onDelete();
   };
 
-  const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      for (const key in e.target.files) {
-        if (!isNaN(Number(key))) {
-          const base64 = await handleBase64Convert(e.target.files[key]);
-          setView(base64);
-          break;
-        }
-      }
-    }
-  };
-
-  const handleBase64Convert = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result as string);
-      };
-
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
-    });
-  };
   return (
     <>
-      <input
-        multiple
-        type="file"
-        name="file"
-        id="test"
-        onChange={handleUpload}
-        accept=".pdf"
-        required
-      />
       <PDFRenderModal
-        base64={view}
+        base64={""}
         setOpen={setOpenPDF}
         title={""}
         open={openPDF}
