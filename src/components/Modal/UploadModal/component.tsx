@@ -2,21 +2,54 @@
 import React, { ChangeEvent, useState } from "react";
 import { UploadModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
-import { X } from "phosphor-react";
+import { Checks, X } from "phosphor-react";
+import { Button } from "@/components/Buttons";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
+  const [sucess] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  // const handleUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files) {
-  //     for (const key in e.target.files) {
-  //       if (!isNaN(Number(key))) {
-  //         const base64 = await handleBase64Convert(e.target.files[key]);
-  //         setFiles([...files, base64]);
-  //       }
-  //     }
-  //   }
-  // };
+  const handleUpload = async () => {
+    setLoading(true);
+
+    const uploadFile = async (file: File) => {
+      try {
+        const base64 = await handleBase64Convert(file);
+        await axios.post("http://localhost:3001/candidate", {
+          curriculum: base64,
+        });
+        sucess.push(file.name);
+      } catch (err: any) {
+        toast.error(err.response?.data.message);
+        console.log(err);
+      }
+    };
+
+    const uploadSequentially = async (keys: any) => {
+      if (keys.length === 0) {
+        setLoading(false);
+        return;
+      }
+
+      const currentKey = keys[0];
+      if (!isNaN(Number(currentKey))) {
+        console.log(files[currentKey]);
+        await uploadFile(files[currentKey]);
+
+        const remainingKeys = keys.slice(1);
+        await uploadSequentially(remainingKeys);
+      } else {
+        const remainingKeys = keys.slice(1);
+        await uploadSequentially(remainingKeys);
+      }
+    };
+
+    const fileKeys = Object.keys(files);
+    await uploadSequentially(fileKeys);
+  };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -47,50 +80,63 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
   };
 
   return (
-    <DefaultModal open={open} size="lg" className="h-[80vh]">
-      <div className="w-full flex justify-end">
-        <X
-          onClick={() => setOpen(false)}
-          size={18}
-          className="cursor-pointer mr-1 mt-1"
-        />
-      </div>
-      <div className="w-full h-full p-4">
-        <div className="border-2 border-dashed border-gray-400 rounded-lg p-4 text-center">
-          <label
-            htmlFor="fileInput"
-            className="text-gray-600 cursor-pointer block mb-2"
-          >
+    <>
+      <Button
+        btnName="Salvar Candidatos"
+        onClick={() => setOpen(true)}
+        loading={loading}
+      />
+      <DefaultModal
+        open={open}
+        size="lg"
+        className="h-[80vh] flex flex-col justify-between"
+      >
+        <div className=" overflow-auto border-2 m-4 border-dashed border-gray-400 rounded-lg p-4 text-center h-[67vh] relative cursor-pointer">
+          <label htmlFor="fileInput" className="text-gray-600 block mb-2">
             Arraste e solte arquivos PDF aqui ou clique para selecionar
           </label>
           <input
             id="fileInput"
             type="file"
-            className="hidden"
+            className="inset-0 absolute w-full h-full opacity-0 cursor-pointer"
             accept=".pdf"
             multiple
             onChange={handleFileChange}
           />
+
           {files.length > 0 && (
             <div className="mt-4">
               {files.map((file, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between bg-gray-200 rounded-md px-2 py-1 mb-2"
+                  className="flex items-center justify-between bg-gray-200 rounded-md px-2 py-1 mb-2 z-50"
                 >
                   <span className="mr-2">{file?.name}</span>
-                  <button
-                    className="text-red-500 focus:outline-none"
-                    onClick={() => handleRemoveFile(index)}
-                  >
-                    <X size={30} />
-                  </button>
+                  {sucess.includes(file.name) ? (
+                    <Checks size={30} weight="bold" className="text-success" />
+                  ) : (
+                    <button
+                      className="text-red-500 focus:outline-none z-50"
+                      onClick={() => handleRemoveFile(index)}
+                    >
+                      <X size={30} />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
           )}
         </div>
-      </div>
-    </DefaultModal>
+        <div className="w-full flex justify-end px-4 mb-4">
+          <Button
+            btnName={"Cancelar"}
+            className="mr-2"
+            onClick={() => setOpen(false)}
+            loading={loading}
+          />
+          <Button btnName={"Ok"} onClick={handleUpload} loading={loading} />
+        </div>
+      </DefaultModal>
+    </>
   );
 };

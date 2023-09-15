@@ -32,7 +32,6 @@ const Candidatos = () => {
   return (
     <div className="bg-background p-4 min-h-screen">
       <UploadModal setOpen={setOpenUpload} open={openUpload} />
-      <button onClick={() => setOpenUpload(true)}>UPLOAD</button>
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
           <Spinner color="primary" size="lg" />
@@ -76,7 +75,10 @@ const Candidatos = () => {
               Aqui, uma busca de candidatos que possuem
               <strong>{handleFormatTags()}</strong> em seu currículo.
             </div>
-            <CandidatoCard title={"teste"} quantity={0} />
+            <CandidatoCard />
+            <CandidatoCard />
+            <CandidatoCard />
+            <CandidatoCard />
           </div>
         </div>
       )}

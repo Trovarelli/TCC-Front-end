@@ -6,12 +6,7 @@ import { ConfirmationModal } from "@/components";
 import React from "react";
 import { PDFRenderModal } from "@/components/Modal/PDFRender";
 
-export const CandidatoCard = ({
-  title,
-  quantity,
-  onDelete,
-  onEdit,
-}: VagaCardProps) => {
+export const CandidatoCard = ({ onDelete, onEdit }: VagaCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openPDF, setOpenPDF] = useState(false);
 
@@ -66,7 +61,7 @@ export const CandidatoCard = ({
           onClick={() => setOpenPDF(true)}
           className="bg-primary flex font-bold items-center text-white px-5 py-3 rounded-full cursor-pointer"
         >
-          Ver mais
+          Visualizar Currículo
           <ArrowRight size={16} weight="bold" className="ml-2" />
         </div>
       </div>

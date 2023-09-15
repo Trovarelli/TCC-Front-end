@@ -7,11 +7,13 @@ import { ButtonProps } from "./types";
 export function Button({
   rounded,
   btnName,
+  className,
   icon,
   loading,
   fullWidth,
   secondary = false,
   color = "primary",
+  disabled,
   ...rest
 }: ButtonProps) {
   return (
@@ -19,6 +21,7 @@ export function Button({
       {...rest}
       className={clsx(
         "px-10 py-2 rounded border",
+        className,
         {
           "border-primary active:bg-primary-active bg-primary text-white":
             !secondary && color === "primary",
@@ -43,20 +46,29 @@ export function Button({
         { "rounded-full": rounded },
         { "w-full": fullWidth }
       )}
-      disabled={loading}
+      disabled={loading || disabled}
     >
-      {!!loading ? (
-        <div className="flex justify-center">
+      <div className="relative">
+        <div
+          className={clsx("flex justify-center absolute inset-0", {
+            "opacity-0": !loading,
+          })}
+        >
           <Spinner />
         </div>
-      ) : icon !== undefined ? (
-        <div className="flex justify-center items-center">
-          <div className="mr-1">{getIcon(icon)}</div>
-          {btnName}
-        </div>
-      ) : (
-        btnName
-      )}
+        {icon !== undefined ? (
+          <div
+            className={clsx("flex justify-center items-center", {
+              "opacity-0": loading,
+            })}
+          >
+            <div className="mr-1">{getIcon(icon)}</div>
+            {btnName}
+          </div>
+        ) : (
+          <span className={clsx({ "opacity-0": loading })}>{btnName}</span>
+        )}
+      </div>
     </button>
   );
 }

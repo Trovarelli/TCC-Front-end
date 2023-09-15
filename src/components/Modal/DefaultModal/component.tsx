@@ -16,7 +16,7 @@ export const DefaultModal = ({
       >
         <div
           className={clsx(
-            "relative my-6 mx-auto bg-white shadow-lg max-w-[80vw] rounded-md overflow-hidden",
+            "relative my-6 mx-auto bg-white shadow-lg max-w-[80vw] rounded-md",
             { "w-[75vw]": size === "md" },
             { "w-[95vw]": size === "lg" },
             className
