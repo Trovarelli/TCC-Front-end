@@ -123,7 +123,7 @@ export default function Home() {
             <h1 className="font-bold sm:mt-20 mt-10 text-center">Sobre nós</h1>
             <div className="border-2 border-primary mt-10 mb-20 w-full p-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-primary font-semibold">
               <div className="flex justify-center items-center">
-                <img src="img/logo/logo-only.png" width="150px" />
+                <img src="img/logo/logo-only.svg" width="150px" />
               </div>
               <div>
                 Bem-vindo ao TAHR (Trabalho Aplicado a Humanizar Recursos) nossa
