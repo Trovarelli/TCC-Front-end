@@ -21,6 +21,7 @@ export function TextInput({
   helperText,
   fullWidth,
   inputType,
+  id = "chinpInput",
   ...props
 }: TextInputProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,6 +56,7 @@ export function TextInput({
     <div className={clsx("relative max-h-[48px]", { "w-full": fullWidth })}>
       <input
         {...props}
+        id={id}
         className={clsx(
           "block px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border  appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
           { "border-error": state === "error" },
@@ -68,7 +70,7 @@ export function TextInput({
         type={typeControl}
       />
       <label
-        htmlFor={props.id}
+        htmlFor={id}
         className={clsx(
           "absolute text-sm cursor-text duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1",
           { "peer-focus:text-error text-error": state === "error" },

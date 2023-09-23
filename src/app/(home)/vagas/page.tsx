@@ -55,7 +55,16 @@ export default function Vagas() {
             />
           </div>
           <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
-            <div className="w-full max-h-80 overflow-y-auto">
+            <div className="w-full max-h-96 overflow-y-auto">
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
+              <VagaCard title="UX Designer" quantity={25} />
               <VagaCard title="UX Designer" quantity={25} />
             </div>
           </div>

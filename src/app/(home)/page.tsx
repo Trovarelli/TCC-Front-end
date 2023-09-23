@@ -24,47 +24,51 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="grid grid-cols-2 mt-20">
-      <div className="ml-[1.5rem] max-[600px]:mr-[1.5rem] py-10 max-[600px]:col-span-2 flex items-center">
-        <div>
-          <div className="text-4xl font-bold mb-5">
-            Sua jornada com o recrutamento começa aqui!
-          </div>
-          <div className="text-xl font-light mb-5">
-            Oferecemos um sistema de gerenciamento de Candidatos poderoso em uma
-            única plataforma de recrutamento.
-          </div>
-          <div className={clsx("grid grid-cols-2 gap-2", { hidden: hasToken })}>
-            <div className="md:col-span-1 col-span-2">
-              <Button
-                onClick={() => router.push("/register")}
-                btnName="Inscreva-se agora!"
-                fullWidth
-              />
+    <div className="mt-20">
+      <div className="max-w-[1300px] grid grid-cols-2 m-auto">
+        <div className="ml-[1.5rem] max-[600px]:mr-[1.5rem] py-10 max-[600px]:col-span-2 flex items-center">
+          <div>
+            <div className="text-4xl font-bold mb-5">
+              Sua jornada com o recrutamento começa aqui!
             </div>
-            <div className="md:col-span-1 col-span-2">
-              <Button
-                onClick={() => router.push("/login")}
-                btnName="Já possuo uma conta"
-                fullWidth
-                secondary
-              />
+            <div className="text-xl font-light mb-5">
+              Oferecemos um sistema de gerenciamento de Candidatos poderoso em
+              uma única plataforma de recrutamento.
+            </div>
+            <div
+              className={clsx("grid grid-cols-2 gap-2", { hidden: hasToken })}
+            >
+              <div className="md:col-span-1 col-span-2">
+                <Button
+                  onClick={() => router.push("/register")}
+                  btnName="Inscreva-se agora!"
+                  fullWidth
+                />
+              </div>
+              <div className="md:col-span-1 col-span-2">
+                <Button
+                  onClick={() => router.push("/login")}
+                  btnName="Já possuo uma conta"
+                  fullWidth
+                  secondary
+                />
+              </div>
             </div>
           </div>
         </div>
+        <div
+          style={{
+            backgroundImage: "url('img/person.png')",
+          }}
+          className="mr-[1.5rem] min-h-[70vh] bg-no-repeat bg-bottom h-full w-full bg-contain max-[600px]:hidden"
+        ></div>
       </div>
-      <div
-        style={{
-          backgroundImage: "url('img/person.png')",
-        }}
-        className="mr-[1.5rem] min-h-[70vh] bg-no-repeat bg-bottom h-full w-full bg-contain max-[600px]:hidden"
-      ></div>
-      <div className="col-span-2 w-full sm:rounded-[50px] rounded-2xl shadow-home p-4">
+      <div className="col-span-2 w-full sm:rounded-[50px] rounded-2xl shadow-home p-4 right-0 left-0 ">
         <h1 className="font-bold sm:mt-20 mt-10 text-center">
           Nossas Soluções
         </h1>
         <div className="flex flex-col justify-center items-center">
-          <div className=" max-w-[1000px]">
+          <div className=" max-w-[1300px]">
             <div className="grid grid-cols-2 gap-4 mt-10">
               <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-justify justify-center">
                 <Database
