@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChipInputProps } from "./types";
 import clsx from "clsx";
 
@@ -77,7 +77,7 @@ const ChipInput = ({
           { "text-gray-500": !state },
           {
             "-translate-y-6 scale-75 px-2 text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4":
-              focus,
+              focus || chipsValue?.length !== 0,
           }
         )}
       >

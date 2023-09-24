@@ -14,7 +14,7 @@ const Candidatos = () => {
   useEffect(() => {
     setTimeout(() => {
       setRenderLoading(false);
-    }, 3000);
+    }, 1000);
   }, []);
 
   const handleFormatTags = () => {
@@ -29,9 +29,14 @@ const Candidatos = () => {
 
     return string;
   };
+
+  const handleCheckBoxChange = (value: { label: string; checked: boolean }) => {
+    if (value.checked) setTags((v) => [...v, value.label]);
+    else setTags((v) => v.filter((tg) => tg !== value.label));
+  };
+
   return (
     <div className="bg-background p-4 min-h-screen">
-      <UploadModal setOpen={setOpenUpload} open={openUpload} />
       {renderLoading ? (
         <div className="flex h-screen w-screen justify-center items-center">
           <Spinner color="primary" size="lg" />
@@ -39,31 +44,34 @@ const Candidatos = () => {
       ) : (
         <div>
           <div className="w-full bg-white rounded-md p-3 grid grid-cols-2 gap-3 divide-x divide-gray-400">
-            <div className="flex flex-col justify-start w-full">
-              <div className="col-span-3 text-center font-bold mb-3">
-                Busca Avançada
+            <div className="flex flex-col justify-start w-full gap-4">
+              <UploadModal setOpen={setOpenUpload} open={openUpload} />
+              <div className="p-2 border border-black rounded-md">
+                <div className="col-span-3 text-center font-bold mb-3">
+                  Busca Avançada
+                </div>
+                <ChipInput
+                  label={"Pesquisar Candidatos"}
+                  fullWidth
+                  chipsValue={tags}
+                  setChipsValue={setTags}
+                />
               </div>
-              <ChipInput
-                label={"Pesquisar Candidatos"}
-                fullWidth
-                chipsValue={tags}
-                setChipsValue={setTags}
-              />
             </div>
             <div className="px-3 grid grid-cols-3 gap-3">
               <div className="col-span-3 text-center font-bold">
                 Pré-definições
               </div>
-              <CheckBox label="Assistente" />
-              <CheckBox label="Junior" />
-              <CheckBox label="Pleno" />
-              <CheckBox label="Senior" />
-              <CheckBox label="Integral" />
-              <CheckBox label="Meio Periodo" />
-              <CheckBox label="Noturno" />
-              <CheckBox label="Presencial" />
-              <CheckBox label="Remoto" />
-              <CheckBox label="Hibrido" />
+              <CheckBox label="Assistente" setValue={handleCheckBoxChange} />
+              <CheckBox setValue={handleCheckBoxChange} label="Junior" />
+              <CheckBox setValue={handleCheckBoxChange} label="Pleno" />
+              <CheckBox setValue={handleCheckBoxChange} label="Senior" />
+              <CheckBox setValue={handleCheckBoxChange} label="Integral" />
+              <CheckBox setValue={handleCheckBoxChange} label="Meio Periodo" />
+              <CheckBox setValue={handleCheckBoxChange} label="Noturno" />
+              <CheckBox setValue={handleCheckBoxChange} label="Presencial" />
+              <CheckBox setValue={handleCheckBoxChange} label="Remoto" />
+              <CheckBox setValue={handleCheckBoxChange} label="Hibrido" />
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">

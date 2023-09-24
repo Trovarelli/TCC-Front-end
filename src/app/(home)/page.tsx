@@ -130,7 +130,7 @@ export default function Home() {
                 <img src="img/logo/logo-only.svg" width="150px" />
               </div>
               <div>
-                Bem-vindo ao TAHR (Trabalho Aplicado a Humanizar Recursos) nossa
+                Bem-vindo ao TAHR (Technology Applied to Human Resources) nossa
                 tecnologia de gestão de currículos é projetada para ajudar os
                 profissionais de RH a encontrar os melhores candidatos que
                 correspondam melhor as exigências que você procura. <br />
