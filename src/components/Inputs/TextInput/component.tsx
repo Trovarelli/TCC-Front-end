@@ -21,7 +21,7 @@ export function TextInput({
   helperText,
   fullWidth,
   inputType,
-  id = "chinpInput",
+  id = `chinpInput${label}`,
   ...props
 }: TextInputProps) {
   const [showPassword, setShowPassword] = useState(false);

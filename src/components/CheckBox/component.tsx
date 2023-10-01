@@ -15,7 +15,7 @@ export function CheckBox({
 
   const handleCheckBoxChange = () => {
     setIsChecked(!isChecked);
-    setValue({ label, checked: !isChecked });
+    setValue && setValue({ label, checked: !isChecked });
   };
 
   return (

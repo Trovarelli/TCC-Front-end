@@ -1,6 +1,6 @@
 "use client";
 
-import { CandidatoCard, CheckBox, UploadModal } from "@/components";
+import { CandidatoCard, CheckBox, TextInput, UploadModal } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import clsx from "clsx";
@@ -62,8 +62,26 @@ const Candidatos = () => {
               <div className="col-span-3 text-center font-bold">
                 Pré-definições
               </div>
-              <CheckBox label="Assistente" setValue={handleCheckBoxChange} />
-              <CheckBox setValue={handleCheckBoxChange} label="Junior" />
+              <div>
+                <label>Tempo de experienca</label>
+                <select>
+                  <option>menos de um ano</option>
+                  <option>entre 1 a 2 anos</option>
+                  <option>entre 2 a 5 anos</option>
+                  <option>mais de 5 anos</option>
+                </select>
+              </div>
+              <div>
+                <label>Genero</label>
+                <select>
+                  <option>Masculino</option>
+                  <option>Feminino</option>
+                  <option>Outros</option>
+                </select>
+              </div>
+              <CheckBox setValue={handleCheckBoxChange} label="PCD" />
+              {/* <CheckBox label="Assistente" setValue={handleCheckBoxChange} />
+              
               <CheckBox setValue={handleCheckBoxChange} label="Pleno" />
               <CheckBox setValue={handleCheckBoxChange} label="Senior" />
               <CheckBox setValue={handleCheckBoxChange} label="Integral" />
@@ -71,7 +89,7 @@ const Candidatos = () => {
               <CheckBox setValue={handleCheckBoxChange} label="Noturno" />
               <CheckBox setValue={handleCheckBoxChange} label="Presencial" />
               <CheckBox setValue={handleCheckBoxChange} label="Remoto" />
-              <CheckBox setValue={handleCheckBoxChange} label="Hibrido" />
+              <CheckBox setValue={handleCheckBoxChange} label="Hibrido" /> */}
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">

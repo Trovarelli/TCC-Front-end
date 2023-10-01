@@ -6,6 +6,7 @@ import { Checks, X } from "phosphor-react";
 import { Button } from "@/components/Buttons";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -17,9 +18,9 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
 
     const uploadFile = async (file: File) => {
       try {
-        const base64 = await handleBase64Convert(file);
+        const curriculum = await handleBase64Convert(file);
         await axios.post("http://localhost:3001/candidate", {
-          curriculum: base64,
+          curriculum,
         });
         sucess.push(file.name);
       } catch (err: any) {
@@ -128,12 +129,14 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
           )}
         </div>
         <div className="w-full flex justify-end px-4 mb-4">
-          <Button
-            btnName={"Cancelar"}
-            className="mr-2"
-            onClick={() => setOpen(false)}
-            loading={loading}
-          />
+          {sucess.length !== files.length && (
+            <Button
+              btnName={"Cancelar"}
+              className="mr-2"
+              onClick={() => setOpen(false)}
+              loading={loading}
+            />
+          )}
           <Button btnName={"Ok"} onClick={handleUpload} loading={loading} />
         </div>
       </DefaultModal>
