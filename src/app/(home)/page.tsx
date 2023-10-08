@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div className="mt-20">
-      <div className="max-w-[1300px] grid grid-cols-2 m-auto">
+      <div id="top" className="max-w-[1300px] grid grid-cols-2 m-auto">
         <div className="ml-[1.5rem] max-[600px]:mr-[1.5rem] py-10 max-[600px]:col-span-2 flex items-center">
           <div>
             <div className="text-4xl font-bold mb-5">
@@ -64,7 +64,7 @@ export default function Home() {
         ></div>
       </div>
       <div className="col-span-2 w-full sm:rounded-[50px] rounded-2xl shadow-home p-4 right-0 left-0 ">
-        <h1 className="font-bold sm:mt-20 mt-10 text-center">
+        <h1 id="solucoes" className="font-bold sm:mt-20 mt-10 text-center">
           Nossas Soluções
         </h1>
         <div className="flex flex-col justify-center items-center">
@@ -104,7 +104,10 @@ export default function Home() {
               </div>
             </div>
             <div className="border border-gray-400 mt-20 w-full"></div>
-            <h1 className="font-bold sm:mt-20 mt-10 text-center">
+            <h1
+              id="funcionalidades"
+              className="font-bold sm:mt-20 mt-10 text-center"
+            >
               Funcionalidades
             </h1>
             <div className="grid grid-cols-2 gap-4 mt-10 text-white">
@@ -124,7 +127,9 @@ export default function Home() {
               </div>
             </div>
             <div className="border border-gray-400 mt-20 w-full"></div>
-            <h1 className="font-bold sm:mt-20 mt-10 text-center">Sobre nós</h1>
+            <h1 id="sobre-nos" className="font-bold sm:mt-20 mt-10 text-center">
+              Sobre nós
+            </h1>
             <div className="border-2 border-primary mt-10 mb-20 w-full p-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-primary font-semibold">
               <div className="flex justify-center items-center">
                 <img src="img/logo/logo-only.svg" width="150px" />

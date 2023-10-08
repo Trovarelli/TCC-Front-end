@@ -23,7 +23,8 @@ export async function middleware(req: NextRequest) {
     if (req.nextUrl.pathname.startsWith('/api/admin')) {
         return new Response(JSON.stringify({error: {message: 'autenticação necessária'}}))
     }
-    console.log(req.nextUrl)
+    
+    Cookies.remove("token");
     
     return NextResponse.redirect(new URL('/login', req.url))
   }

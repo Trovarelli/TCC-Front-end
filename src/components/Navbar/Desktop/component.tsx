@@ -8,6 +8,7 @@ import { Button } from "@/components/Buttons";
 import Spinner from "@/components/Spinner/component";
 import { BriefcaseMetal, SquaresFour, UserList } from "phosphor-react";
 import { Profile } from "@/components/Profile";
+import { Link as LinkScroll } from "react-scroll";
 
 export default function DesktopNav() {
   const router = useRouter();
@@ -15,6 +16,7 @@ export default function DesktopNav() {
   const [hasToken, setToken] = useState(false);
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
+  const [selectedLink, setSelectedLink] = useState("");
 
   useEffect(() => {
     console.log(path);
@@ -103,38 +105,65 @@ export default function DesktopNav() {
             hidden: hasToken,
           })}
         >
-          <Link
-            href={"/"}
-            className={`${selectedItem(
-              "/"
-            )} hover:text-primary flex justify-center items-center`}
+          <LinkScroll
+            to="top"
+            spy={true}
+            smooth={true}
+            offset={-100}
+            duration={500}
+            onClick={() => setSelectedLink("home")}
+            className={clsx(
+              "hover:text-primary flex justify-center items-center",
+              { "text-primary border-primary": selectedLink === "home" }
+            )}
           >
             Home
-          </Link>
-          <Link
-            href={"/funcionalidades"}
-            className={`${selectedItem(
-              "/funcionalidades"
-            )} hover:text-primary flex justify-center items-center`}
+          </LinkScroll>
+          <LinkScroll
+            to={"funcionalidades"}
+            spy={true}
+            smooth={true}
+            offset={-100}
+            duration={500}
+            onClick={() => setSelectedLink("funcionalidades")}
+            className={clsx(
+              "hover:text-primary flex justify-center items-center",
+              {
+                "text-primary border-primary":
+                  selectedLink === "funcionalidades",
+              }
+            )}
           >
             Funcionalidades
-          </Link>
-          <Link
-            href={"/solucoes"}
-            className={`${selectedItem(
-              "/solucoes"
-            )} hover:text-primary flex justify-center items-center`}
+          </LinkScroll>
+          <LinkScroll
+            to={"solucoes"}
+            spy={true}
+            smooth={true}
+            offset={-100}
+            duration={500}
+            onClick={() => setSelectedLink("solucoes")}
+            className={clsx(
+              "hover:text-primary flex justify-center items-center",
+              { "text-primary border-primary": selectedLink === "solucoes" }
+            )}
           >
             Soluções
-          </Link>
-          <Link
-            href={"/sobre"}
-            className={`${selectedItem(
-              "/sobre"
-            )} hover:text-primary flex justify-center items-center`}
+          </LinkScroll>
+          <LinkScroll
+            to={"sobre-nos"}
+            spy={true}
+            smooth={true}
+            offset={-100}
+            duration={500}
+            onClick={() => setSelectedLink("sobre-nos")}
+            className={clsx(
+              "hover:text-primary flex justify-center items-center",
+              { "text-primary border-primary": selectedLink === "sobre-nos" }
+            )}
           >
             Sobre nós
-          </Link>
+          </LinkScroll>
         </div>
         <div className="flex items-center justify-center">
           {loading ? (
