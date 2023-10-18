@@ -125,7 +125,7 @@ const Login = () => {
       className="w-full bg-login h-[100vh] bg-no-repeat bg-cover flex sm:justify-start justify-center items-center"
     >
       <ToastContainer />
-      <div className="relative h-full md:w-[40vw] w-[100vw] bg-white sm:px-14 ">
+      <div className="relative h-full md:w-[40vw] w-[100vw] bg-white sm:px-14 px-10">
         <Link href={"/"} className="fixed top-2 left-2 hover:text-primary">
           <ArrowUDownLeft size={26} />
         </Link>
