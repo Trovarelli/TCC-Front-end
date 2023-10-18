@@ -54,8 +54,8 @@ module.exports = {
         'background': '#E0DDFF'
       },
       fontSize: {
-        'title': '2rem',
-        'subtitle': '1.5rem'
+        'title': '1.6rem',
+        'subtitle': '1.3rem'
       }
     },
   },

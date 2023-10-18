@@ -17,7 +17,6 @@ const Login = () => {
     password: "",
     confirmPassword: "",
     empresa: "",
-    genero: "",
     condicoesDeUso: false,
   });
 
@@ -29,6 +28,7 @@ const Login = () => {
     nome: "",
     confirmPassword: "",
     condicoesDeUso: "",
+    empresa: "",
   });
 
   const handleValidate = (
@@ -55,18 +55,7 @@ const Login = () => {
     });
   };
 
-  const fnHandleSubmit = (event: FormEvent) => {
-    event.preventDefault();
-    if (!user.condicoesDeUso) {
-      setErrors({
-        ...errors,
-        condicoesDeUso: "Por favor leia os temos de condições de uso",
-      });
-
-      return;
-    }
-
-    setLoading(true);
+  const handleLogin = () => {
     axios
       .post(
         "http://localhost:3001/auth/login",
@@ -90,6 +79,44 @@ const Login = () => {
         console.log(err);
       });
   };
+
+  const fnHandleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    if (!user.condicoesDeUso) {
+      setErrors({
+        ...errors,
+        condicoesDeUso: "Por favor leia os temos de condições de uso",
+      });
+
+      return;
+    }
+
+    setLoading(true);
+    axios
+      .post(
+        "http://localhost:3001/auth/register",
+        {
+          name: user.nome,
+          email: user.email,
+          password: user.password,
+          confirmPassword: user.confirmPassword,
+          company: user.empresa,
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then(() => {
+        handleLogin();
+      })
+      .catch((err) => {
+        toast.error(err.response?.data.message);
+        setLoading(false);
+        console.log(err);
+      });
+  };
   return (
     <div
       style={{
@@ -98,17 +125,17 @@ const Login = () => {
       className="w-full bg-login h-[100vh] bg-no-repeat bg-cover flex sm:justify-start justify-center items-center"
     >
       <ToastContainer />
-      <div className="relative h-full md:w-[40vw] w-[100vw] bg-white sm:p-16 p-10">
+      <div className="relative h-full md:w-[40vw] w-[100vw] bg-white sm:px-14 ">
         <Link href={"/"} className="fixed top-2 left-2 hover:text-primary">
           <ArrowUDownLeft size={26} />
         </Link>
         <div className="flex justify-center">
           <img src="./img/logo/logo-text.svg" width="200px"></img>
         </div>
-        <h1 className="text-title text-center font-bold text-black mt-6">
+        <h1 className="text-title text-center font-bold text-black mt-4">
           Registre-se em nossa plataforma
         </h1>
-        <form onSubmit={fnHandleSubmit} className="grid gap-3 mt-5">
+        <form onSubmit={fnHandleSubmit} className="grid gap-3 mt-4">
           <TextInput
             id="nome"
             label="Nome"
@@ -125,6 +152,15 @@ const Login = () => {
             onChange={(e) => handleOnChange(e)}
             helperText={errors.email}
             state={errors.email ? "error" : undefined}
+            disabled={loading}
+          />
+          <TextInput
+            id="empresa"
+            label="Empresa"
+            value={user.empresa}
+            onChange={(e) => handleOnChange(e)}
+            helperText={errors.empresa}
+            state={errors.empresa ? "error" : undefined}
             disabled={loading}
           />
           <TextInput
@@ -161,13 +197,13 @@ const Login = () => {
             disabled={loading}
           />
           <Button
-            btnName="Entrar"
+            btnName="Registrar"
             onClick={fnHandleSubmit}
             fullWidth
             loading={loading}
             disabled={loading}
           />
-          <div className="text-primary text-sm text-center mt-3 cursor-pointer">
+          <div className="text-primary text-sm text-center cursor-pointer">
             Ainda não possui conta? Cadastre-se aqui!
           </div>
         </form>
