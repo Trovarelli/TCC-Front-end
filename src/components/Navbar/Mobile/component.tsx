@@ -6,12 +6,19 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/Buttons";
 import Spinner from "@/components/Spinner/component";
+import { Link as LinkScroll } from "react-scroll";
 
 export default function MobileNav() {
   const router = useRouter();
   const [hasToken, setToken] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [selectedLink, setSelectedLink] = useState("");
+
+  const handleSelectLink = (link: string) => {
+    setSelectedLink(link);
+    setIsNavOpen(false);
+  };
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -91,18 +98,12 @@ export default function MobileNav() {
               { "max-w-[70%] px-3": isNavOpen }
             )}
           >
-            <div className="container flex flex-col justify-center font-bold mx-auto mt-5 ">
+            <div className="container flex flex-col justify-center font-bold mx-auto mt-5 p-10">
               <div
                 className={clsx("transition-all grid grid-rows-4 gap-5 px-20", {
                   hidden: !hasToken,
                 })}
               >
-                <Link
-                  href={"/dashboard"}
-                  className="hover:text-primary flex justify-center items-center"
-                >
-                  Dashboard
-                </Link>
                 <Link
                   href={"/vagas"}
                   className="hover:text-primary flex justify-center items-center"
@@ -122,33 +123,74 @@ export default function MobileNav() {
                   hidden: hasToken,
                 })}
               >
-                <Link
-                  href={"/"}
-                  className="hover:text-primary flex justify-center items-center"
+                <LinkScroll
+                  to="top"
+                  spy={true}
+                  smooth={true}
+                  offset={-100}
+                  duration={500}
+                  onClick={() => handleSelectLink("home")}
+                  className={clsx(
+                    "hover:text-primary cursor-pointer flex justify-center items-center",
+                    { "text-primary border-primary": selectedLink === "home" }
+                  )}
                 >
                   Home
-                </Link>
-                <Link
-                  href={"/funcionalidades"}
-                  className="hover:text-primary flex justify-center items-center"
+                </LinkScroll>
+                <LinkScroll
+                  to={"funcionalidades"}
+                  spy={true}
+                  smooth={true}
+                  offset={-100}
+                  duration={500}
+                  onClick={() => handleSelectLink("funcionalidades")}
+                  className={clsx(
+                    "hover:text-primary cursor-pointer flex justify-center items-center",
+                    {
+                      "text-primary border-primary":
+                        selectedLink === "funcionalidades",
+                    }
+                  )}
                 >
                   Funcionalidades
-                </Link>
-                <Link
-                  href={"/solucoes"}
-                  className="hover:text-primary flex justify-center items-center"
+                </LinkScroll>
+                <LinkScroll
+                  to={"solucoes"}
+                  spy={true}
+                  smooth={true}
+                  offset={-100}
+                  duration={500}
+                  onClick={() => handleSelectLink("solucoes")}
+                  className={clsx(
+                    "hover:text-primary cursor-pointer flex justify-center items-center",
+                    {
+                      "text-primary border-primary":
+                        selectedLink === "solucoes",
+                    }
+                  )}
                 >
                   Soluções
-                </Link>
-                <Link
-                  href={"/sobre"}
-                  className="hover:text-primary flex justify-center items-center"
+                </LinkScroll>
+                <LinkScroll
+                  to={"sobre-nos"}
+                  spy={true}
+                  smooth={true}
+                  offset={-100}
+                  duration={500}
+                  onClick={() => handleSelectLink("sobre-nos")}
+                  className={clsx(
+                    "hover:text-primary cursor-pointer flex justify-center items-center",
+                    {
+                      "text-primary border-primary":
+                        selectedLink === "sobre-nos",
+                    }
+                  )}
                 >
                   Sobre nós
-                </Link>
+                </LinkScroll>
               </div>
             </div>
-            <div className="flex items-center justify-center mb-24 w-full">
+            <div className="flex items-center justify-center mb-32 w-full">
               {loading ? (
                 <Spinner color="primary" />
               ) : hasToken ? (
@@ -163,6 +205,7 @@ export default function MobileNav() {
                   onClick={() => router.push("/login")}
                   btnName="Entrar"
                   rounded
+                  className="w-full"
                 />
               )}
             </div>

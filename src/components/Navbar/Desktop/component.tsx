@@ -19,7 +19,6 @@ export default function DesktopNav() {
   const [selectedLink, setSelectedLink] = useState("");
 
   useEffect(() => {
-    console.log(path);
     setToken(!!token);
   }, [token]);
 
@@ -113,7 +112,7 @@ export default function DesktopNav() {
             duration={500}
             onClick={() => setSelectedLink("home")}
             className={clsx(
-              "hover:text-primary flex justify-center items-center",
+              "hover:text-primary cursor-pointer flex justify-center items-center",
               { "text-primary border-primary": selectedLink === "home" }
             )}
           >
@@ -127,7 +126,7 @@ export default function DesktopNav() {
             duration={500}
             onClick={() => setSelectedLink("funcionalidades")}
             className={clsx(
-              "hover:text-primary flex justify-center items-center",
+              "hover:text-primary cursor-pointer flex justify-center items-center",
               {
                 "text-primary border-primary":
                   selectedLink === "funcionalidades",
@@ -144,7 +143,7 @@ export default function DesktopNav() {
             duration={500}
             onClick={() => setSelectedLink("solucoes")}
             className={clsx(
-              "hover:text-primary flex justify-center items-center",
+              "hover:text-primary cursor-pointer flex justify-center items-center",
               { "text-primary border-primary": selectedLink === "solucoes" }
             )}
           >
@@ -158,7 +157,7 @@ export default function DesktopNav() {
             duration={500}
             onClick={() => setSelectedLink("sobre-nos")}
             className={clsx(
-              "hover:text-primary flex justify-center items-center",
+              "hover:text-primary cursor-pointer flex justify-center items-center",
               { "text-primary border-primary": selectedLink === "sobre-nos" }
             )}
           >

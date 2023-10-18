@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { CheckBoxProps } from "./types";
 import clsx from "clsx";
 
@@ -9,9 +9,12 @@ export function CheckBox({
   sm = false,
   value = { label, checked: false },
   setValue,
+  link,
   ...props
 }: CheckBoxProps) {
   const [isChecked, setIsChecked] = useState(false);
+  const labelString = useMemo(() => label.split("#")[0], [label]);
+  const labelLink = useMemo(() => label.split("#")[1], [label]);
 
   const handleCheckBoxChange = () => {
     setIsChecked(!isChecked);
@@ -37,7 +40,10 @@ export function CheckBox({
           }
         )}
       >
-        {label}
+        {labelString}
+        <a href={link} target="_blank" className="text-primary cursor-pointer">
+          {labelLink}
+        </a>
       </label>
     </div>
   );

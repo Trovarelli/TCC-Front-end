@@ -40,7 +40,7 @@ export default function Home() {
             >
               <div className="md:col-span-1 col-span-2">
                 <Button
-                  onClick={() => router.push("/register")}
+                  onClick={() => router.push("/cadastro")}
                   btnName="Inscreva-se agora!"
                   fullWidth
                 />
