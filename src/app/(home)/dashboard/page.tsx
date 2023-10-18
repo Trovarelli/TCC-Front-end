@@ -8,6 +8,7 @@ import {
 } from "phosphor-react";
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner/component";
+import { useUsertore } from "@/store";
 
 const Dashboard = () => {
   const [renderLoading, setRenderLoading] = useState(true);
@@ -21,10 +22,12 @@ const Dashboard = () => {
     amOrPm: string;
   } | null>(null);
 
+  const { nome } = useUsertore();
+
   useEffect(() => {
     setTimeout(() => {
       setRenderLoading(false);
-    }, 3000);
+    }, 1000);
     handleGetDate();
     setInterval(() => {
       handleGetDate();
@@ -86,7 +89,7 @@ const Dashboard = () => {
       ) : (
         <div className="md:p-20 flex flex-col max-w-[1000px] max-h-[1000px]">
           <div className="text-3xl">
-            Olá <strong>Username</strong>,<br /> seja bem vindo!
+            Olá <strong>{nome}</strong>,<br /> seja bem vindo!
           </div>
           <div className="grid sm:grid-cols-5 grid-cols-1 gap-4 mt-14 text-lg text-primary">
             <Link

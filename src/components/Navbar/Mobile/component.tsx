@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/Buttons";
 import Spinner from "@/components/Spinner/component";
 import { Link as LinkScroll } from "react-scroll";
+import { useUsertore } from "@/store";
 
 export default function MobileNav() {
   const router = useRouter();
@@ -14,6 +15,7 @@ export default function MobileNav() {
   const [loading, setLoading] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
+  const { removeUserState } = useUsertore();
 
   const handleSelectLink = (link: string) => {
     setSelectedLink(link);
@@ -26,6 +28,7 @@ export default function MobileNav() {
   }, []);
 
   const handleLogout = () => {
+    removeUserState();
     setIsNavOpen(false);
     setLoading(true);
     Cookies.remove("token");
@@ -199,6 +202,7 @@ export default function MobileNav() {
                   btnName="Sair"
                   rounded
                   fullWidth
+                  size="lg"
                 />
               ) : (
                 <Button
@@ -206,6 +210,7 @@ export default function MobileNav() {
                   btnName="Entrar"
                   rounded
                   className="w-full"
+                  size="lg"
                 />
               )}
             </div>

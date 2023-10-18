@@ -9,6 +9,7 @@ import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
 import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
+import { useUsertore } from "@/store";
 
 const Login = () => {
   const remember = Cookies.get("autoLogin");
@@ -17,6 +18,8 @@ const Login = () => {
     password: "",
     remember: !!remember,
   });
+
+  const { setUserState } = useUsertore();
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -53,10 +56,15 @@ const Login = () => {
         }
       )
       .then((res) => {
-        Cookies.set("token", res.data.token, {
+        console.log(res);
+        const { token, nome, empresa } = res.data;
+        Cookies.set("token", token, {
           expires: userLogin.remember ? 1200 : 1,
         });
-        setTimeout(() => router.push("/dashboard"), 1200);
+
+        setUserState({ empresa, nome, token });
+
+        setTimeout(() => router.push("/dashboard"), 800);
       })
       .catch((err) => {
         toast.error(err.response?.data.message);

@@ -9,6 +9,7 @@ import Spinner from "@/components/Spinner/component";
 import { BriefcaseMetal, SquaresFour, UserList } from "phosphor-react";
 import { Profile } from "@/components/Profile";
 import { Link as LinkScroll } from "react-scroll";
+import { useUsertore } from "@/store";
 
 export default function DesktopNav() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function DesktopNav() {
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
   const [selectedLink, setSelectedLink] = useState("");
+  const { removeUserState } = useUsertore();
 
   useEffect(() => {
     setToken(!!token);
@@ -27,6 +29,7 @@ export default function DesktopNav() {
   };
 
   const handleLogout = () => {
+    removeUserState();
     setLoading(true);
     Cookies.remove("token");
     router.push("/");
@@ -174,6 +177,7 @@ export default function DesktopNav() {
               onClick={() => router.push("/login")}
               btnName="Entrar"
               rounded
+              size="lg"
             />
           )}
         </div>

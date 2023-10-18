@@ -1,6 +1,8 @@
 "use client";
 
+import { useUsertore } from "@/store";
 import clsx from "clsx";
+import Link from "next/link";
 import { CaretDown, Gear, SignOut, User, X } from "phosphor-react";
 import { useState } from "react";
 
@@ -10,6 +12,8 @@ interface ProfileProps {
 
 export const Profile = ({ logout }: ProfileProps) => {
   const [open, setOpen] = useState(false);
+  const { nome, foto } = useUsertore();
+
   return (
     <div className="relative">
       <button
@@ -18,11 +22,11 @@ export const Profile = ({ logout }: ProfileProps) => {
       >
         <div
           style={{
-            backgroundImage: "url('img/perfil.webp')",
+            backgroundImage: foto !== "" ? foto : "url('img/perfil.jpg')",
           }}
           className="w-8 h-8 bg-cover rounded-full mr-2"
         ></div>
-        Username
+        {nome.split(" ")[0]}
         {open ? (
           <X size={17} weight="bold" className="ml-2" />
         ) : (
@@ -31,21 +35,22 @@ export const Profile = ({ logout }: ProfileProps) => {
       </button>
       <div
         className={clsx(
-          "z-10 absolute bg-white rounded-lg shadow w-full dark:bg-gray-700 mt-1",
+          "z-10 absolute bg-white rounded-lg shadow  dark:bg-gray-700 mt-1",
           { hidden: !open }
         )}
       >
         <ul className="text-sm text-primary bg-background divide-y divide-white ">
           <li>
-            <a
-              href="#"
+            <Link
+              href={"/perfil"}
               className="flex items-center px-4 py-2 bg-background hover:bg-[#c8c5e9] cursor-pointer"
+              onClick={() => setOpen(false)}
             >
               <User size={17} weight="bold" className="mr-2" />
               Meu Perfil
-            </a>
+            </Link>
           </li>
-          <li>
+          {/* <li>
             <a
               href="#"
               className="flex items-center px-4 py-2 bg-background hover:bg-[#c8c5e9] cursor-pointer"
@@ -53,7 +58,7 @@ export const Profile = ({ logout }: ProfileProps) => {
               <Gear size={17} weight="bold" className="mr-2" />
               Configurações
             </a>
-          </li>
+          </li> */}
           <li>
             <div
               onClick={logout}

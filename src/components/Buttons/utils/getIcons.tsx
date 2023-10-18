@@ -1,4 +1,4 @@
-import { Trash, User, House } from "phosphor-react";
+import { Trash, User, House, CaretLeft } from "phosphor-react";
 import { ReactElement } from "react";
 
 export default function getIcon(v: string): ReactElement<any, any> {
@@ -9,6 +9,8 @@ export default function getIcon(v: string): ReactElement<any, any> {
       return <House />;
     case "user":
       return <User />;
+    case "arrow":
+      return <CaretLeft />;
     default:
       return <></>;
   }
