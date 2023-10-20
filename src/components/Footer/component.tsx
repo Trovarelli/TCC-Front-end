@@ -11,7 +11,7 @@ export const Footer = () => (
         <a
           id="mailInput"
           className="text-sm text-center rounded-md bg-white p-2.5 text-primary w-full"
-          href="mailto:newsletter@tahr.com?cc=company@tahr.com&subject=Inscrição"
+          href="mailto:newsletter@tahr.com?cc=tahr@gmail.com&subject=Inscrição"
         >
           Inscrever-se
         </a>

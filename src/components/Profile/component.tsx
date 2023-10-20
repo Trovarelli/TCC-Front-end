@@ -22,7 +22,8 @@ export const Profile = ({ logout }: ProfileProps) => {
       >
         <div
           style={{
-            backgroundImage: foto !== "" ? foto : "url('img/perfil.jpg')",
+            backgroundImage:
+              foto !== "" ? `url('${foto}')` : "url('img/perfil.jpg')",
           }}
           className="w-8 h-8 bg-cover rounded-full mr-2"
         ></div>
