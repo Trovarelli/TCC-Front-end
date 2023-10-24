@@ -1,12 +1,106 @@
 "use client";
-
+import { z } from "zod";
 import { Button, TextInput } from "@/components";
 import { useUsertore } from "@/store";
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+
+const userValidation = z.object({
+  email: z
+    .string()
+    .email("Digite um e-mail válido")
+    .min(1, "Campo obrigatório"),
+  nome: z.string().min(1, "Campo obrigatório"),
+  empresa: z.string().min(1, "Campo obrigatório"),
+  password: z.string(),
+  confirmPassword: z.string(),
+});
 
 const Perfil = () => {
   const router = useRouter();
-  const { nome, foto } = useUsertore();
+  const { user, setUserState } = useUsertore();
+  const [loading, setLoading] = useState(false);
+  const [userPayload, setUserPayload] = useState({
+    nome: user.nome,
+    foto: user.foto,
+    empresa: user.empresa,
+    email: user.email,
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    nome: "",
+    confirmPassword: "",
+    condicoesDeUso: "",
+    empresa: "",
+  });
+
+  const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const key = event.target?.id as keyof typeof errors;
+    const value = event.target?.value;
+    setUserPayload((prev) => ({ ...prev, [key]: value }));
+    if (value && errors[key]) {
+      setErrors((prev) => ({ ...prev, [key]: "" }));
+    }
+  };
+  const fnHandleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      userValidation.parse(userPayload);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        JSON.parse(err.message)?.forEach(
+          (el: { path: string[]; message: string }) =>
+            setErrors((prev) => ({ ...prev, [el.path[0]]: el.message }))
+        );
+        toast.error("Por favor preencha os campos corretamente.");
+        return;
+      }
+    }
+
+    setLoading(true);
+
+    axios
+      .post(
+        `http://localhost:3001/user/${user.id}`,
+        {
+          name: userPayload.nome,
+          email: userPayload.email,
+          password: userPayload.password,
+          company: userPayload.empresa,
+          photo: userPayload.foto,
+        },
+        {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+            authorization: `Bearer ${user.token}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { name, company, email, photo } = res.data;
+
+        setUserState({
+          id: user.id,
+          empresa: company,
+          nome: name,
+          token: user.token,
+          email,
+          foto: photo ?? "",
+        });
+
+        toast.success("Dados alterados com sucesso");
+      })
+      .catch((err) => {
+        toast.error(err.response?.data.message);
+        console.log(err);
+      })
+      .finally(() => setLoading(false));
+  };
 
   return (
     <div className="w-full flex justify-center">
@@ -24,8 +118,9 @@ const Perfil = () => {
         <div className="flex sm:flex-row flex-col w-full items-center justify-start gap-4">
           <div
             style={{
-              backgroundImage:
-                foto !== "" ? `url('${foto}')` : "url('img/perfil.jpg')",
+              backgroundImage: user.foto
+                ? `url('${user.foto}')`
+                : "url('img/perfil.jpg')",
             }}
             className="w-40 h-40 bg-cover rounded-full mr-2 "
           ></div>
@@ -44,20 +139,68 @@ const Perfil = () => {
           </div>
         </div>
         <div className="border-t border-gray-400 w-full"></div>
-        <div className="sm:w-[50%] w-full flex flex-col gap-4">
-          <TextInput label={"Nome de usuário"} />
-          <TextInput label={"E-mail"} />
-          <TextInput label={"Nova senha"} inputType="password" />
-          <TextInput label={"Confirmar nova senha"} inputType="password" />
-        </div>
+        <form
+          onSubmit={fnHandleSubmit}
+          className="sm:w-[50%] w-full flex flex-col gap-4"
+        >
+          <TextInput
+            id="nome"
+            label={"Nome de usuário"}
+            value={userPayload.nome}
+            onChange={(e) => handleOnChange(e)}
+            helperText={errors.nome}
+            state={errors.nome ? "error" : undefined}
+            disabled={loading}
+          />
+          <TextInput
+            id="email"
+            label="E-mail"
+            value={userPayload.email}
+            onChange={(e) => handleOnChange(e)}
+            helperText={errors.email}
+            state={errors.email ? "error" : undefined}
+            disabled={loading}
+          />
+          <TextInput
+            id="empresa"
+            label="Empresa"
+            value={userPayload.empresa}
+            onChange={(e) => handleOnChange(e)}
+            helperText={errors.empresa}
+            state={errors.empresa ? "error" : undefined}
+            disabled={loading}
+          />
+          <TextInput
+            id="password"
+            label="Nova senha"
+            value={userPayload.password}
+            onChange={(e) => handleOnChange(e)}
+            inputType="password"
+            helperText={errors.password}
+            state={errors.password ? "error" : undefined}
+            disabled={loading}
+          />
+          <TextInput
+            id="confirmPassword"
+            label="Confirmar nova senha"
+            value={userPayload.confirmPassword}
+            onChange={(e) => handleOnChange(e)}
+            inputType="password"
+            helperText={errors.confirmPassword}
+            state={errors.confirmPassword ? "error" : undefined}
+            disabled={loading}
+          />
+          <Button
+            btnName={"Salvar configurações de conta"}
+            secondary
+            rounded
+            type="submit"
+            loading={loading}
+            className="max-sm:w-full"
+          />
+        </form>
         <div className="border-t border-gray-400 w-full"></div>
-        <Button
-          btnName={"Salvar configurações de conta"}
-          onClick={() => alert("SALVAR")}
-          secondary
-          rounded
-          className="max-sm:w-full"
-        />
+
         <div className="flex flex-col gap-2">
           <a
             href="mailto:suport@tahr.com?cc=tahr@gmail.com&subject=Suporte ao usuário"

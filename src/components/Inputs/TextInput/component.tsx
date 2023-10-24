@@ -107,7 +107,17 @@ export function TextInput({
           onClick={() => setShowPassword(!showPassword)}
           className={clsx(
             "absolute text-primary cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
-            { "right-10": !!state }
+            { "right-10": !!state },
+            { "!text-error": state === "error" },
+            {
+              "!text-info": state === "info",
+            },
+            {
+              "!text-success": state === "success",
+            },
+            {
+              "!text-warning": state === "warning",
+            }
           )}
         >
           {showPassword ? <Eye size={26} /> : <EyeSlash size={26} />}

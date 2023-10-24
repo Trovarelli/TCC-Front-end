@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { CheckBoxProps } from "./types";
 import clsx from "clsx";
+import ToolTip from "../Tooltip/component";
 
 export function CheckBox({
   label,
@@ -9,6 +10,8 @@ export function CheckBox({
   sm = false,
   value = { label, checked: false },
   setValue,
+  state,
+  helperText,
   link,
   ...props
 }: CheckBoxProps) {
@@ -27,7 +30,10 @@ export function CheckBox({
         {...props}
         id={`${id}-${label}`}
         type="checkbox"
-        className="w-4 h-4 text-white rounded focus:ring-transparent accent-primary"
+        className={clsx(
+          "w-4 h-4 text-white rounded focus:ring-transparent accent-primary",
+          { "!text-error": state === "error" }
+        )}
         checked={isChecked}
         onChange={handleCheckBoxChange}
       />
@@ -37,7 +43,8 @@ export function CheckBox({
           "w-full ml-2 cursor-pointer font-medium text-gray-900 rounded",
           {
             "text-sm": sm,
-          }
+          },
+          { "!text-error": state === "error" }
         )}
       >
         {labelString}

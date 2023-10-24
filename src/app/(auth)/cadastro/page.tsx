@@ -1,14 +1,27 @@
 "use client";
 import { ChangeEvent, FormEvent, useState } from "react";
+import { z } from "zod";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
 import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
+import { getUserIdByToken } from "@/utils";
+import { useUsertore } from "@/store";
+
+const userValidation = z.object({
+  email: z
+    .string()
+    .email("Digite um e-mail válido")
+    .min(1, "Campo obrigatório"),
+  nome: z.string().min(1, "Campo obrigatório"),
+  empresa: z.string().min(1, "Campo obrigatório"),
+  password: z.string().min(1, "Campo obrigatório"),
+  confirmPassword: z.string().min(1, "Campo obrigatório"),
+  condicoesDeUso: z.boolean(),
+});
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -19,9 +32,10 @@ const Login = () => {
     empresa: "",
     condicoesDeUso: false,
   });
-
+  const secret = process.env.JWT_SECRET_KEY;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { setUserState } = useUsertore();
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -31,28 +45,13 @@ const Login = () => {
     empresa: "",
   });
 
-  const handleValidate = (
-    value: string,
-    type: "required" | "confirmPassword"
-  ) => {
-    if (type === "required") {
-      if (!value) return "Campo obrigatório";
-    }
-
-    if (type === "confirmPassword") {
-      if (!value) return "Campo obrigatório";
-      if (value !== user.password) return "Senhas divergêntes";
-    }
-  };
-
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const validationType =
-      event.target?.id === "confirmPassword" ? "confirmPassword" : "required";
-    setUser({ ...user, [event.target?.id]: event.target?.value });
-    setErrors({
-      ...errors,
-      [event.target?.id]: handleValidate(event.target?.value, validationType),
-    });
+    const key = event.target?.id as keyof typeof errors;
+    const value = event.target?.value;
+    setUser((prev) => ({ ...prev, [key]: value }));
+    if (value && errors[key]) {
+      setErrors((prev) => ({ ...prev, [key]: "" }));
+    }
   };
 
   const handleLogin = () => {
@@ -70,7 +69,19 @@ const Login = () => {
         }
       )
       .then((res) => {
-        Cookies.set("token", res.data.token);
+        const { token, nome, empresa, foto } = res.data;
+        const id = getUserIdByToken(token, secret ?? "") || "";
+        Cookies.set("token", token);
+
+        setUserState({
+          id,
+          empresa,
+          nome,
+          token,
+          email: user.email,
+          foto,
+        });
+
         setTimeout(() => router.push("/dashboard"), 1200);
       })
       .catch((err) => {
@@ -89,6 +100,19 @@ const Login = () => {
       });
 
       return;
+    }
+
+    try {
+      userValidation.parse(user);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        JSON.parse(err.message)?.forEach(
+          (el: { path: string[]; message: string }) =>
+            setErrors((prev) => ({ ...prev, [el.path[0]]: el.message }))
+        );
+        toast.error("Por favor preencha os campos corretamente.");
+        return;
+      }
     }
 
     setLoading(true);
@@ -124,7 +148,6 @@ const Login = () => {
       }}
       className="w-full bg-login h-[100vh] bg-no-repeat bg-cover flex sm:justify-start justify-center items-center"
     >
-      <ToastContainer />
       <div className="relative h-full md:w-[40vw] w-[100vw] bg-white sm:px-14 px-10">
         <Link href={"/"} className="fixed top-2 left-2 hover:text-primary">
           <ArrowUDownLeft size={26} />
@@ -189,10 +212,14 @@ const Login = () => {
             id="checkBox"
             checked={user.condicoesDeUso}
             setValue={(value) => {
-              console.log(value.checked);
               setUser({ ...user, condicoesDeUso: value.checked });
+              setErrors((prev) => ({
+                ...prev,
+                condicoesDeUso: value.checked ? "" : "Campo obrigatório",
+              }));
             }}
             sm
+            helperText={errors.condicoesDeUso}
             state={errors.condicoesDeUso ? "error" : undefined}
             disabled={loading}
           />

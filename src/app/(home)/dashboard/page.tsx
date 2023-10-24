@@ -22,7 +22,7 @@ const Dashboard = () => {
     amOrPm: string;
   } | null>(null);
 
-  const { nome } = useUsertore();
+  const { nome } = useUsertore().user;
 
   useEffect(() => {
     setTimeout(() => {

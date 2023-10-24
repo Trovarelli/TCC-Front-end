@@ -12,7 +12,7 @@ interface ProfileProps {
 
 export const Profile = ({ logout }: ProfileProps) => {
   const [open, setOpen] = useState(false);
-  const { nome, foto } = useUsertore();
+  const { nome, foto } = useUsertore().user;
 
   return (
     <div className="relative">
@@ -22,12 +22,11 @@ export const Profile = ({ logout }: ProfileProps) => {
       >
         <div
           style={{
-            backgroundImage:
-              foto !== "" ? `url('${foto}')` : "url('img/perfil.jpg')",
+            backgroundImage: foto ? `url('${foto}')` : "url('img/perfil.jpg')",
           }}
           className="w-8 h-8 bg-cover rounded-full mr-2"
         ></div>
-        {nome.split(" ")[0]}
+        {nome?.split(" ")[0]}
         {open ? (
           <X size={17} weight="bold" className="ml-2" />
         ) : (

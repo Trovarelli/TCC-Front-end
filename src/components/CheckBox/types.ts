@@ -5,5 +5,6 @@ export interface CheckBoxProps
     value?: {label: string; checked: boolean}
     link?: string; 
     setValue?: (v: {label: string; checked: boolean}) => void
-    state?: "error" | undefined;
+    state?: "error" | undefined
+    helperText?: string
 }
