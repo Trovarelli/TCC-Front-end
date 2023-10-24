@@ -7,5 +7,3 @@ export * from './Modal'
 export * from './Profile'
 export * from "./Tooltip"
 export * from './Spinner'
-
-

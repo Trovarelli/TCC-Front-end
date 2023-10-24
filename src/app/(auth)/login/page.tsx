@@ -98,7 +98,7 @@ const Login = () => {
         setTimeout(() => router.push("/dashboard"), 800);
       })
       .catch((err) => {
-        toast.error(err.response?.data.message);
+        toast.error(err.response?.data.message || "Erro interno");
         setLoading(false);
         console.log(err);
       });

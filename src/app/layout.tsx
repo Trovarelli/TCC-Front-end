@@ -1,11 +1,10 @@
-"use client";
 import { ReactNode } from "react";
 import "./global.css";
 import { Footer } from "@/components";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Metadata } from "next";
+import ToastProvider from "@/components/ToastProvider/component";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "TAHR - Technology Applied to Human Resources",
     template: "%s | TAHR - Technology Applied to Human Resources",
@@ -16,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ptBr">
       <body>
-        <ToastContainer />
+        <ToastProvider />
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
