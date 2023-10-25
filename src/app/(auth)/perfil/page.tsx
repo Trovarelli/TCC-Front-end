@@ -4,22 +4,33 @@ import { Button, TextInput } from "@/components";
 import { useUsertore } from "@/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-const userValidation = z.object({
-  email: z
-    .string()
-    .email("Digite um e-mail válido")
-    .min(1, "Campo obrigatório"),
-  nome: z.string().min(1, "Campo obrigatório"),
-  empresa: z.string().min(1, "Campo obrigatório"),
-  password: z.string(),
-  confirmPassword: z.string(),
-});
+const userValidation = z
+  .object({
+    email: z
+      .string()
+      .email("Digite um e-mail válido")
+      .min(1, "Campo obrigatório"),
+    nome: z.string().min(1, "Campo obrigatório"),
+    empresa: z.string().min(1, "Campo obrigatório"),
+    password: z.string().optional(),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    (schema) => {
+      return !(schema.password !== "" && schema.confirmPassword === "");
+    },
+    {
+      path: ["confirmPassword"],
+      message: "Campo obrigatório",
+    }
+  );
 
 const Perfil = () => {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { user, setUserState } = useUsertore();
   const [loading, setLoading] = useState(false);
   const [userPayload, setUserPayload] = useState({
@@ -39,6 +50,21 @@ const Perfil = () => {
     empresa: "",
   });
 
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = (event) => {
+        const base64 = event.target?.result as string;
+        setUserPayload((prev) => ({ ...prev, foto: base64 }));
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
     const key = event.target?.id as keyof typeof errors;
     const value = event.target?.value;
@@ -53,6 +79,7 @@ const Perfil = () => {
       userValidation.parse(userPayload);
     } catch (err) {
       if (err instanceof z.ZodError) {
+        console.log(JSON.parse(err.message));
         JSON.parse(err.message)?.forEach(
           (el: { path: string[]; message: string }) =>
             setErrors((prev) => ({ ...prev, [el.path[0]]: el.message }))
@@ -118,21 +145,26 @@ const Perfil = () => {
         <div className="flex sm:flex-row flex-col w-full items-center justify-start gap-4">
           <div
             style={{
-              backgroundImage: user.foto
-                ? `url('${user.foto}')`
-                : "url('img/perfil.jpg')",
+              backgroundImage:
+                userPayload.foto && userPayload.foto !== ""
+                  ? `url('${userPayload.foto}')`
+                  : `url('/img/perfil.jpg')`,
             }}
-            className="w-40 h-40 bg-cover rounded-full mr-2 "
+            className="w-40 h-40 bg-cover rounded-full mr-2"
           ></div>
           <div className="flex flex-col gap-4 justify-center max-sm:w-full">
             <Button
-              btnName={"Salvar Imagem"}
-              onClick={() => alert("SALVAR IMAGEM")}
+              btnName={"Nova Imagem"}
+              onClick={() => {
+                if (fileInputRef.current) {
+                  fileInputRef.current?.click();
+                }
+              }}
               className="max-sm:w-full"
             />
             <Button
               btnName={"Excluir Imagem"}
-              onClick={() => alert("EXCLUIR IMAGEM")}
+              onClick={() => setUserPayload((prev) => ({ ...prev, foto: "" }))}
               secondary
               className="!text-error max-sm:w-full !border-error hover:!bg-error hover:!text-white"
             />
@@ -179,6 +211,7 @@ const Perfil = () => {
             helperText={errors.password}
             state={errors.password ? "error" : undefined}
             disabled={loading}
+            autoComplete="off"
           />
           <TextInput
             id="confirmPassword"
@@ -189,6 +222,7 @@ const Perfil = () => {
             helperText={errors.confirmPassword}
             state={errors.confirmPassword ? "error" : undefined}
             disabled={loading}
+            autoComplete="off"
           />
           <Button
             btnName={"Salvar configurações de conta"}
@@ -217,6 +251,13 @@ const Perfil = () => {
           </a>
         </div>
       </div>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={handleImageChange}
+        style={{ display: "none" }} // Torna o input de arquivo invisível
+        ref={fileInputRef} // Associa a referência ao input de arquivo
+      />
     </div>
   );
 };
