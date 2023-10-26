@@ -11,6 +11,29 @@ const Candidatos = () => {
   const [openUpload, setOpenUpload] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
 
+  const candidatos = [
+    {
+      caracteristicas: ["Junior", "Integral", "Homem"],
+      curriculo: "",
+      nome: "João Carlos de Andrade",
+    },
+    {
+      caracteristicas: ["Junior", "Mulher"],
+      curriculo: "",
+      nome: "Amanda Lais Nobrega",
+    },
+    {
+      caracteristicas: ["Estágio", "LGBT+"],
+      curriculo: "",
+      nome: "Amando Batista",
+    },
+    {
+      caracteristicas: ["Junior"],
+      curriculo: "",
+      nome: "Joaquina da Silva",
+    },
+  ];
+
   useEffect(() => {
     setTimeout(() => {
       setRenderLoading(false);
@@ -43,8 +66,8 @@ const Candidatos = () => {
         </div>
       ) : (
         <div>
-          <div className="w-full bg-white rounded-md p-3 grid grid-cols-2 gap-3 divide-x divide-gray-400">
-            <div className="flex flex-col justify-start w-full gap-4">
+          <div className="w-full bg-white rounded-md p-3 grid grid-cols-2 gap-3 sm:divide-x sm:divide-gray-400">
+            <div className="flex flex-col justify-start w-full gap-4 max-sm:col-span-2">
               <UploadModal setOpen={setOpenUpload} open={openUpload} />
               <div className="p-2 border border-black rounded-md">
                 <div className="col-span-3 text-center font-bold mb-3">
@@ -58,18 +81,50 @@ const Candidatos = () => {
                 />
               </div>
             </div>
-            <div className="px-3 grid grid-cols-3 gap-3">
-              <div className="col-span-3 text-center font-bold">
+            <div className="px-3 grid grid-cols-3 max-sm:grid-cols-4 gap-3 max-sm:col-span-2">
+              <div className="col-span-3 max-sm:col-span-4 text-center font-bold">
                 Pré-definições
               </div>
-              <CheckBox setValue={handleCheckBoxChange} label="PCD" />
-              <CheckBox label="Assistente" setValue={handleCheckBoxChange} />
-              <CheckBox setValue={handleCheckBoxChange} label="Pleno" />
-              <CheckBox setValue={handleCheckBoxChange} label="Senior" />
-              <CheckBox setValue={handleCheckBoxChange} label="Estágio" />
-              <CheckBox setValue={handleCheckBoxChange} label="Homem" />
-              <CheckBox setValue={handleCheckBoxChange} label="Mulher" />
-              <CheckBox setValue={handleCheckBoxChange} label="LGBT+" />
+              <CheckBox
+                setValue={handleCheckBoxChange}
+                label="PCD"
+                className="max-sm:col-span-2"
+              />
+              <CheckBox
+                label="Assistente"
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="Pleno"
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="Senior"
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="Estágio"
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="Homem"
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="Mulher"
+              />
+              <CheckBox
+                className="max-sm:col-span-2"
+                setValue={handleCheckBoxChange}
+                label="LGBT+"
+              />
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">
@@ -81,10 +136,9 @@ const Candidatos = () => {
               Aqui, uma busca de candidatos que possuem
               <strong>{handleFormatTags()}</strong> em seu currículo.
             </div>
-            <CandidatoCard />
-            <CandidatoCard />
-            <CandidatoCard />
-            <CandidatoCard />
+            {candidatos.map((el) => (
+              <CandidatoCard candidato={el} />
+            ))}
           </div>
         </div>
       )}

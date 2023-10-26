@@ -4,10 +4,10 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
-import { Button } from "@/components/Buttons";
 import Spinner from "@/components/Spinner/component";
 import { Link as LinkScroll } from "react-scroll";
 import { useUsertore } from "@/store";
+import { Button } from "@/components";
 
 export default function MobileNav() {
   const router = useRouter();
@@ -15,7 +15,7 @@ export default function MobileNav() {
   const [loading, setLoading] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
-  const { removeUserState } = useUsertore();
+  const { removeUserState, user } = useUsertore();
 
   const handleSelectLink = (link: string) => {
     setSelectedLink(link);
@@ -102,17 +102,40 @@ export default function MobileNav() {
             )}
           >
             <div className="container flex flex-col justify-center font-bold mx-auto mt-5 p-10">
+              <div className="absolute w-full inset-0 flex justify-center">
+                <div
+                  style={{
+                    backgroundImage: user.foto
+                      ? `url('${user.foto}')`
+                      : "url('img/perfil.jpg')",
+                  }}
+                  className={clsx("w-20 h-20 rounded-full mt-3 bg-cover", {
+                    hidden: !hasToken,
+                  })}
+                ></div>
+              </div>
+
               <div
-                className={clsx("transition-all grid grid-rows-4 gap-5 px-20", {
-                  hidden: !hasToken,
-                })}
+                className={clsx(
+                  "transition-all grid grid-rows-4 gap-5 relative mt-9",
+                  {
+                    hidden: !hasToken,
+                  }
+                )}
               >
+                <Link
+                  href={"/perfil"}
+                  className="hover:text-primary flex justify-center items-center"
+                >
+                  Meu perfil
+                </Link>
                 <Link
                   href={"/vagas"}
                   className="hover:text-primary flex justify-center items-center"
                 >
                   Vagas
                 </Link>
+
                 <Link
                   href={"/candidatos"}
                   className="hover:text-primary flex justify-center items-center"

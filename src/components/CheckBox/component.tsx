@@ -12,6 +12,7 @@ export function CheckBox({
   setValue,
   state,
   helperText,
+  className,
   link,
   ...props
 }: CheckBoxProps) {
@@ -23,9 +24,10 @@ export function CheckBox({
     setIsChecked(!isChecked);
     setValue && setValue({ label, checked: !isChecked });
   };
-
   return (
-    <div className="flex items-center rounded cursor-pointer">
+    <div
+      className={clsx("flex items-center rounded cursor-pointer", className)}
+    >
       <input
         {...props}
         id={`${id}-${label}`}

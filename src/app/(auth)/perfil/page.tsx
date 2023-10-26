@@ -26,6 +26,15 @@ const userValidation = z
       path: ["confirmPassword"],
       message: "Campo obrigatório",
     }
+  )
+  .refine(
+    (schema) => {
+      return !(schema.password !== schema.confirmPassword);
+    },
+    {
+      path: ["confirmPassword"],
+      message: "As senhas devem ser iguais",
+    }
   );
 
 const Perfil = () => {

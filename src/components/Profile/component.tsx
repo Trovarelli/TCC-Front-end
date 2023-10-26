@@ -1,16 +1,15 @@
 "use client";
-
 import { useUsertore } from "@/store";
 import clsx from "clsx";
 import Link from "next/link";
-import { CaretDown, Gear, SignOut, User, X } from "phosphor-react";
+import { CaretDown, SignOut, User, X } from "phosphor-react";
 import { useState } from "react";
 
-interface ProfileProps {
+interface ProfileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   logout: () => void;
 }
 
-export const Profile = ({ logout }: ProfileProps) => {
+export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
   const [open, setOpen] = useState(false);
   const { nome, foto } = useUsertore().user;
 
@@ -18,7 +17,11 @@ export const Profile = ({ logout }: ProfileProps) => {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="text-primary font-bold bg-background hover:bg-[#c8c5e9] rounded-lg text-sm px-4 py-2 flex items-center"
+        className={clsx(
+          "text-primary font-bold bg-background hover:bg-[#c8c5e9] rounded-lg text-sm px-4 py-2 flex items-center",
+          className
+        )}
+        {...rest}
       >
         <div
           style={{
