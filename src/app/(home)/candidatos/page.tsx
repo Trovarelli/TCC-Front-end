@@ -136,8 +136,8 @@ const Candidatos = () => {
               Aqui, uma busca de candidatos que possuem
               <strong>{handleFormatTags()}</strong> em seu currículo.
             </div>
-            {candidatos.map((el) => (
-              <CandidatoCard candidato={el} />
+            {candidatos.map((el, idx) => (
+              <CandidatoCard candidato={el} key={idx} />
             ))}
           </div>
         </div>

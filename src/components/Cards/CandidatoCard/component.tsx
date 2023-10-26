@@ -45,8 +45,11 @@ export const CandidatoCard = ({
           <span className=" text-black">{candidato.nome}</span>
         </div>
         <div className="flex items-center max-sm:hidden col-span-5">
-          {candidato?.caracteristicas.map((el) => (
-            <div className="px-4 py-1 m-1 text-white bg-primary rounded-full">
+          {candidato?.caracteristicas.map((el, idx) => (
+            <div
+              key={idx}
+              className="px-4 py-1 m-1 text-white bg-primary rounded-full"
+            >
               {el}
             </div>
           ))}
