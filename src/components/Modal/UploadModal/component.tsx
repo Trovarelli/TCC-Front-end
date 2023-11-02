@@ -6,7 +6,6 @@ import { Checks, X } from "phosphor-react";
 import { Button } from "@/components/Buttons";
 import axios from "axios";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
@@ -19,6 +18,7 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
     const uploadFile = async (file: File) => {
       try {
         const curriculum = await handleBase64Convert(file);
+
         await axios.post("http://localhost:3001/candidate", {
           curriculum,
         });
