@@ -10,6 +10,7 @@ import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
 import { getUserIdByToken } from "@/utils";
 import { useUsertore } from "@/store";
+import { CreateUser, MakeLogin } from "@/api/requests";
 
 const userValidation = z.object({
   email: z
@@ -55,19 +56,7 @@ const Login = () => {
   };
 
   const handleLogin = () => {
-    axios
-      .post(
-        "http://localhost:3001/auth/login",
-        {
-          email: user.email,
-          password: user.password,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
+    MakeLogin({ email: user.email, password: user.password })
       .then((res) => {
         const { token, nome, empresa, foto } = res.data;
         const id = getUserIdByToken(token, secret ?? "") || "";
@@ -116,22 +105,13 @@ const Login = () => {
     }
 
     setLoading(true);
-    axios
-      .post(
-        "http://localhost:3001/auth/register",
-        {
-          name: user.nome,
-          email: user.email,
-          password: user.password,
-          confirmPassword: user.confirmPassword,
-          company: user.empresa,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
+    CreateUser({
+      nome: user.nome,
+      email: user.email,
+      senha: user.password,
+      confirmSenha: user.confirmPassword,
+      empresa: user.empresa,
+    })
       .then(() => {
         handleLogin();
       })

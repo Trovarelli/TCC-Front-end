@@ -11,6 +11,7 @@ import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
 import { useUsertore } from "@/store";
 import { getUserIdByToken } from "@/utils";
+import { MakeLogin } from "@/api/requests";
 
 const userValidation = z.object({
   email: z
@@ -66,19 +67,7 @@ const Login = () => {
       Cookies.set("autoLogin", `${userLogin.remember}`, { expires: 1200 });
     }
 
-    axios
-      .post(
-        "http://localhost:3001/auth/login",
-        {
-          email: userLogin.email,
-          password: userLogin.password,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
+    MakeLogin({ email: userLogin.email, password: userLogin.password })
       .then((res) => {
         const { token, nome, empresa, foto } = res.data;
         const id = getUserIdByToken(token, secret ?? "") || "";

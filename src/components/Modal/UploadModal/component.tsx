@@ -1,16 +1,23 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { UploadModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
 import { Checks, X } from "phosphor-react";
 import { Button } from "@/components/Buttons";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useUsertore } from "@/store";
+import { CreateCandidato } from "@/api/requests";
 
-export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
+export const UploadModal = ({
+  open,
+  setOpen,
+  updateCandidatos,
+}: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [sucess] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const { id } = useUsertore().user;
 
   const handleUpload = async () => {
     setLoading(true);
@@ -19,9 +26,8 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
       try {
         const curriculum = await handleBase64Convert(file);
 
-        await axios.post("http://localhost:3001/candidate", {
-          curriculum,
-        });
+        await CreateCandidato({ userId: id, curriculum });
+
         sucess.push(file.name);
       } catch (err: any) {
         toast.error(err.response?.data.message);
@@ -37,9 +43,7 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
 
       const currentKey = keys[0];
       if (!isNaN(Number(currentKey))) {
-        console.log(files[currentKey]);
         await uploadFile(files[currentKey]);
-
         const remainingKeys = keys.slice(1);
         await uploadSequentially(remainingKeys);
       } else {
@@ -79,6 +83,14 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
     updatedFiles.splice(index, 1);
     setFiles(updatedFiles);
   };
+
+  const allUploaded = useMemo(() => {
+    return sucess.length !== files.length;
+  }, [sucess, files]);
+
+  useEffect(() => {
+    updateCandidatos((prev) => !prev);
+  }, [allUploaded]);
 
   return (
     <>
@@ -129,7 +141,7 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
           )}
         </div>
         <div className="w-full flex justify-end px-4 mb-4">
-          {sucess.length !== files.length && (
+          {allUploaded && (
             <Button
               btnName={"Cancelar"}
               className="mr-2"
@@ -137,7 +149,11 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
               loading={loading}
             />
           )}
-          <Button btnName={"Ok"} onClick={handleUpload} loading={loading} />
+          <Button
+            btnName={"Ok"}
+            onClick={() => (allUploaded ? handleUpload() : setOpen(false))}
+            loading={loading}
+          />
         </div>
       </DefaultModal>
     </>

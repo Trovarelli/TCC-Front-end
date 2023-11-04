@@ -1,9 +1,7 @@
-export interface VagaCardProps {
+import { CandidatoModel } from "@/api/models"
+
+export interface CandidatoCardProps {
     onEdit?: () => void
     onDelete?: () => void
-    candidato: {
-        caracteristicas: string[]
-        nome: string
-        curriculo: string
-    }
+    candidato: CandidatoModel
 }

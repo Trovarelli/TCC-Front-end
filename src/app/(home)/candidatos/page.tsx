@@ -1,8 +1,11 @@
 "use client";
 
+import { CandidatoModel } from "@/api/models";
+import { GetAllCandidatos } from "@/api/requests";
 import { CandidatoCard, CheckBox, TextInput, UploadModal } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
+import { useUsertore } from "@/store";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
 
@@ -10,40 +13,21 @@ const Candidatos = () => {
   const [renderLoading, setRenderLoading] = useState(true);
   const [openUpload, setOpenUpload] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
-
-  const candidatos = [
-    {
-      caracteristicas: ["Junior", "Integral", "Homem"],
-      curriculo: "",
-      nome: "João Carlos de Andrade",
-    },
-    {
-      caracteristicas: ["Junior", "Mulher"],
-      curriculo: "",
-      nome: "Amanda Lais Nobrega",
-    },
-    {
-      caracteristicas: ["Estágio", "LGBT+"],
-      curriculo: "",
-      nome: "Amando Batista",
-    },
-    {
-      caracteristicas: ["Junior"],
-      curriculo: "",
-      nome: "Joaquina da Silva",
-    },
-  ];
+  const { id } = useUsertore().user;
+  const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
+  const [shouldUpdate, setShouldUpdate] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setRenderLoading(false);
-    }, 1000);
-  }, []);
+    GetAllCandidatos({ userId: id })
+      .then((res) => setCandidatos(res.data))
+      .catch((err) => console.log(err.message))
+      .finally(() => setRenderLoading(false));
+  }, [shouldUpdate]);
 
   const handleFormatTags = () => {
-    var string = "";
-    for (var i = 0; i < tags.length; i++) {
-      var elemento = '"' + tags[i] + '"';
+    let string = "";
+    for (let i = 0; i < tags.length; i++) {
+      let elemento = '"' + tags[i] + '"';
       string += elemento;
       if (i < tags.length - 1) {
         string += ", ";
@@ -68,7 +52,11 @@ const Candidatos = () => {
         <div>
           <div className="w-full bg-white rounded-md p-3 grid grid-cols-2 gap-3 sm:divide-x sm:divide-gray-400">
             <div className="flex flex-col justify-start w-full gap-4 max-sm:col-span-2">
-              <UploadModal setOpen={setOpenUpload} open={openUpload} />
+              <UploadModal
+                setOpen={setOpenUpload}
+                open={openUpload}
+                updateCandidatos={setShouldUpdate}
+              />
               <div className="p-2 border border-black rounded-md">
                 <div className="col-span-3 text-center font-bold mb-3">
                   Busca Avançada
@@ -86,14 +74,14 @@ const Candidatos = () => {
                 Pré-definições
               </div>
               <CheckBox
-                setValue={handleCheckBoxChange}
-                label="PCD"
-                className="max-sm:col-span-2"
-              />
-              <CheckBox
                 label="Assistente"
                 className="max-sm:col-span-2"
                 setValue={handleCheckBoxChange}
+              />
+              <CheckBox
+                setValue={handleCheckBoxChange}
+                label="Júnior"
+                className="max-sm:col-span-2"
               />
               <CheckBox
                 className="max-sm:col-span-2"
@@ -125,6 +113,11 @@ const Candidatos = () => {
                 setValue={handleCheckBoxChange}
                 label="LGBT+"
               />
+              <CheckBox
+                setValue={handleCheckBoxChange}
+                label="PCD"
+                className="max-sm:col-span-2"
+              />
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">
@@ -136,9 +129,22 @@ const Candidatos = () => {
               Aqui, uma busca de candidatos que possuem
               <strong>{handleFormatTags()}</strong> em seu currículo.
             </div>
-            {candidatos.map((el, idx) => (
-              <CandidatoCard candidato={el} key={idx} />
-            ))}
+            {candidatos.length > 0 ? (
+              candidatos?.map((el, idx) => (
+                <CandidatoCard candidato={el} key={idx} />
+              ))
+            ) : (
+              <div className="flex justify-center items-center flex-col">
+                Não foram encontrados candidatos salvos.
+                <img src="/img/not-found.jpg" width={300} height={300}></img>
+                <span
+                  className="cursor-pointer"
+                  onClick={() => setOpenUpload(true)}
+                >
+                  Clique aqui para fazer o upload dos seus curriculos
+                </span>
+              </div>
+            )}
           </div>
         </div>
       )}
