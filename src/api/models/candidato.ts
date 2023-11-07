@@ -1,6 +1,6 @@
 export interface CandidatoModel {
     nome?: string
-    id: string;
+    _id: string;
     idade: number
     favorito?: boolean
     curriculo: string

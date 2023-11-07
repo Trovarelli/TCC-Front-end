@@ -1,13 +1,14 @@
 "use client";
 
 import { CandidatoModel } from "@/api/models";
-import { GetAllCandidatos } from "@/api/requests";
+import { DeleteCandidato, GetAllCandidatos } from "@/api/requests";
 import { CandidatoCard, CheckBox, TextInput, UploadModal } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
 import clsx from "clsx";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Candidatos = () => {
   const [renderLoading, setRenderLoading] = useState(true);
@@ -15,14 +16,17 @@ const Candidatos = () => {
   const [tags, setTags] = useState<string[]>([]);
   const { id } = useUsertore().user;
   const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
-  const [shouldUpdate, setShouldUpdate] = useState(false);
 
-  useEffect(() => {
+  const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
       .then((res) => setCandidatos(res.data))
       .catch((err) => console.log(err.message))
       .finally(() => setRenderLoading(false));
-  }, [shouldUpdate]);
+  };
+
+  useEffect(() => {
+    handleGetAllCandidatos();
+  }, []);
 
   const handleFormatTags = () => {
     let string = "";
@@ -35,6 +39,16 @@ const Candidatos = () => {
     }
 
     return string;
+  };
+
+  const handleDelete = (candidatoId: string) => {
+    setRenderLoading(true);
+    DeleteCandidato({ candidatoId, userId: id })
+      .then(() => {
+        setCandidatos((v) => v.filter((el) => el._id !== candidatoId));
+      })
+      .catch((err) => toast.error(err.response?.data.message))
+      .finally(() => setRenderLoading(false));
   };
 
   const handleCheckBoxChange = (value: { label: string; checked: boolean }) => {
@@ -55,7 +69,7 @@ const Candidatos = () => {
               <UploadModal
                 setOpen={setOpenUpload}
                 open={openUpload}
-                updateCandidatos={setShouldUpdate}
+                handleGetAllCandidatos={handleGetAllCandidatos}
               />
               <div className="p-2 border border-black rounded-md">
                 <div className="col-span-3 text-center font-bold mb-3">
@@ -131,7 +145,11 @@ const Candidatos = () => {
             </div>
             {candidatos.length > 0 ? (
               candidatos?.map((el, idx) => (
-                <CandidatoCard candidato={el} key={idx} />
+                <CandidatoCard
+                  candidato={el}
+                  key={idx}
+                  onDelete={() => handleDelete(el._id)}
+                />
               ))
             ) : (
               <div className="flex justify-center items-center flex-col">

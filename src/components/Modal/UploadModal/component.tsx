@@ -2,9 +2,8 @@
 import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { UploadModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
-import { Checks, X } from "phosphor-react";
+import { Checks, SpinnerGap, X } from "phosphor-react";
 import { Button } from "@/components/Buttons";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useUsertore } from "@/store";
 import { CreateCandidato } from "@/api/requests";
@@ -12,10 +11,11 @@ import { CreateCandidato } from "@/api/requests";
 export const UploadModal = ({
   open,
   setOpen,
-  updateCandidatos,
+  handleGetAllCandidatos,
 }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
-  const [sucess] = useState<string[]>([]);
+  const [sucess, setSucess] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { id } = useUsertore().user;
 
@@ -28,7 +28,8 @@ export const UploadModal = ({
 
         await CreateCandidato({ userId: id, curriculum });
 
-        sucess.push(file.name);
+        setSucess((prev) => [...prev, file.name]);
+        setIsLoading((prev) => prev.filter((item) => item !== file.name));
       } catch (err: any) {
         toast.error(err.response?.data.message);
         console.log(err);
@@ -43,6 +44,7 @@ export const UploadModal = ({
 
       const currentKey = keys[0];
       if (!isNaN(Number(currentKey))) {
+        setIsLoading((prev) => [...prev, files[currentKey].name]);
         await uploadFile(files[currentKey]);
         const remainingKeys = keys.slice(1);
         await uploadSequentially(remainingKeys);
@@ -84,13 +86,35 @@ export const UploadModal = ({
     setFiles(updatedFiles);
   };
 
+  const handleGetIcon = (fileName: string, index: number) => {
+    if (sucess.includes(fileName))
+      return <Checks size={30} weight="bold" className="text-success" />;
+    if (isLoading.includes(fileName))
+      return (
+        <SpinnerGap
+          size={30}
+          weight="bold"
+          className="text-warning animate-spin"
+        />
+      );
+
+    return (
+      <button
+        className="text-red-500 focus:outline-none z-50"
+        onClick={() => handleRemoveFile(index)}
+      >
+        <X size={30} />
+      </button>
+    );
+  };
+
   const allUploaded = useMemo(() => {
     return sucess.length !== files.length;
   }, [sucess, files]);
 
   useEffect(() => {
-    updateCandidatos((prev) => !prev);
-  }, [allUploaded]);
+    if (allUploaded) handleGetAllCandidatos();
+  }, [allUploaded, files]);
 
   return (
     <>
@@ -125,16 +149,7 @@ export const UploadModal = ({
                   className="flex items-center justify-between bg-gray-200 rounded-md px-2 py-1 mb-2 z-50"
                 >
                   <span className="mr-2">{file?.name}</span>
-                  {sucess.includes(file.name) ? (
-                    <Checks size={30} weight="bold" className="text-success" />
-                  ) : (
-                    <button
-                      className="text-red-500 focus:outline-none z-50"
-                      onClick={() => handleRemoveFile(index)}
-                    >
-                      <X size={30} />
-                    </button>
-                  )}
+                  {handleGetIcon(file.name, index)}
                 </div>
               ))}
             </div>

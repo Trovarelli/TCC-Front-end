@@ -1,16 +1,12 @@
 "use client";
 import { ArrowRight, Trash } from "phosphor-react";
 import { CandidatoCardProps } from "./types";
-import { ChangeEvent, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import React from "react";
 import { PDFRenderModal } from "@/components/Modal/PDFRender";
 import { ConfirmationModal } from "@/components/Modal";
 
-export const CandidatoCard = ({
-  onDelete,
-  onEdit,
-  candidato,
-}: CandidatoCardProps) => {
+export const CandidatoCard = ({ onDelete, candidato }: CandidatoCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openPDF, setOpenPDF] = useState(false);
 
@@ -44,7 +40,7 @@ export const CandidatoCard = ({
 
   const handleDelete = () => {
     setOpenDelete(false);
-    onDelete && onDelete();
+    onDelete();
   };
 
   return (
@@ -61,12 +57,22 @@ export const CandidatoCard = ({
         setOpen={() => setOpenDelete(!openDelete)}
         onConfirm={handleDelete}
         title="Deseja excluir este candidato?"
-        description="Ao deletar este candidato todos os dados salvos serão relativos ao mesmo perdidos."
+        description="Ao deletar este candidato todos os dados salvos serão perdidos."
       />
-      <div className="my-2 grid grid-cols-12 gap-2 w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6">
+      <div className="my-2 grid grid-cols-12 gap-2 w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6 relative">
+        <div className="absolute right-2 top-2">
+          <Trash
+            onClick={() => setOpenDelete(!openDelete)}
+            size={20}
+            className="cursor-pointer text-error ml-5"
+            weight="fill"
+          />
+        </div>
         <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
           Idade
-          <span className=" text-black">{candidato.idade} anos</span>
+          <span className=" text-black">
+            {candidato.idade ? `${candidato.idade} anos` : "Não informado."}
+          </span>
         </div>
         <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
           Nome
@@ -82,12 +88,14 @@ export const CandidatoCard = ({
             </div>
           ))}
         </div>
-        <div
-          onClick={() => setOpenPDF(true)}
-          className="bg-primary flex font-bold h-fit items-center justify-center max-sm:col-span-12 text-white col-span-3 px-5 py-3 rounded-full cursor-pointer"
-        >
-          Visualizar Currículo
-          <ArrowRight size={16} weight="bold" className="ml-2" />
+        <div className="max-sm:col-span-12 text-white col-span-3 flex items-center justify-center">
+          <div
+            onClick={() => setOpenPDF(true)}
+            className="bg-primary flex font-bold h-fit items-center justify-center max-sm:w-full px-5 py-3 rounded-full cursor-pointer"
+          >
+            Visualizar Currículo
+            <ArrowRight size={16} weight="bold" className="ml-2" />
+          </div>
         </div>
       </div>
     </>

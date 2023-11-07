@@ -26,7 +26,7 @@ export const ConfirmationModal = ({
   return (
     <DefaultModal open={open} size={size} className="p-4">
       <div className="w-full text-lg font-bold">{title}</div>
-      <div className="w-full mt-3">{description}</div>
+      <div className="w-full mt-3 text-black">{description}</div>
       <div className="w-full mt-6 flex justify-end items-center">
         <div
           onClick={() => setOpen(false)}
