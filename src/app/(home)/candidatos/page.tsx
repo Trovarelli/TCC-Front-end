@@ -2,7 +2,13 @@
 
 import { CandidatoModel } from "@/api/models";
 import { DeleteCandidato, GetAllCandidatos } from "@/api/requests";
-import { CandidatoCard, CheckBox, TextInput, UploadModal } from "@/components";
+import {
+  CandidatoCard,
+  CheckBox,
+  Select,
+  TextInput,
+  UploadModal,
+} from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
@@ -87,7 +93,10 @@ const Candidatos = () => {
               <div className="col-span-3 max-sm:col-span-4 text-center font-bold">
                 Pré-definições
               </div>
-              <CheckBox
+              <div className="max-sm:col-span-2 flex justify-center items-center">
+                <Select label={"Nível Profissional"} fullWidth options={[]} />
+              </div>
+              {/* <CheckBox
                 label="Assistente"
                 className="max-sm:col-span-2"
                 setValue={handleCheckBoxChange}
@@ -131,7 +140,7 @@ const Candidatos = () => {
                 setValue={handleCheckBoxChange}
                 label="PCD"
                 className="max-sm:col-span-2"
-              />
+              /> */}
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">

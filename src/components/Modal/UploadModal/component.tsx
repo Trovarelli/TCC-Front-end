@@ -113,7 +113,7 @@ export const UploadModal = ({
   }, [sucess, files]);
 
   useEffect(() => {
-    if (allUploaded) handleGetAllCandidatos();
+    if (!allUploaded) handleGetAllCandidatos();
   }, [allUploaded, files]);
 
   return (

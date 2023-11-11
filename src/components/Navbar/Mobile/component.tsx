@@ -102,7 +102,7 @@ export default function MobileNav() {
             )}
           >
             <div className="container flex flex-col justify-center font-bold mx-auto mt-5 p-10">
-              <div className="absolute w-full inset-0 flex justify-center">
+              <div className="absolute w-full inset-0 flex justify-center z-0">
                 <div
                   style={{
                     backgroundImage: user.foto
@@ -145,7 +145,7 @@ export default function MobileNav() {
               </div>
 
               <div
-                className={clsx("transition-all grid grid-rows-4 gap-5", {
+                className={clsx("transition-all grid grid-rows-4 gap-5 z-40", {
                   hidden: hasToken,
                 })}
               >
@@ -216,7 +216,7 @@ export default function MobileNav() {
                 </LinkScroll>
               </div>
             </div>
-            <div className="flex items-center justify-center mb-32 w-full">
+            <div className="flex items-center justify-center mb-36 w-full">
               {loading ? (
                 <Spinner color="primary" />
               ) : hasToken ? (
