@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import "./global.css";
 import { Footer } from "@/components";
 import { Metadata } from "next";
-import ToastProvider from "@/components/ToastProvider/component";
+import ClientsComponentsProvider from "@/components/ToastProvider/component";
 
 export const metadata: Metadata = {
   title: {
@@ -15,7 +15,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ptBr">
       <body>
-        <ToastProvider />
+        <ClientsComponentsProvider />
         <main className="min-h-screen">{children}</main>
         <Footer />
       </body>

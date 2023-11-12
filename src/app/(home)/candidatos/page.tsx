@@ -13,7 +13,7 @@ import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Candidatos = () => {
@@ -57,9 +57,10 @@ const Candidatos = () => {
       .finally(() => setRenderLoading(false));
   };
 
-  const handleCheckBoxChange = (value: { label: string; checked: boolean }) => {
-    if (value.checked) setTags((v) => [...v, value.label]);
-    else setTags((v) => v.filter((tg) => tg !== value.label));
+  const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value && value !== "0") setTags((v) => [...v, value]);
+    else setTags((v) => v.filter((tg) => tg !== value));
   };
 
   return (
@@ -89,58 +90,106 @@ const Candidatos = () => {
                 />
               </div>
             </div>
-            <div className="px-3 grid grid-cols-3 max-sm:grid-cols-4 gap-3 max-sm:col-span-2">
-              <div className="col-span-3 max-sm:col-span-4 text-center font-bold">
+            <div className="px-3 grid grid-cols-12 gap-3 max-sm:col-span-2">
+              <div className="col-span-12 text-center font-bold">
                 Pré-definições
               </div>
-              <div className="max-sm:col-span-2 flex justify-center items-center">
-                <Select label={"Nível Profissional"} fullWidth options={[]} />
+              <div className="col-span-6 flex justify-center items-center">
+                <Select
+                  label={"Nível"}
+                  fullWidth
+                  onChange={handleSelect}
+                  options={[
+                    {
+                      key: "Estágio",
+                      value: "nivel:estagio",
+                    },
+                    {
+                      key: "Assistente",
+                      value: "nivel:assistente",
+                    },
+                    {
+                      key: "Júnior",
+                      value: "nivel:junior",
+                    },
+                    {
+                      key: "Pleno",
+                      value: "nivel:pleno",
+                    },
+                    {
+                      key: "Senior",
+                      value: "nivel:senior",
+                    },
+                  ]}
+                />
               </div>
-              {/* <CheckBox
-                label="Assistente"
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-              />
-              <CheckBox
-                setValue={handleCheckBoxChange}
-                label="Júnior"
-                className="max-sm:col-span-2"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="Pleno"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="Senior"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="Estágio"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="Homem"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="Mulher"
-              />
-              <CheckBox
-                className="max-sm:col-span-2"
-                setValue={handleCheckBoxChange}
-                label="LGBT+"
-              />
-              <CheckBox
-                setValue={handleCheckBoxChange}
-                label="PCD"
-                className="max-sm:col-span-2"
-              /> */}
+              <div className="col-span-6 flex justify-center items-center">
+                <Select
+                  label={"Genero"}
+                  fullWidth
+                  onChange={handleSelect}
+                  options={[
+                    {
+                      key: "Masculiuno",
+                      value: "genero:masculino",
+                    },
+                    {
+                      key: "Feminino",
+                      value: "genero:feminino",
+                    },
+                    {
+                      key: "Outro",
+                      value: "genero:outro",
+                    },
+                  ]}
+                />
+              </div>
+              <div className="col-span-6 flex justify-center items-center">
+                <Select
+                  label={"PCD"}
+                  fullWidth
+                  onChange={handleSelect}
+                  options={[
+                    {
+                      key: "Sim",
+                      value: "pcd:sim",
+                    },
+                    {
+                      key: "Não",
+                      value: "pcd:nao",
+                    },
+                  ]}
+                />
+              </div>
+              <div className="col-span-6 flex justify-center items-center">
+                <Select
+                  label={"Idade"}
+                  fullWidth
+                  onChange={handleSelect}
+                  options={[
+                    {
+                      key: "de 14 a 18 anos",
+                      value: "idade:14-18",
+                    },
+                    {
+                      key: "19 a 25 anos",
+                      value: "idade:18-25",
+                    },
+                    {
+                      key: "26 a 35 anos",
+                      value: "idade:26-35",
+                    },
+                    {
+                      key: "36 a 45 anos",
+                      value: "idade:36-45",
+                    },
+                    {
+                      key: "mais de 45 anos",
+                      value: "idade:>45",
+                    },
+                  ]}
+                />
+              </div>
             </div>
           </div>
           <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">

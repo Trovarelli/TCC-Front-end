@@ -1,7 +1,15 @@
 "use client";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NextNProgress from "nextjs-progressbar";
 
-const ToastProvider = () => <ToastContainer />;
+const ClientsComponentsProvider = () => {
+  return (
+    <>
+      <NextNProgress color="#5344FF" />
+      <ToastContainer />
+    </>
+  );
+};
 
-export default ToastProvider;
+export default ClientsComponentsProvider;
