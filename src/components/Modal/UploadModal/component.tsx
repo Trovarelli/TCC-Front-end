@@ -29,10 +29,11 @@ export const UploadModal = ({
         await CreateCandidato({ userId: id, curriculum });
 
         setSucess((prev) => [...prev, file.name]);
-        setIsLoading((prev) => prev.filter((item) => item !== file.name));
       } catch (err: any) {
         toast.error(err.response?.data.message);
-        console.log(err);
+        console.log(err.response?.data.message);
+      } finally {
+        setIsLoading((prev) => prev.filter((el) => el !== file.name));
       }
     };
 
@@ -54,7 +55,9 @@ export const UploadModal = ({
       }
     };
 
-    const fileKeys = Object.keys(files);
+    const fileKeys = Object.keys(files).filter(
+      (key) => !sucess.includes(key) || !isLoading.includes(key)
+    );
     await uploadSequentially(fileKeys);
   };
 
@@ -106,6 +109,13 @@ export const UploadModal = ({
         <X size={30} />
       </button>
     );
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setFiles([]);
+    setSucess([]);
+    setIsLoading([]);
   };
 
   const allUploaded = useMemo(() => {
@@ -160,13 +170,13 @@ export const UploadModal = ({
             <Button
               btnName={"Cancelar"}
               className="mr-2"
-              onClick={() => setOpen(false)}
+              onClick={() => handleClose()}
               loading={loading}
             />
           )}
           <Button
             btnName={"Ok"}
-            onClick={() => (allUploaded ? handleUpload() : setOpen(false))}
+            onClick={() => (allUploaded ? handleUpload() : handleClose())}
             loading={loading}
           />
         </div>

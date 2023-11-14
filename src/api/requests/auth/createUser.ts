@@ -27,6 +27,6 @@ export const CreateUser = async ({nome, email, senha, confirmSenha, empresa}: Cr
     )
       .then((res) => res)
       .catch((err) => {
-        throw new Error(err)
+        throw err
       })
   };

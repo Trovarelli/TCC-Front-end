@@ -18,6 +18,6 @@ export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParam
       })
       .then((res) => res)
       .catch((err) => {
-        throw new Error(err)
+        throw err
       })
   };

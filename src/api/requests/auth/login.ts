@@ -19,5 +19,7 @@ export const MakeLogin = async ({email, password}: UserLogin): Promise<AxiosResp
             "Access-Control-Allow-Origin": "*",
           },
         }
-      )
+      ).catch((err) => {
+        throw err
+      })
 }

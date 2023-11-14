@@ -210,9 +210,6 @@ const Login = () => {
             loading={loading}
             disabled={loading}
           />
-          <div className="text-primary text-sm text-center cursor-pointer">
-            Ainda não possui conta? Cadastre-se aqui!
-          </div>
         </form>
       </div>
     </div>
