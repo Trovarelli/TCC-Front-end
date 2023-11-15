@@ -1,10 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
-export const GetCurriculo = async ({userId, candidatoId}: {userId: string; candidatoId: string}): Promise<AxiosResponse<{curriculo: string}, undefined>> => { 
+export const FavoriteCandidato = async ({userId, candidatoId, favorito}: {userId: string; candidatoId: string; favorito: boolean}): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .get(`http://localhost:3001/candidate/curriculum/${userId}/${candidatoId}`, {
+      .post(`http://localhost:3001/candidate/favorite/${userId}/${candidatoId}`, 
+      {
+        favorito,
+      },
+      {
         headers: {
           "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,

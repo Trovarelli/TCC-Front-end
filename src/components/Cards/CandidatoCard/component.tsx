@@ -6,7 +6,11 @@ import React from "react";
 import { CandidatoModal } from "@/components/Modal/CandidatoModal";
 import { ConfirmationModal } from "@/components/Modal";
 
-export const CandidatoCard = ({ onDelete, candidato }: CandidatoCardProps) => {
+export const CandidatoCard = ({
+  onDelete,
+  candidato,
+  onFavoriteClientCandidato,
+}: CandidatoCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openPDF, setOpenPDF] = useState(false);
 
@@ -48,8 +52,8 @@ export const CandidatoCard = ({ onDelete, candidato }: CandidatoCardProps) => {
       <CandidatoModal
         candidato={candidato}
         setOpen={setOpenPDF}
-        title={candidato.nome ?? ""}
         open={openPDF}
+        onFavoriteClientCandidato={onFavoriteClientCandidato}
       />
       <ConfirmationModal
         type="delete"

@@ -53,15 +53,6 @@ export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
               Meu Perfil
             </Link>
           </li>
-          {/* <li>
-            <a
-              href="#"
-              className="flex items-center px-4 py-2 bg-background hover:bg-[#c8c5e9] cursor-pointer"
-            >
-              <Gear size={17} weight="bold" className="mr-2" />
-              Configurações
-            </a>
-          </li> */}
           <li>
             <div
               onClick={logout}

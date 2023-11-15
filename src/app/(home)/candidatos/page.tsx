@@ -5,6 +5,7 @@ import { DeleteCandidato, GetAllCandidatos } from "@/api/requests";
 import {
   CandidatoCard,
   CheckBox,
+  Dropdown,
   Select,
   TextInput,
   UploadModal,
@@ -13,6 +14,7 @@ import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
 import clsx from "clsx";
+import { Funnel } from "phosphor-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -22,7 +24,11 @@ const Candidatos = () => {
   const [tags, setTags] = useState<string[]>([]);
   const { id } = useUsertore().user;
   const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
+  const [filteredCandidatos, setFilteredCandidatos] = useState<
+    CandidatoModel[]
+  >([]);
   const [localLoading, setLocalLoading] = useState(false);
+  const [onlyFavorites, setOnlyFavorites] = useState(false);
 
   const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
@@ -35,6 +41,15 @@ const Candidatos = () => {
     handleGetAllCandidatos();
   }, []);
 
+  useEffect(() => {
+    setFilteredCandidatos(() =>
+      candidatos.filter((el) => {
+        if (onlyFavorites) return el.favorito === true;
+        else return true;
+      })
+    );
+  }, [onlyFavorites, candidatos]);
+
   const handleFormatTags = () => {
     let string = "";
     for (let i = 0; i < tags.length; i++) {
@@ -46,6 +61,13 @@ const Candidatos = () => {
     }
 
     return string;
+  };
+
+  const handleFavoriteClientCandidato = (id: string, favorite: boolean) => {
+    candidatos.map((el) => {
+      if (el._id === id) el.favorito = favorite;
+      return el;
+    });
   };
 
   const handleDelete = (candidatoId: string) => {
@@ -199,18 +221,29 @@ const Candidatos = () => {
                 "w-full bg-white rounded-md p-3 mt-5 text-primary 2xl:max-h-[650px] max-h-[400px] overflow-y-scroll"
               }
             >
-              <div
-                className={clsx("transition-all duration-100", {
-                  "opacity-0": tags.length == 0,
-                })}
-              >
-                Aqui, uma busca de candidatos que possuem
-                <strong>{handleFormatTags()}</strong> em seu currículo.
+              <div className="grid grid-cols-12">
+                <div
+                  className={clsx("col-span-10 transition-all duration-100", {
+                    "opacity-0": tags.length == 0,
+                  })}
+                >
+                  Aqui, uma busca de candidatos que possuem
+                  <strong>{handleFormatTags()}</strong> em seu currículo.
+                </div>
+                <div className="col-span-2">
+                  <div className="flex justify-end items-center w-full">
+                    <CheckBox
+                      label={"Somente favoritos"}
+                      checked={onlyFavorites}
+                      setValue={(value) => setOnlyFavorites((prev) => !prev)}
+                    />
+                  </div>
+                </div>
               </div>
-
-              {candidatos.length > 0 ? (
-                candidatos?.map((el, idx) => (
+              {filteredCandidatos.length > 0 ? (
+                filteredCandidatos?.map((el, idx) => (
                   <CandidatoCard
+                    onFavoriteClientCandidato={handleFavoriteClientCandidato}
                     candidato={el}
                     key={idx}
                     onDelete={() => handleDelete(el._id)}

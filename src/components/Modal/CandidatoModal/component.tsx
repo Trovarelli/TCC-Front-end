@@ -2,21 +2,23 @@
 import { PDFRenderModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
 import { Heart, X } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/Buttons";
 import { useUsertore } from "@/store";
-import { GetCurriculo } from "@/api/requests";
+import { FavoriteCandidato, GetCurriculo } from "@/api/requests";
 import { toast } from "react-toastify";
+import clsx from "clsx";
 
 export const CandidatoModal = ({
   candidato,
   open,
-  title,
   setOpen,
+  onFavoriteClientCandidato,
 }: PDFRenderModalProps) => {
-  const [favorite, setFavorite] = useState(candidato.favorito);
+  const [favorite, setFavorite] = useState(candidato.favorito || false);
   const { empresa, id } = useUsertore().user;
   const [loading, setLoading] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
 
   const downloadPDF = (base64String: string) => {
     const downloadLink = document.createElement("a");
@@ -33,6 +35,19 @@ export const CandidatoModal = ({
         toast.error("Erro ao baixar curriculo");
       })
       .finally(() => setLoading(false));
+  };
+
+  const handleFavoriteCandidato = async (v: boolean) => {
+    setFavoriteLoading(true);
+    FavoriteCandidato({ userId: id, candidatoId: candidato._id, favorito: v })
+      .then(() => {
+        onFavoriteClientCandidato(candidato._id, v);
+        setFavorite(v);
+      })
+      .catch(() => {
+        toast.error("Erro ao favoritar candidato, tente novamente mais tarde");
+      })
+      .finally(() => setFavoriteLoading(false));
   };
 
   return (
@@ -55,12 +70,17 @@ export const CandidatoModal = ({
               {candidato.nome}
               <Heart
                 weight={favorite ? "fill" : "bold"}
-                className="text-primary cursor-pointer text-[1.6rem] max-md:text-[1.8rem]"
-                onClick={() => setFavorite((prev) => !prev)}
+                className={clsx(
+                  "text-primary cursor-pointer text-[1.6rem] max-md:text-[1.8rem]",
+                  {
+                    "animate-pulse pointer-events-none": favoriteLoading,
+                  }
+                )}
+                onClick={() => handleFavoriteCandidato(!favorite)}
               />
             </div>
-            <span>- {candidato.idade ? candidato.idade + " anos" : ""}</span>
-            <span>{candidato.profissao ? candidato.profissao : ""}</span>
+            <div>- {candidato.idade ? candidato.idade + " anos" : ""}</div>
+            <div>{candidato.profissao ? "- " + candidato.profissao : ""}</div>
           </div>
           <div className="col-span-3 max-md:col-span-12 flex justify-end items-center">
             <Button
@@ -71,7 +91,7 @@ export const CandidatoModal = ({
             ></Button>
           </div>
         </div>
-        <div className="grid grid-cols-12 gap-4 relative">
+        <div className="grid grid-cols-12 gap-4 relative pb-4">
           <div className="col-span-7 max-md:col-span-12 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               <div className="ml-3 font-bold text-primary">Escolaridade</div>
