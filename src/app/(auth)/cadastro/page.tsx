@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
-import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
 import { getUserIdByToken } from "@/utils";
 import { useUsertore } from "@/store";

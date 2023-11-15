@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useEffect, useMemo, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import { UploadModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
 import { Checks, SpinnerGap, X } from "phosphor-react";
@@ -11,7 +11,7 @@ import { CreateCandidato } from "@/api/requests";
 export const UploadModal = ({
   open,
   setOpen,
-  handleGetAllCandidatos,
+  setCandidatos,
 }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [sucess, setSucess] = useState<string[]>([]);
@@ -26,7 +26,12 @@ export const UploadModal = ({
       try {
         const curriculum = await handleBase64Convert(file);
 
-        await CreateCandidato({ userId: id, curriculum });
+        const candidato = await CreateCandidato({
+          userId: id,
+          curriculum,
+        }).then((res) => res.data);
+
+        if (candidato) setCandidatos((v) => [candidato, ...v]);
 
         setSucess((prev) => [...prev, file.name]);
       } catch (err: any) {
@@ -122,10 +127,6 @@ export const UploadModal = ({
     return sucess.length !== files.length;
   }, [sucess, files]);
 
-  useEffect(() => {
-    if (!allUploaded) handleGetAllCandidatos();
-  }, [allUploaded, files]);
-
   return (
     <>
       <Button
@@ -175,7 +176,7 @@ export const UploadModal = ({
             />
           )}
           <Button
-            btnName={"Ok"}
+            btnName={allUploaded ? "Upload" : "Fechar"}
             onClick={() => (allUploaded ? handleUpload() : handleClose())}
             loading={loading}
           />

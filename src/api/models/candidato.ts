@@ -2,9 +2,13 @@ export interface CandidatoModel {
     nome?: string
     _id: string;
     idade: number
+    email: string;
+    profissao?: string
     favorito?: boolean
     curriculo: string
     telefone?: string[]
+    competencias?: string[]
+    escolaridade?: string[]
     genero?: 'M' | 'F'
     experiencia?: string[]
     pcd?: boolean

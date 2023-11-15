@@ -1,9 +1,10 @@
+import { CandidatoModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
 type CreateCandidatoParams = {userId: string; curriculum: string}
 
-export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParams): Promise<AxiosResponse<undefined, undefined>> => { 
+export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParams): Promise<AxiosResponse<CandidatoModel, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
       .post(`http://localhost:3001/candidate/${userId}`, 

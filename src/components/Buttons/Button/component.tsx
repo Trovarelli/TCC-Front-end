@@ -27,7 +27,7 @@ export function Button({
           "px-4": size === "md",
         },
         {
-          "px-0": size === "sm",
+          "!px-0": size === "sm",
         },
         {
           "px-10": size === "lg",

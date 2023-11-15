@@ -9,6 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
+import { GetAllCandidatos } from "@/api/requests";
 
 const Dashboard = () => {
   const [renderLoading, setRenderLoading] = useState(true);
@@ -21,19 +22,15 @@ const Dashboard = () => {
     formattedMinutes: string;
     amOrPm: string;
   } | null>(null);
+  const [candidatos, setCandidatos] = useState<number>(0);
+  const { nome, id } = useUsertore().user;
 
-  const { nome } = useUsertore().user;
-
-  useEffect(() => {
-    setTimeout(() => {
-      setRenderLoading(false);
-    }, 1000);
-    handleGetDate();
-    setInterval(() => {
-      handleGetDate();
-    }, 10000);
-  }, []);
-
+  const handleGetAllCandidatos = () => {
+    GetAllCandidatos({ userId: id })
+      .then((res) => setCandidatos(res.data.length))
+      .catch((err) => console.log(err.message))
+      .finally(() => setRenderLoading(false));
+  };
   const handleGetDate = () => {
     const date = new Date();
     const weekdays = [
@@ -80,6 +77,11 @@ const Dashboard = () => {
     });
   };
 
+  useEffect(() => {
+    handleGetAllCandidatos();
+    handleGetDate();
+  }, []);
+
   return (
     <div className="bg-background p-4 min-h-screen flex justify-center">
       {renderLoading ? (
@@ -97,7 +99,7 @@ const Dashboard = () => {
               className="bg-white rounded-md p-4 flex justify-center items-center flex-col"
             >
               <UserList size={40} weight="fill" />
-              <span className="text-black font-bold">131</span>
+              <span className="text-black font-bold">{candidatos}</span>
               Candidatos
             </Link>
             <Link

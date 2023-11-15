@@ -3,7 +3,7 @@ import { ArrowRight, Trash } from "phosphor-react";
 import { CandidatoCardProps } from "./types";
 import { useMemo, useState } from "react";
 import React from "react";
-import { PDFRenderModal } from "@/components/Modal/PDFRender";
+import { CandidatoModal } from "@/components/Modal/CandidatoModal";
 import { ConfirmationModal } from "@/components/Modal";
 
 export const CandidatoCard = ({ onDelete, candidato }: CandidatoCardProps) => {
@@ -45,8 +45,8 @@ export const CandidatoCard = ({ onDelete, candidato }: CandidatoCardProps) => {
 
   return (
     <>
-      <PDFRenderModal
-        base64={candidato.curriculo}
+      <CandidatoModal
+        candidato={candidato}
         setOpen={setOpenPDF}
         title={candidato.nome ?? ""}
         open={openPDF}

@@ -22,6 +22,7 @@ const Candidatos = () => {
   const [tags, setTags] = useState<string[]>([]);
   const { id } = useUsertore().user;
   const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
+  const [localLoading, setLocalLoading] = useState(false);
 
   const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
@@ -48,13 +49,13 @@ const Candidatos = () => {
   };
 
   const handleDelete = (candidatoId: string) => {
-    setRenderLoading(true);
+    setLocalLoading(true);
     DeleteCandidato({ candidatoId, userId: id })
       .then(() => {
         setCandidatos((v) => v.filter((el) => el._id !== candidatoId));
       })
       .catch((err) => toast.error(err.response?.data.message))
-      .finally(() => setRenderLoading(false));
+      .finally(() => setLocalLoading(false));
   };
 
   const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +77,7 @@ const Candidatos = () => {
               <UploadModal
                 setOpen={setOpenUpload}
                 open={openUpload}
-                handleGetAllCandidatos={handleGetAllCandidatos}
+                setCandidatos={setCandidatos}
               />
               <div className="p-2 border border-black rounded-md">
                 <div className="col-span-3 text-center font-bold mb-3">
@@ -192,33 +193,45 @@ const Candidatos = () => {
               </div>
             </div>
           </div>
-          <div className="w-full bg-white rounded-md p-3 mt-5 text-primary">
+          <div className="relative">
             <div
-              className={clsx("transition-all duration-100", {
-                "opacity-0": tags.length == 0,
-              })}
+              className={
+                "w-full bg-white rounded-md p-3 mt-5 text-primary 2xl:max-h-[650px] max-h-[400px] overflow-y-scroll"
+              }
             >
-              Aqui, uma busca de candidatos que possuem
-              <strong>{handleFormatTags()}</strong> em seu currículo.
+              <div
+                className={clsx("transition-all duration-100", {
+                  "opacity-0": tags.length == 0,
+                })}
+              >
+                Aqui, uma busca de candidatos que possuem
+                <strong>{handleFormatTags()}</strong> em seu currículo.
+              </div>
+
+              {candidatos.length > 0 ? (
+                candidatos?.map((el, idx) => (
+                  <CandidatoCard
+                    candidato={el}
+                    key={idx}
+                    onDelete={() => handleDelete(el._id)}
+                  />
+                ))
+              ) : (
+                <div className="flex justify-center items-center flex-col">
+                  Não foram encontrados candidatos salvos.
+                  <img src="/img/not-found.jpg" width={300} height={300}></img>
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => setOpenUpload(true)}
+                  >
+                    Clique aqui para fazer o upload dos seus curriculos
+                  </span>
+                </div>
+              )}
             </div>
-            {candidatos.length > 0 ? (
-              candidatos?.map((el, idx) => (
-                <CandidatoCard
-                  candidato={el}
-                  key={idx}
-                  onDelete={() => handleDelete(el._id)}
-                />
-              ))
-            ) : (
-              <div className="flex justify-center items-center flex-col">
-                Não foram encontrados candidatos salvos.
-                <img src="/img/not-found.jpg" width={300} height={300}></img>
-                <span
-                  className="cursor-pointer"
-                  onClick={() => setOpenUpload(true)}
-                >
-                  Clique aqui para fazer o upload dos seus curriculos
-                </span>
+            {localLoading && (
+              <div className="absolute inset-0 flex justify-center items-center z-50 bg-white bg-opacity-40">
+                <Spinner color="primary" size="md" />
               </div>
             )}
           </div>

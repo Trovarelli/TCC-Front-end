@@ -1,5 +1,5 @@
 export * from './ConfirmationModal'
 export * from './DefaultModal'
 export * from './VagaFormModal'
-export * from './PDFRender'
+export * from './CandidatoModal'
 export * from './UploadModal'
