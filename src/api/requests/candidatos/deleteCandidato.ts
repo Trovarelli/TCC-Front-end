@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
+import router from "next/router";
 
 type DeleteCandidatoParams = {userId: string; candidatoId: string}
 
@@ -17,6 +18,10 @@ export const DeleteCandidato = async ({userId, candidatoId}: DeleteCandidatoPara
       })
       .then((res) => res)
       .catch((err) => {
+        if(err.response.status === 401) {
+          Cookies.remove("token");
+          router.push("/");
+        }
         throw new Error(err)
       })
   };

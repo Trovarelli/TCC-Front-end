@@ -1,5 +1,6 @@
 import { verifyAuth } from '@/middleware/auth'
 import Cookies from 'js-cookie'
+import router from 'next/router'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
@@ -8,6 +9,7 @@ export async function middleware(req: NextRequest) {
 
   const verifiedToken = token && (await verifyAuth(token).catch((err) => {
       Cookies.remove('token')
+      router.push("/");
       return
   }))
 

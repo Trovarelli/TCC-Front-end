@@ -93,33 +93,39 @@ export const CandidatoModal = ({
         </div>
         <div className="grid grid-cols-12 gap-4 relative pb-4">
           <div className="col-span-7 max-md:col-span-12 flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <div className="ml-3 font-bold text-primary">Escolaridade</div>
-              <div className="border-t border-gray-400 w-full"></div>
-              <div className="text-black">
-                {candidato.escolaridade?.map((el) => (
-                  <p>- {el}</p>
-                ))}
+            {candidato.escolaridade && candidato.escolaridade.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <div className="ml-3 font-bold text-primary">Escolaridade</div>
+                <div className="border-t border-gray-400 w-full"></div>
+                <div className="text-black">
+                  {candidato.escolaridade?.map((el) => (
+                    <p>- {el}</p>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="ml-3 font-bold text-primary">Experiências</div>
-              <div className="border-t border-gray-400 w-full"></div>
-              <div className="text-black">
-                {candidato.experiencia?.map((el) => (
-                  <p>- {el}</p>
-                ))}
+            )}
+            {candidato.experiencia && candidato.experiencia.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <div className="ml-3 font-bold text-primary">Experiências</div>
+                <div className="border-t border-gray-400 w-full"></div>
+                <div className="text-black">
+                  {candidato.experiencia?.map((el) => (
+                    <p>- {el}</p>
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="ml-3 font-bold text-primary">Competencias</div>
-              <div className="border-t border-gray-400 w-full"></div>
-              <div className="text-black grid grid-cols-4">
-                {candidato.competencias?.map((el) => (
-                  <div className="col-span-2 max-sm:col-span-4">- {el}</div>
-                ))}
+            )}
+            {candidato.competencias && candidato.competencias.length > 0 && (
+              <div className="flex flex-col gap-2">
+                <div className="ml-3 font-bold text-primary">Competencias</div>
+                <div className="border-t border-gray-400 w-full"></div>
+                <div className="text-black grid grid-cols-4">
+                  {candidato.competencias?.map((el) => (
+                    <div className="col-span-2 max-sm:col-span-4">- {el}</div>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
           <div className="border-l border-gray-400 absolute h-full right-[41.5%] z-50 max-md:hidden"></div>
 
@@ -131,23 +137,43 @@ export const CandidatoModal = ({
                 {candidato.nivelProfissional}
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <div className="ml-3 font-bold text-primary">Contato</div>
-              <div className="border-t border-gray-400 w-full"></div>
+            {((candidato?.telefone && candidato.telefone.length > 0) ||
+              candidato.email) && (
               <div className="flex flex-col gap-2">
-                <a
-                  href={`mailto:${candidato.email}?&subject=Contato ${empresa}`}
-                >
-                  - {candidato?.email}
-                </a>
-                <div className="text-black grid grid-cols-4">
-                  {candidato?.telefone &&
-                    candidato.telefone.map((el) => (
+                <div className="ml-3 font-bold text-primary">Contato</div>
+                <div className="border-t border-gray-400 w-full"></div>
+                <div className="flex flex-col gap-2">
+                  <a
+                    href={`mailto:${candidato.email}?&subject=Contato ${empresa}`}
+                  >
+                    - {candidato?.email}
+                  </a>
+                  <div className="text-black grid grid-cols-4">
+                    {candidato?.telefone?.map((el) => (
                       <div className="col-span-2 max-sm:col-span-4">- {el}</div>
                     ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
+            {candidato?.caracteristicas &&
+              candidato.caracteristicas.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  <div className="ml-3 font-bold text-primary">
+                    Características
+                  </div>
+                  <div className="border-t border-gray-400 w-full"></div>
+                  <div className="flex flex-col gap-2">
+                    <div className="text-black grid grid-cols-4">
+                      {candidato.caracteristicas.map((el) => (
+                        <div className="col-span-2 max-sm:col-span-4">
+                          - {el}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
           </div>
         </div>
       </div>

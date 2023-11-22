@@ -9,9 +9,11 @@ export interface CandidatoModel {
     telefone?: string[]
     competencias?: string[]
     escolaridade?: string[]
+    caracteristicas?: string[]
     genero?: 'M' | 'F'
     experiencia?: string[]
     pcd?: boolean
     lgbtq?: boolean
     nivelProfissional?: 'estagiario' | 'junior' | 'pleno' | 'senior'
+    filterField: string[]
 }

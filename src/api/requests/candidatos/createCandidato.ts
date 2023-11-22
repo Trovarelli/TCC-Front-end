@@ -1,6 +1,8 @@
 import { CandidatoModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
+import { createFilterField } from "./utils";
+import router from "next/router";
 
 type CreateCandidatoParams = {userId: string; curriculum: string}
 
@@ -17,8 +19,12 @@ export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParam
           authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => res)
+      .then((res) => createFilterField(res))
       .catch((err) => {
+        if(err.response.status === 401) {
+          Cookies.remove("token");
+          router.push("/");
+        }
         throw err
       })
   };

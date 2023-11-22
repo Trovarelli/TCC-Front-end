@@ -5,16 +5,13 @@ import { DeleteCandidato, GetAllCandidatos } from "@/api/requests";
 import {
   CandidatoCard,
   CheckBox,
-  Dropdown,
-  Select,
-  TextInput,
+  DefaultModal,
   UploadModal,
 } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
 import clsx from "clsx";
-import { Funnel } from "phosphor-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -29,6 +26,7 @@ const Candidatos = () => {
   >([]);
   const [localLoading, setLocalLoading] = useState(false);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
+  const [infoModal, setInfoModal] = useState(false);
 
   const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
@@ -86,6 +84,40 @@ const Candidatos = () => {
     else setTags((v) => v.filter((tg) => tg !== value));
   };
 
+  const handleSanitizeTags = (tags: string[]) => {
+    return tags.map((tg) => tg.toLowerCase());
+  };
+
+  useEffect(() => {
+    if (tags.length > 0) {
+      const precisionTags = handleSanitizeTags(
+        tags.filter((el) => el.includes(":"))
+      );
+      const normalTags = handleSanitizeTags(
+        tags.filter((el) => !el.includes(":"))
+      );
+
+      console.log(precisionTags, normalTags);
+      setFilteredCandidatos((v) => {
+        return v.filter((el) => {
+          return (
+            el.filterField.some((filter) => precisionTags.includes(filter)) ||
+            el.filterField.some((filter) =>
+              normalTags.includes(filter.split(":")[1])
+            )
+          );
+        });
+      });
+    } else {
+      setFilteredCandidatos(() =>
+        candidatos.filter((el) => {
+          if (onlyFavorites) return el.favorito === true;
+          else return true;
+        })
+      );
+    }
+  }, [tags]);
+
   return (
     <div className="bg-background p-4 min-h-screen">
       {renderLoading ? (
@@ -113,105 +145,47 @@ const Candidatos = () => {
                 />
               </div>
             </div>
-            <div className="px-3 grid grid-cols-12 gap-3 max-sm:col-span-2">
-              <div className="col-span-12 text-center font-bold">
-                Pré-definições
-              </div>
-              <div className="col-span-6 flex justify-center items-center">
-                <Select
-                  label={"Nível"}
-                  fullWidth
-                  onChange={handleSelect}
-                  options={[
-                    {
-                      key: "Estágio",
-                      value: "nivel:estagio",
-                    },
-                    {
-                      key: "Assistente",
-                      value: "nivel:assistente",
-                    },
-                    {
-                      key: "Júnior",
-                      value: "nivel:junior",
-                    },
-                    {
-                      key: "Pleno",
-                      value: "nivel:pleno",
-                    },
-                    {
-                      key: "Senior",
-                      value: "nivel:senior",
-                    },
-                  ]}
-                />
-              </div>
-              <div className="col-span-6 flex justify-center items-center">
-                <Select
-                  label={"Genero"}
-                  fullWidth
-                  onChange={handleSelect}
-                  options={[
-                    {
-                      key: "Masculiuno",
-                      value: "genero:masculino",
-                    },
-                    {
-                      key: "Feminino",
-                      value: "genero:feminino",
-                    },
-                    {
-                      key: "Outro",
-                      value: "genero:outro",
-                    },
-                  ]}
-                />
-              </div>
-              <div className="col-span-6 flex justify-center items-center">
-                <Select
-                  label={"PCD"}
-                  fullWidth
-                  onChange={handleSelect}
-                  options={[
-                    {
-                      key: "Sim",
-                      value: "pcd:sim",
-                    },
-                    {
-                      key: "Não",
-                      value: "pcd:nao",
-                    },
-                  ]}
-                />
-              </div>
-              <div className="col-span-6 flex justify-center items-center">
-                <Select
-                  label={"Idade"}
-                  fullWidth
-                  onChange={handleSelect}
-                  options={[
-                    {
-                      key: "de 14 a 18 anos",
-                      value: "idade:14-18",
-                    },
-                    {
-                      key: "19 a 25 anos",
-                      value: "idade:18-25",
-                    },
-                    {
-                      key: "26 a 35 anos",
-                      value: "idade:26-35",
-                    },
-                    {
-                      key: "36 a 45 anos",
-                      value: "idade:36-45",
-                    },
-                    {
-                      key: "mais de 45 anos",
-                      value: "idade:>45",
-                    },
-                  ]}
-                />
+            <div className="px-3 flex flex-col items-center gap-3">
+              <div className="text-center font-bold">Pré-definições</div>
+              <div className="text-justify">
+                Nossa busca avançada permite que você filtre candidatos por meio
+                de tags, basta digitar a característica que deseja filtrar para
+                que os candidatos com tal característica sejam exibidos.
+                <br></br>
+                Caso queira filtrar com mais precisão, para mais informações{" "}
+                <span
+                  className="text-primary cursor-pointer"
+                  onClick={() => setInfoModal((prev) => !prev)}
+                >
+                  clique aqui.
+                </span>
+                <DefaultModal open={infoModal}>
+                  <div className="flex flex-col">
+                    <div
+                      className="w-full cursor-pointer text-primary flex justify-end pr-3"
+                      onClick={() => setInfoModal(false)}
+                    >
+                      X
+                    </div>
+                    <div className="flex flex-col px-3 pb-3">
+                      <div>
+                        Para mais precisão em seu filtro basta inserir uma chave
+                        antes do parametro utilizado pelo filtro, por exemplo:
+                        <strong>nome:jose</strong>. Aqui estão algumas das
+                        chaves que poderão ser usadas para tornar sua busca mais
+                        precisa:
+                      </div>
+                      <ul className="font-bold ml-3">
+                        <li>nome</li>
+                        <li>nivelProfissional</li>
+                        <li>idade</li>
+                        <li>caracteristicas</li>
+                        <li>escolaridade</li>
+                        <li>experiencia</li>
+                      </ul>
+                    </div>
+                  </div>
+                </DefaultModal>
               </div>
             </div>
           </div>
@@ -223,14 +197,17 @@ const Candidatos = () => {
             >
               <div className="grid grid-cols-12">
                 <div
-                  className={clsx("col-span-10 transition-all duration-100", {
-                    "opacity-0": tags.length == 0,
-                  })}
+                  className={clsx(
+                    "col-span-10 max-md:col-span-12 transition-all duration-100",
+                    {
+                      "opacity-0": tags.length == 0,
+                    }
+                  )}
                 >
                   Aqui, uma busca de candidatos que possuem
                   <strong>{handleFormatTags()}</strong> em seu currículo.
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-2 max-md:col-span-12">
                   <div className="flex justify-end items-center w-full">
                     <CheckBox
                       label={"Somente favoritos"}

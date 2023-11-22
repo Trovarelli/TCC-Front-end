@@ -1,6 +1,7 @@
 import { UserModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios"
 import Cookies from "js-cookie";
+import router from "next/router";
 
 type UpdateUserParams = {
     id: string;
@@ -30,6 +31,10 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
         },
       }
     ).catch((err) => {
+      if(err.response.status === 401) {
+        Cookies.remove("token");
+        router.push("/");
+      }
       throw err
     })
 }

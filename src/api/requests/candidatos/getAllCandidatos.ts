@@ -1,6 +1,7 @@
 import { CandidatoModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
+import { createFilterFieldArray } from "./utils";
 
 export const GetAllCandidatos = async ({userId}: {userId: string}): Promise<AxiosResponse<CandidatoModel[], undefined>> => { 
     const token =  Cookies.get('token')
@@ -11,7 +12,7 @@ export const GetAllCandidatos = async ({userId}: {userId: string}): Promise<Axio
           authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => res)
+      .then((res) => createFilterFieldArray(res))
       .catch((err) => {
         throw new Error(err)
       })
