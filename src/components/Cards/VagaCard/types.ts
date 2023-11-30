@@ -1,6 +1,7 @@
+import { VagaModel } from "@/api/models"
+
 export interface VagaCardProps {
-    title: string
+    vaga: VagaModel
     quantity: number
-    onEdit?: () => void
-    onDelete?: () => void
+    userId: string
 }

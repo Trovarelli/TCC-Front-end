@@ -1,26 +1,17 @@
 "use client";
-import { PencilSimple, Trash } from "phosphor-react";
+import { Trash } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { useState } from "react";
 import { ConfirmationModal, VagaFormModal } from "@/components";
+import { DeleteVaga } from "@/api/requests";
 
-export const VagaCard = ({
-  title,
-  quantity,
-  onDelete,
-  onEdit,
-}: VagaCardProps) => {
+export const VagaCard = ({ vaga, quantity, userId }: VagaCardProps) => {
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
 
   const handleDelete = () => {
     setOpenDelete(false);
-    onDelete && onDelete();
-  };
-
-  const handleEdit = () => {
-    setOpenEdit(false);
-    onEdit && onEdit();
+    DeleteVaga({ userId, vagaId: vaga._id });
   };
 
   return (
@@ -36,21 +27,15 @@ export const VagaCard = ({
       <VagaFormModal
         title="Editar Vaga"
         setOpen={setOpenEdit}
-        action={handleEdit}
+        vaga={vaga}
         open={openEdit}
       />
       <div className="flex my-2 justify-between items-center w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6">
         <div>
-          <div className="font-bold text-primary">{title}</div>
+          <div className="font-bold text-primary">{vaga.titulo}</div>
           {quantity} Candidatos
         </div>
         <div className="flex">
-          <PencilSimple
-            onClick={() => setOpenEdit(!openEdit)}
-            size={20}
-            className="cursor-pointer text-primary"
-            weight="fill"
-          />
           <Trash
             onClick={() => setOpenDelete(!openDelete)}
             size={20}

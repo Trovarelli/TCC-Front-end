@@ -15,5 +15,5 @@ export interface CandidatoModel {
     pcd?: boolean
     lgbtq?: boolean
     nivelProfissional?: 'estagiario' | 'junior' | 'pleno' | 'senior'
-    filterField: string[]
+    matchField: string[]
 }

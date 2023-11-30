@@ -1,27 +1,36 @@
 "use client";
+import { VagaModel } from "@/api/models";
+import { GetAllVagas } from "@/api/requests";
 import { TextInput, VagaCard, VagaFormModal } from "@/components";
 import Spinner from "@/components/Spinner/component";
+import { useUsertore } from "@/store";
 import { BriefcaseMetal, PlusCircle, UserList } from "phosphor-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Vagas() {
   const [renderLoading, setRenderLoading] = useState(true);
   const [openCreate, setOpenCreate] = useState(false);
+  const { id } = useUsertore().user;
+  const [vagas, setVagas] = useState<VagaModel[]>([]);
 
   useEffect(() => {
-    setTimeout(() => {
-      setRenderLoading(false);
-    }, 3000);
+    handleGetVagas();
   }, []);
 
-  const handleCreate = () => {};
+  const handleGetVagas = async () => {
+    setRenderLoading(true);
+    GetAllVagas({ userId: id })
+      .then((res) => setVagas(res.data))
+      .catch((err) => toast.error(err.response?.data.message))
+      .finally(() => setRenderLoading(false));
+  };
 
   return (
     <div className="bg-background p-4 flex items-center min-h-screen justify-center">
       <VagaFormModal
         title="Criar Vaga"
         setOpen={setOpenCreate}
-        action={handleCreate}
         open={openCreate}
       />
       {renderLoading ? (
@@ -56,16 +65,9 @@ export default function Vagas() {
           </div>
           <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
             <div className="w-full max-h-96 overflow-y-auto">
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
-              <VagaCard title="UX Designer" quantity={25} />
+              {vagas.map((el) => (
+                <VagaCard vaga={el} quantity={2} userId={id} />
+              ))}
             </div>
           </div>
         </div>

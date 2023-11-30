@@ -1,16 +1,21 @@
-import { CandidatoModel } from "@/api/models";
+import { VagaModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import router from "next/router";
 
-type CreateCandidatoParams = {userId: string; curriculum: string}
+type CreateVagaParams = Omit<VagaModel, 'matchField' | '_id'>
 
-export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParams): Promise<AxiosResponse<CandidatoModel, undefined>> => { 
+export const CreateVaga = async ({userId, caracteristicas, descricao, empresa, ativo, titulo}: CreateVagaParams): Promise<AxiosResponse<VagaModel, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`http://localhost:3001/candidate/${userId}`, 
+      .post(`http://localhost:3001/job/${userId}`, 
       {
-        curriculum,
+        userId,
+        empresa,
+        descricao,
+        caracteristicas,
+        titulo,
+        ativo,
       }, 
       {
         headers: {

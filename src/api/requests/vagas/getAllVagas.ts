@@ -1,11 +1,11 @@
-import { CandidatoModel } from "@/api/models";
+import { VagaModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 
-export const GetAllCandidatos = async ({userId}: {userId: string}): Promise<AxiosResponse<CandidatoModel[], undefined>> => { 
+export const GetAllVagas = async ({userId}: {userId: string}): Promise<AxiosResponse<VagaModel[], undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .get(`http://localhost:3001/candidate/${userId}`, {
+      .get(`http://localhost:3001/job/${userId}`, {
         headers: {
           "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,

@@ -1,24 +1,31 @@
 "use client";
-
 import { TextArea, TextInput } from "@/components/Inputs";
 import { DefaultModal } from "../DefaultModal";
 import ChipInput from "@/components/Inputs/ChipInput/component";
-import { VagaFormModalProps, VagaModel } from "./types";
+import { VagaFormModalProps } from "./types";
 import { Button } from "@/components/Buttons";
 import { useEffect, useState } from "react";
+import { VagaModel } from "@/api/models";
+import { CreateVaga } from "@/api/requests";
+import { useUsertore } from "@/store";
+import { toast } from "react-toastify";
 
 export const VagaFormModal = ({
   open,
   title,
   setOpen,
-  action,
   vaga,
 }: VagaFormModalProps) => {
-  const [values, setValues] = useState<VagaModel>({
-    id: "",
+  const { id, empresa } = useUsertore().user;
+  const [loading, setLoading] = useState(false);
+  const [values, setValues] = useState<Omit<VagaModel, "matchField">>({
+    _id: "",
     titulo: "",
     descricao: "",
-    tags: [],
+    caracteristicas: [],
+    empresa,
+    userId: id,
+    ativo: false,
   });
 
   useEffect(() => {
@@ -28,11 +35,34 @@ export const VagaFormModal = ({
   }, [vaga]);
 
   const handleSetTags = (v: string[]) => {
-    setValues({ ...values, tags: v });
+    setValues({ ...values, caracteristicas: v });
   };
 
   const handleOnChange = (v: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [v.target.id]: v.target.value });
+  };
+
+  const handleCreate = async () => {
+    setLoading(true);
+    const { caracteristicas, descricao, empresa, titulo, userId, ativo } =
+      values;
+    CreateVaga({
+      caracteristicas,
+      descricao,
+      empresa,
+      titulo,
+      userId,
+      ativo,
+    })
+      .then((res) => {
+        setValues(res.data);
+        setOpen(false);
+      })
+      .catch((err) => toast.error(err.response?.data.message))
+      .finally(() => {
+        setLoading(false);
+        setOpen(false);
+      });
   };
 
   return (
@@ -50,7 +80,7 @@ export const VagaFormModal = ({
         <ChipInput
           label="Caracteristicas"
           state="error"
-          chipsValue={values.tags}
+          chipsValue={values.caracteristicas}
           setChipsValue={handleSetTags}
         />
         <div className="col-span-2">
@@ -63,13 +93,20 @@ export const VagaFormModal = ({
         </div>
       </div>
       <div className="w-full mt-12 flex justify-end items-center">
-        <div
+        <Button
+          btnName="Cancelar"
+          color="error"
           onClick={() => setOpen(false)}
-          className="text-center px-4 text-primary cursor-pointer"
-        >
-          Cancelar
-        </div>
-        <Button btnName="Gravar" color="success" onClick={action} />;
+          loading={loading}
+        />
+        ;
+        <Button
+          btnName="Gravar"
+          color="success"
+          onClick={handleCreate}
+          loading={loading}
+        />
+        ;
       </div>
     </DefaultModal>
   );

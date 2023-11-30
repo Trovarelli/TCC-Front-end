@@ -1,17 +1,15 @@
-import { CandidatoModel } from "@/api/models";
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
 import router from "next/router";
 
-type CreateCandidatoParams = {userId: string; curriculum: string}
+type DeleteVagaParams = {userId: string; vagaId: string}
 
-export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParams): Promise<AxiosResponse<CandidatoModel, undefined>> => { 
+
+export const DeleteVaga = async ({userId, vagaId}: DeleteVagaParams): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`http://localhost:3001/candidate/${userId}`, 
-      {
-        curriculum,
-      }, 
+      .post(`http://localhost:3001/job/${userId}/${vagaId}`, 
+      {},
       {
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -24,6 +22,6 @@ export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParam
           Cookies.remove("token");
           router.push("/");
         }
-        throw err
+        throw new Error(err)
       })
   };

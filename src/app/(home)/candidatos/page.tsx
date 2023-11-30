@@ -101,8 +101,8 @@ const Candidatos = () => {
       setFilteredCandidatos((v) => {
         return v.filter((el) => {
           return (
-            el.filterField.some((filter) => precisionTags.includes(filter)) ||
-            el.filterField.some((filter) =>
+            el.matchField.some((filter) => precisionTags.includes(filter)) ||
+            el.matchField.some((filter) =>
               normalTags.includes(filter.split(":")[1])
             )
           );
