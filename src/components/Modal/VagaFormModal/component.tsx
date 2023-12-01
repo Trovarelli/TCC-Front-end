@@ -4,65 +4,92 @@ import { DefaultModal } from "../DefaultModal";
 import ChipInput from "@/components/Inputs/ChipInput/component";
 import { VagaFormModalProps } from "./types";
 import { Button } from "@/components/Buttons";
-import { useEffect, useState } from "react";
-import { VagaModel } from "@/api/models";
+import { useState } from "react";
 import { CreateVaga } from "@/api/requests";
-import { useUsertore } from "@/store";
 import { toast } from "react-toastify";
+import { z } from "zod";
+import { useUsertore } from "@/store";
+
+const vagaValidation = z.object({
+  titulo: z.string().min(1, "Campo obrigatório"),
+  caracteristicas: z.array(z.string()).min(1, "Campo obrigatório"),
+  descricao: z.string().min(1, "Campo obrigatório"),
+});
 
 export const VagaFormModal = ({
   open,
   title,
   setOpen,
+  setVaga,
+  candidatos,
+  setVagas,
   vaga,
 }: VagaFormModalProps) => {
-  const { id, empresa } = useUsertore().user;
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState<Omit<VagaModel, "matchField">>({
-    _id: "",
+  const [errors, setErrors] = useState({
     titulo: "",
+    caracteristicas: "",
     descricao: "",
-    caracteristicas: [],
-    empresa,
-    userId: id,
-    ativo: false,
   });
-
-  useEffect(() => {
-    if (vaga) {
-      setValues(vaga);
-    }
-  }, [vaga]);
+  const { id, empresa } = useUsertore().user;
 
   const handleSetTags = (v: string[]) => {
-    setValues({ ...values, caracteristicas: v });
+    setVaga({ ...vaga, caracteristicas: v });
+    setErrors((prev) => ({ ...prev, caracteristicas: "" }));
   };
 
   const handleOnChange = (v: React.ChangeEvent<HTMLInputElement>) => {
-    setValues({ ...values, [v.target.id]: v.target.value });
+    setErrors((prev) => ({ ...prev, [v.target.id]: "" }));
+    setVaga({ ...vaga, [v.target.id]: v.target.value });
   };
 
-  const handleCreate = async () => {
+  const handleCreateEdit = async () => {
+    try {
+      vagaValidation.parse(vaga);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        JSON.parse(err.message)?.forEach(
+          (el: { path: string[]; message: string }) =>
+            setErrors((prev) => ({ ...prev, [el.path[0]]: el.message }))
+        );
+        toast.error("Por favor preencha os campos corretamente.");
+        return;
+      }
+    }
+
     setLoading(true);
-    const { caracteristicas, descricao, empresa, titulo, userId, ativo } =
-      values;
-    CreateVaga({
-      caracteristicas,
-      descricao,
-      empresa,
-      titulo,
-      userId,
-      ativo,
-    })
-      .then((res) => {
-        setValues(res.data);
-        setOpen(false);
+    const { caracteristicas, descricao, titulo, ativo, _id } = vaga;
+
+    if (!_id) {
+      CreateVaga({
+        caracteristicas,
+        descricao,
+        empresa,
+        titulo,
+        userId: id,
+        ativo,
       })
-      .catch((err) => toast.error(err.response?.data.message))
-      .finally(() => {
-        setLoading(false);
-        setOpen(false);
-      });
+        .then((res) => {
+          const avaliableCandidatos = candidatos.filter((candidato) =>
+            candidato.matchField.some((element) =>
+              res.data.matchField.includes(element)
+            )
+          );
+
+          const newVaga = { ...res.data, candidatos: avaliableCandidatos };
+
+          setVagas((prev) => [newVaga, ...prev]);
+          setOpen(false);
+        })
+        .catch((err) => toast.error(err.response?.data.message))
+        .finally(() => {
+          setLoading(false);
+          setOpen(false);
+        });
+    } else {
+      alert("UPDATE");
+      setLoading(false);
+    }
   };
 
   return (
@@ -70,43 +97,57 @@ export const VagaFormModal = ({
       <div className="text-xl font-bold text-primary text-center mb-4">
         {title}
       </div>
-      <div className="grid grid-cols-2 gap-3">
-        <TextInput
-          id="titulo"
-          label="Titulo"
-          onChange={handleOnChange}
-          value={values.titulo}
-        />
-        <ChipInput
-          label="Caracteristicas"
-          state="error"
-          chipsValue={values.caracteristicas}
-          setChipsValue={handleSetTags}
-        />
-        <div className="col-span-2">
+      <div className="grid grid-cols-12 gap-3">
+        <div className="col-span-6 max-md:col-span-12">
+          <TextInput
+            id="titulo"
+            label="Titulo"
+            onChange={handleOnChange}
+            helperText={errors.titulo}
+            state={errors.titulo ? "error" : undefined}
+            value={vaga.titulo}
+          />
+        </div>
+        <div className="col-span-6 max-md:col-span-12">
+          <ChipInput
+            label="Caracteristicas"
+            chipsValue={vaga.caracteristicas}
+            setChipsValue={handleSetTags}
+            state={errors.caracteristicas ? "error" : undefined}
+            helperText={errors.caracteristicas}
+          />
+        </div>
+        <div className="col-span-12">
           <TextArea
             id="descricao"
             label="Descrição da vaga"
             onChange={handleOnChange}
-            value={values.descricao}
+            value={vaga.descricao}
+            helperText={errors.descricao}
+            state={errors.descricao ? "error" : undefined}
           />
         </div>
       </div>
-      <div className="w-full mt-12 flex justify-end items-center">
+      <div className="w-full mt-12 flex justify-end items-center gap-3">
         <Button
           btnName="Cancelar"
           color="error"
-          onClick={() => setOpen(false)}
+          onClick={() => {
+            setOpen(false);
+            setErrors({
+              titulo: "",
+              caracteristicas: "",
+              descricao: "",
+            });
+          }}
           loading={loading}
         />
-        ;
         <Button
           btnName="Gravar"
           color="success"
-          onClick={handleCreate}
+          onClick={handleCreateEdit}
           loading={loading}
         />
-        ;
       </div>
     </DefaultModal>
   );

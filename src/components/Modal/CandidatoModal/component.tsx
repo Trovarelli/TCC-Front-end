@@ -2,7 +2,7 @@
 import { PDFRenderModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
 import { Heart, X } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/Buttons";
 import { useUsertore } from "@/store";
 import { FavoriteCandidato, GetCurriculo } from "@/api/requests";
@@ -41,7 +41,8 @@ export const CandidatoModal = ({
     setFavoriteLoading(true);
     FavoriteCandidato({ userId: id, candidatoId: candidato._id, favorito: v })
       .then(() => {
-        onFavoriteClientCandidato(candidato._id, v);
+        onFavoriteClientCandidato &&
+          onFavoriteClientCandidato(candidato._id, v);
         setFavorite(v);
       })
       .catch(() => {
@@ -68,17 +69,20 @@ export const CandidatoModal = ({
           <div className="col-span-9 max-md:col-span-12">
             <div className="text-lg text-black font-bold flex gap-3 items-center justify-start max-md:justify-between">
               {candidato.nome}
-              <Heart
-                weight={favorite ? "fill" : "bold"}
-                className={clsx(
-                  "text-primary cursor-pointer text-[1.6rem] max-md:text-[1.8rem]",
-                  {
-                    "animate-pulse pointer-events-none": favoriteLoading,
-                  }
-                )}
-                onClick={() => handleFavoriteCandidato(!favorite)}
-              />
+              {onFavoriteClientCandidato && (
+                <Heart
+                  weight={favorite ? "fill" : "bold"}
+                  className={clsx(
+                    "text-primary cursor-pointer text-[1.6rem] max-md:text-[1.8rem]",
+                    {
+                      "animate-pulse pointer-events-none": favoriteLoading,
+                    }
+                  )}
+                  onClick={() => handleFavoriteCandidato(!favorite)}
+                />
+              )}
             </div>
+
             <div>- {candidato.idade ? candidato.idade + " anos" : ""}</div>
             <div>{candidato.profissao ? "- " + candidato.profissao : ""}</div>
           </div>

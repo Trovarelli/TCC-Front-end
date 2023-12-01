@@ -78,12 +78,6 @@ const Candidatos = () => {
       .finally(() => setLocalLoading(false));
   };
 
-  const handleSelect = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (value && value !== "0") setTags((v) => [...v, value]);
-    else setTags((v) => v.filter((tg) => tg !== value));
-  };
-
   const handleSanitizeTags = (tags: string[]) => {
     return tags.map((tg) => tg.toLowerCase());
   };
@@ -145,7 +139,7 @@ const Candidatos = () => {
                 />
               </div>
             </div>
-            <div className="px-3 flex flex-col items-center gap-3">
+            <div className="px-3 flex flex-col items-center gap-3 max-sm:col-span-2">
               <div className="text-center font-bold">Pré-definições</div>
               <div className="text-justify">
                 Nossa busca avançada permite que você filtre candidatos por meio

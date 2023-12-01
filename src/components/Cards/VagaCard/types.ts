@@ -1,7 +1,9 @@
-import { VagaModel } from "@/api/models"
+import { CandidatoModel, VagaModel } from "@/api/models"
 
 export interface VagaCardProps {
-    vaga: VagaModel
-    quantity: number
-    userId: string
-}
+    vaga: VagaModel;
+    candidatos: CandidatoModel[]
+    userId: string;
+    setOpenModal: () => void;
+    onDelete: () => Promise<void>; // Agora especificamos que a função retorna uma Promise<void>
+  }

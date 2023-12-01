@@ -1,7 +1,7 @@
 import { CandidatoModel } from "@/api/models"
 
 export interface CandidatoCardProps {
-    onDelete: () => void
+    onDelete?: () => void
     candidato: CandidatoModel
-    onFavoriteClientCandidato: (id: string, favorite: boolean) => void
+    onFavoriteClientCandidato?: (id: string, favorite: boolean) => void
 }

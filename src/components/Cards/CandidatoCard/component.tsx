@@ -50,7 +50,7 @@ export const CandidatoCard = ({
 
   const handleDelete = () => {
     setOpenDelete(false);
-    onDelete();
+    onDelete && onDelete();
   };
 
   return (
@@ -70,18 +70,20 @@ export const CandidatoCard = ({
         description="Ao deletar este candidato todos os dados salvos serão perdidos."
       />
       <div className="my-2 grid grid-cols-12 gap-2 w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6 relative">
-        <div className="absolute right-2 top-2">
-          <div
-            onClick={() => setOpenDelete(!openDelete)}
-            className="flex justify-center items-center p-[0.35rem] rounded-full bg-white text-center"
-          >
-            <Trash
-              size={16}
-              className="cursor-pointer text-primary"
-              weight="fill"
-            />
+        {onDelete && (
+          <div className="absolute right-2 top-2">
+            <div
+              onClick={() => setOpenDelete(!openDelete)}
+              className="flex justify-center items-center p-[0.35rem] rounded-full bg-white text-center"
+            >
+              <Trash
+                size={16}
+                className="cursor-pointer text-primary"
+                weight="fill"
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
           Idade
           <span className=" text-black">

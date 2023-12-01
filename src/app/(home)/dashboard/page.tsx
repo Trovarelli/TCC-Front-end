@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from "react";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
-import { GetAllCandidatos } from "@/api/requests";
+import { GetAllCandidatos, GetAllVagas } from "@/api/requests";
 
 const Dashboard = () => {
   const [renderLoading, setRenderLoading] = useState(true);
@@ -23,6 +23,7 @@ const Dashboard = () => {
     amOrPm: string;
   } | null>(null);
   const [candidatos, setCandidatos] = useState<number>(0);
+  const [vagas, setVagas] = useState<number>(0);
   const { nome, id } = useUsertore().user;
 
   const handleGetAllCandidatos = () => {
@@ -31,6 +32,20 @@ const Dashboard = () => {
       .catch((err) => console.log(err.message))
       .finally(() => setRenderLoading(false));
   };
+
+  const handleGetAllVagas = () => {
+    GetAllVagas({ userId: id })
+      .then((res) => setVagas(res.data.length))
+      .catch((err) => console.log(err.message))
+      .finally(() => setRenderLoading(false));
+  };
+
+  useEffect(() => {
+    handleGetAllCandidatos();
+    handleGetAllVagas();
+    handleGetDate();
+  }, []);
+
   const handleGetDate = () => {
     const date = new Date();
     const weekdays = [
@@ -77,11 +92,6 @@ const Dashboard = () => {
     });
   };
 
-  useEffect(() => {
-    handleGetAllCandidatos();
-    handleGetDate();
-  }, []);
-
   return (
     <div className="bg-background p-4 min-h-screen flex justify-center">
       {renderLoading ? (
@@ -107,7 +117,7 @@ const Dashboard = () => {
               className="bg-white cursor-pointer rounded-md p-4 flex justify-center items-center flex-col"
             >
               <BriefcaseMetal size={40} weight="fill" />
-              <span className="text-black font-bold">15</span>
+              <span className="text-black font-bold">{vagas}</span>
               Vagas
             </Link>
             <div className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-center flex-col col-span-2">
