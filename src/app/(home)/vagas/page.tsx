@@ -30,35 +30,37 @@ export default function Vagas() {
   const [openCreate, setOpenCreate] = useState(false);
   const { id: userId, empresa } = useUsertore().user;
   const [vagas, setVagas] = useState<VagaCandidatoModel[]>([]);
+  const [vagasFiltradas, setVagasFiltradas] = useState<VagaCandidatoModel[]>(
+    []
+  );
   const [selectedVaga, setSelectedVaga] = useState<
     Omit<VagaModel, "matchField">
   >({ ...defaultValues, userId, empresa });
   const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       setRenderLoading(true);
-
       try {
         const [vagasResponse, candidatosResponse] = await Promise.all([
           GetAllVagas({ userId }),
           GetAllCandidatos({ userId }),
         ]);
         setCandidatos(candidatosResponse.data);
-        setVagas(
-          vagasResponse.data.map((el) => {
-            const avaliableCandidatos = candidatosResponse.data.filter(
-              (candidato) =>
-                candidato.matchField.some((c) =>
-                  el.matchField.some((v) => v.split(":")[1] === c.split(":")[1])
-                )
-            );
-            return {
-              ...el,
-              candidatos: avaliableCandidatos,
-            };
-          })
-        );
+        const newVagas = vagasResponse.data.map((el) => {
+          const avaliableCandidatos = candidatosResponse.data.filter(
+            (candidato) =>
+              candidato.matchField.some((c) =>
+                el.matchField.some((v) => v.split(":")[1] === c.split(":")[1])
+              )
+          );
+          return {
+            ...el,
+            candidatos: avaliableCandidatos,
+          };
+        });
+        setVagas(newVagas);
       } catch (error) {
         if (error instanceof AxiosError)
           toast.error(error.response?.data.message);
@@ -69,6 +71,24 @@ export default function Vagas() {
 
     fetchData();
   }, [userId]);
+
+  useEffect(() => {
+    if (search) {
+      const regexPattern = new RegExp(
+        search
+          .split("")
+          .map((char) => `(${char})`)
+          .join(".*"),
+        "i"
+      );
+      const filteredItems = vagas.filter((option) =>
+        regexPattern.test(option.descricao)
+      );
+      setVagasFiltradas(filteredItems);
+    } else {
+      setVagasFiltradas(vagas);
+    }
+  }, [search, vagas]);
 
   const handleSelectForEdit = (vaga: VagaModel) => {
     setOpenCreate((prev) => !prev);
@@ -128,12 +148,14 @@ export default function Vagas() {
               label="Pesquisar nome da vaga"
               inputType="search"
               fullWidth
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
           <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
             <div className="w-full max-h-96 overflow-y-auto">
-              {vagas.length > 0 ? (
-                vagas.map((el) => (
+              {vagasFiltradas.length > 0 ? (
+                vagasFiltradas.map((el) => (
                   <VagaCard
                     vaga={el}
                     candidatos={el.candidatos}
@@ -145,7 +167,7 @@ export default function Vagas() {
               ) : (
                 <div className="flex justify-center items-center flex-col">
                   Não foram encontradas vagas salvas.
-                  <img src="/img/not-found.jpg" width={300} height={300}></img>
+                  <img src="/img/not-found.jpg" width={200} height={200}></img>
                   <span
                     className="cursor-pointer text-primary"
                     onClick={() => setOpenCreate(true)}

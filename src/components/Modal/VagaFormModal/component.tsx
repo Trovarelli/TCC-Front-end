@@ -71,8 +71,10 @@ export const VagaFormModal = ({
       })
         .then((res) => {
           const avaliableCandidatos = candidatos.filter((candidato) =>
-            candidato.matchField.some((element) =>
-              res.data.matchField.includes(element)
+            candidato.matchField.some((c) =>
+              res.data.matchField.some(
+                (v) => v.split(":")[1] === c.split(":")[1]
+              )
             )
           );
 

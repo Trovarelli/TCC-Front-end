@@ -85,13 +85,13 @@ export const CandidatoCard = ({
           </div>
         )}
         <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
-          Idade
+          <span className="text-primary">Idade</span>
           <span className=" text-black">
             {candidato.idade ? `${candidato.idade} anos` : "Não informado."}
           </span>
         </div>
         <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
-          Nome
+          <span className="text-primary">Nome</span>
           <span className=" text-black">{candidato.nome}</span>
         </div>
         <div className="flex items-center max-sm:hidden col-span-5 max-md:col-span-4">
