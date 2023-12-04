@@ -7,7 +7,6 @@ export const GetAllCandidatos = async ({userId}: {userId: string}): Promise<Axio
     return axios
       .get(`https://tahr-api.vercel.app//candidate/${userId}`, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

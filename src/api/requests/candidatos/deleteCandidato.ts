@@ -12,7 +12,6 @@ export const DeleteCandidato = async ({userId, candidatoId}: DeleteCandidatoPara
       {},
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

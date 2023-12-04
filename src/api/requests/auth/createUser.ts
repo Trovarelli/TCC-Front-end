@@ -21,11 +21,6 @@ export const CreateUser = async ({nome, email, senha, confirmSenha, empresa}: Cr
         confirmPassword: confirmSenha,
         company: empresa,
       },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      }
     )
       .then((res) => res)
       .catch((err) => {

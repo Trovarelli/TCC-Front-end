@@ -7,7 +7,6 @@ export const GetCurriculo = async ({userId, candidatoId}: {userId: string; candi
     return axios
       .get(`https://tahr-api.vercel.app//candidate/curriculum/${userId}/${candidatoId}`, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

@@ -26,7 +26,6 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
       },
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       }

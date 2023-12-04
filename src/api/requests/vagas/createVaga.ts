@@ -19,7 +19,6 @@ export const CreateVaga = async ({userId, caracteristicas, descricao, empresa, a
       }, 
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

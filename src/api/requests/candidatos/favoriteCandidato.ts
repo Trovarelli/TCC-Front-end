@@ -11,7 +11,6 @@ export const FavoriteCandidato = async ({userId, candidatoId, favorito}: {userId
       },
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

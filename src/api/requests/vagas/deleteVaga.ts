@@ -12,7 +12,6 @@ export const DeleteVaga = async ({userId, vagaId}: DeleteVagaParams): Promise<Ax
       {},
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

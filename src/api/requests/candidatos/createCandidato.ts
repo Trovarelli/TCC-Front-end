@@ -14,7 +14,6 @@ export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParam
       }, 
       {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })

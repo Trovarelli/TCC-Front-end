@@ -16,11 +16,6 @@ export const MakeLogin = async ({email, password}: UserLogin): Promise<AxiosResp
           email,
           password,
         },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
       ).catch((err) => {
         if(err.response.status === 401) {
           Cookies.remove("token");

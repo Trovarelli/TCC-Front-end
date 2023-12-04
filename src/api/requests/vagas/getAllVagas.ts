@@ -7,7 +7,6 @@ export const GetAllVagas = async ({userId}: {userId: string}): Promise<AxiosResp
     return axios
       .get(`https://tahr-api.vercel.app//job/${userId}`, {
         headers: {
-          "Access-Control-Allow-Origin": "*",
           authorization: `Bearer ${token}`,
         },
       })
