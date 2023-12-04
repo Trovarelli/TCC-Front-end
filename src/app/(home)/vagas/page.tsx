@@ -155,8 +155,9 @@ export default function Vagas() {
           <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
             <div className="w-full max-h-96 overflow-y-auto">
               {vagasFiltradas.length > 0 ? (
-                vagasFiltradas.map((el) => (
+                vagasFiltradas.map((el, idx) => (
                   <VagaCard
+                    key={idx}
                     vaga={el}
                     candidatos={el.candidatos}
                     userId={userId}

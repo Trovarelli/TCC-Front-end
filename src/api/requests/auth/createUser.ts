@@ -13,7 +13,7 @@ type CreateUserParams = {
 export const CreateUser = async ({nome, email, senha, confirmSenha, empresa}: CreateUserParams): Promise<AxiosResponse<undefined, undefined>> => { 
     return axios
     .post(
-      "http://localhost:3001/auth/register",
+      "https://tahr-api.vercel.app//auth/register",
       {
         name: nome,
         email: email,

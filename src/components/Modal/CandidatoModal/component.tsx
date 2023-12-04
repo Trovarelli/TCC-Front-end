@@ -102,8 +102,8 @@ export const CandidatoModal = ({
                 <div className="ml-3 font-bold text-primary">Escolaridade</div>
                 <div className="border-t border-gray-400 w-full"></div>
                 <div className="text-black">
-                  {candidato.escolaridade?.map((el) => (
-                    <p>- {el}</p>
+                  {candidato.escolaridade?.map((el, idx) => (
+                    <p key={idx}>- {el}</p>
                   ))}
                 </div>
               </div>
@@ -113,8 +113,8 @@ export const CandidatoModal = ({
                 <div className="ml-3 font-bold text-primary">Experiências</div>
                 <div className="border-t border-gray-400 w-full"></div>
                 <div className="text-black">
-                  {candidato.experiencia?.map((el) => (
-                    <p>- {el}</p>
+                  {candidato.experiencia?.map((el, idx) => (
+                    <p key={idx}> - {el}</p>
                   ))}
                 </div>
               </div>
@@ -124,8 +124,10 @@ export const CandidatoModal = ({
                 <div className="ml-3 font-bold text-primary">Competencias</div>
                 <div className="border-t border-gray-400 w-full"></div>
                 <div className="text-black grid grid-cols-4">
-                  {candidato.competencias?.map((el) => (
-                    <div className="col-span-2 max-sm:col-span-4">- {el}</div>
+                  {candidato.competencias?.map((el, idx) => (
+                    <div className="col-span-2 max-sm:col-span-4" key={idx}>
+                      - {el}
+                    </div>
                   ))}
                 </div>
               </div>
@@ -153,8 +155,10 @@ export const CandidatoModal = ({
                     - {candidato?.email}
                   </a>
                   <div className="text-black grid grid-cols-4">
-                    {candidato?.telefone?.map((el) => (
-                      <div className="col-span-2 max-sm:col-span-4">- {el}</div>
+                    {candidato?.telefone?.map((el, idx) => (
+                      <div className="col-span-2 max-sm:col-span-4" key={idx}>
+                        - {el}
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -169,8 +173,8 @@ export const CandidatoModal = ({
                   <div className="border-t border-gray-400 w-full"></div>
                   <div className="flex flex-col gap-2">
                     <div className="text-black grid grid-cols-4">
-                      {candidato.caracteristicas.map((el) => (
-                        <div className="col-span-2 max-sm:col-span-4">
+                      {candidato.caracteristicas.map((el, idx) => (
+                        <div key={idx} className="col-span-2 max-sm:col-span-4">
                           - {el}
                         </div>
                       ))}

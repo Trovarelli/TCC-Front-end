@@ -8,7 +8,7 @@ type CreateVagaParams = Omit<VagaModel, 'matchField' | '_id'>
 export const CreateVaga = async ({userId, caracteristicas, descricao, empresa, ativo, titulo}: CreateVagaParams): Promise<AxiosResponse<VagaModel, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`http://localhost:3001/job/${userId}`, 
+      .post(`https://tahr-api.vercel.app//job/${userId}`, 
       {
         userId,
         empresa,

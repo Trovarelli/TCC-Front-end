@@ -53,8 +53,10 @@ export const Dropdown = ({
         )}
       >
         <ul className="text-sm text-primary bg-white divide-y divide-white">
-          {itens?.map((el) => (
-            <li className="p-2">{el}</li>
+          {itens?.map((el, idx) => (
+            <li key={idx} className="p-2">
+              {el}
+            </li>
           ))}
         </ul>
       </div>

@@ -5,5 +5,5 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<any>, 'type'> {
     state?: "error" | "success" | "info" | "warning" | undefined;
     helperText?: string
     fullWidth?: boolean
-    options: {key: string, value: string | number | boolean}[]
+    options: {key: string, value: string | number | readonly string[] | undefined}[]
 }
