@@ -102,7 +102,7 @@ const Perfil = () => {
 
     axios
       .post(
-        `https://tahr-api.vercel.app//user/${user.id}`,
+        `https://tahr-api.vercel.app/user/${user.id}`,
         {
           name: userPayload.nome,
           email: userPayload.email,

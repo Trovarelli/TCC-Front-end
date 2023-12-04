@@ -11,9 +11,9 @@ type UserLogin = {
 export const MakeLogin = async ({email, password}: UserLogin): Promise<AxiosResponse<UserModel, undefined>> => {
    return axios
       .post(
-        "https://tahr-api.vercel.app//auth/login",
+        "https://tahr-api.vercel.app/auth/login",
         {
-          email,
+          email,  
           password,
         },
       ).catch((err) => {

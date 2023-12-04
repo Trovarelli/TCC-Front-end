@@ -16,7 +16,7 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
     const token =  Cookies.get('token')
     return axios
     .post(
-      `https://tahr-api.vercel.app//user/${id}`,
+      `https://tahr-api.vercel.app/user/${id}`,
       {
         name: nome,
         email: email,
@@ -26,7 +26,7 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
       },
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       }
     ).catch((err) => {

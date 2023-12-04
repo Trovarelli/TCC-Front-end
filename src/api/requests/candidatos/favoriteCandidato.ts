@@ -5,13 +5,13 @@ import router from "next/router";
 export const FavoriteCandidato = async ({userId, candidatoId, favorito}: {userId: string; candidatoId: string; favorito: boolean}): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.vercel.app//candidate/favorite/${userId}/${candidatoId}`, 
+      .post(`https://tahr-api.vercel.app/candidate/favorite/${userId}/${candidatoId}`, 
       {
         favorito,
       },
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       })
       .then((res) => res)

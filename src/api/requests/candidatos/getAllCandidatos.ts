@@ -5,9 +5,9 @@ import Cookies from "js-cookie";
 export const GetAllCandidatos = async ({userId}: {userId: string}): Promise<AxiosResponse<CandidatoModel[], undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .get(`https://tahr-api.vercel.app//candidate/${userId}`, {
+      .get(`https://tahr-api.vercel.app/candidate/${userId}`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       })
       .then((res) => res)

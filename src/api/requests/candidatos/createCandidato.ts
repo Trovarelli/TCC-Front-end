@@ -8,13 +8,13 @@ type CreateCandidatoParams = {userId: string; curriculum: string}
 export const CreateCandidato = async ({userId, curriculum}: CreateCandidatoParams): Promise<AxiosResponse<CandidatoModel, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.vercel.app//candidate/${userId}`, 
+      .post(`https://tahr-api.vercel.app/candidate/${userId}`, 
       {
         curriculum,
       }, 
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       })
       .then((res) => res)

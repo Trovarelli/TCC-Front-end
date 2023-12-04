@@ -8,11 +8,11 @@ type DeleteCandidatoParams = {userId: string; candidatoId: string}
 export const DeleteCandidato = async ({userId, candidatoId}: DeleteCandidatoParams): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.vercel.app//candidate/${userId}/${candidatoId}`, 
+      .post(`https://tahr-api.vercel.app/candidate/${userId}/${candidatoId}`, 
       {},
       {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       })
       .then((res) => res)

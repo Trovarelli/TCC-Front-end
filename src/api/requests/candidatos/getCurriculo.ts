@@ -5,9 +5,9 @@ import router from "next/router";
 export const GetCurriculo = async ({userId, candidatoId}: {userId: string; candidatoId: string}): Promise<AxiosResponse<{curriculo: string}, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .get(`https://tahr-api.vercel.app//candidate/curriculum/${userId}/${candidatoId}`, {
+      .get(`https://tahr-api.vercel.app/candidate/curriculum/${userId}/${candidatoId}`, {
         headers: {
-          authorization: `Bearer ${token}`,
+          'authorization': `Bearer ${token}`,
         },
       })
       .then((res) => res)
