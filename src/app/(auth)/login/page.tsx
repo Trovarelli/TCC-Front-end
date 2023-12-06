@@ -7,19 +7,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
-import axios from "axios";
 import { Button, CheckBox, TextInput } from "@/components";
 import { useUsertore } from "@/store";
 import { getUserIdByToken } from "@/utils";
 import { MakeLogin } from "@/api/requests";
-
-const userValidation = z.object({
-  email: z
-    .string()
-    .email("Digite um e-mail válido")
-    .min(1, "Campo obrigatório"),
-  password: z.string().min(1, "Campo obrigatório"),
-});
+import { LoginValidator } from "@/validations";
 
 const Login = () => {
   const remember = Cookies.get("autoLogin");
@@ -49,7 +41,7 @@ const Login = () => {
 
     event.preventDefault();
     try {
-      userValidation.parse(userLogin);
+      LoginValidator.parse(userLogin);
     } catch (err) {
       if (err instanceof z.ZodError) {
         JSON.parse(err.message)?.forEach(

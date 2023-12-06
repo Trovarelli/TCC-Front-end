@@ -186,7 +186,7 @@ const Candidatos = () => {
           <div className="relative">
             <div
               className={
-                "w-full bg-white rounded-md p-3 mt-5 text-primary 2xl:max-h-[650px] max-h-[400px] overflow-y-scroll"
+                "w-full bg-white rounded-md p-3 mt-5 text-primary max-h-[100vh] overflow-y-scroll"
               }
             >
               <div className="grid grid-cols-12">

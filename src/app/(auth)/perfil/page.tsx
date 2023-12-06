@@ -4,38 +4,9 @@ import { Button, TextInput } from "@/components";
 import { useUsertore } from "@/store";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
-
-const userValidation = z
-  .object({
-    email: z
-      .string()
-      .email("Digite um e-mail válido")
-      .min(1, "Campo obrigatório"),
-    nome: z.string().min(1, "Campo obrigatório"),
-    empresa: z.string().min(1, "Campo obrigatório"),
-    password: z.string().optional(),
-    confirmPassword: z.string().optional(),
-  })
-  .refine(
-    (schema) => {
-      return !(schema.password !== "" && schema.confirmPassword === "");
-    },
-    {
-      path: ["confirmPassword"],
-      message: "Campo obrigatório",
-    }
-  )
-  .refine(
-    (schema) => {
-      return !(schema.password !== schema.confirmPassword);
-    },
-    {
-      path: ["confirmPassword"],
-      message: "As senhas devem ser iguais",
-    }
-  );
+import { UpdateUserValidator } from "@/validations";
 
 const Perfil = () => {
   const router = useRouter();
@@ -85,7 +56,7 @@ const Perfil = () => {
   const fnHandleSubmit = (event: FormEvent) => {
     event.preventDefault();
     try {
-      userValidation.parse(userPayload);
+      UpdateUserValidator.parse(userPayload);
     } catch (err) {
       if (err instanceof z.ZodError) {
         console.log(JSON.parse(err.message));
@@ -102,7 +73,7 @@ const Perfil = () => {
 
     axios
       .post(
-        `https://tahr-api.vercel.app/user/${user.id}`,
+        `https://tahr-api.onrender.com/user/${user.id}`,
         {
           name: userPayload.nome,
           email: userPayload.email,

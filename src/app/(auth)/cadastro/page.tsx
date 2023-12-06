@@ -10,18 +10,7 @@ import { Button, CheckBox, TextInput } from "@/components";
 import { getUserIdByToken } from "@/utils";
 import { useUsertore } from "@/store";
 import { CreateUser, MakeLogin } from "@/api/requests";
-
-const userValidation = z.object({
-  email: z
-    .string()
-    .email("Digite um e-mail válido")
-    .min(1, "Campo obrigatório"),
-  nome: z.string().min(1, "Campo obrigatório"),
-  empresa: z.string().min(1, "Campo obrigatório"),
-  password: z.string().min(1, "Campo obrigatório"),
-  confirmPassword: z.string().min(1, "Campo obrigatório"),
-  condicoesDeUso: z.boolean(),
-});
+import { CreateUserValidation } from "@/validations";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -81,17 +70,8 @@ const Login = () => {
 
   const fnHandleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!user.condicoesDeUso) {
-      setErrors({
-        ...errors,
-        condicoesDeUso: "Por favor leia os temos de condições de uso",
-      });
-
-      return;
-    }
-
     try {
-      userValidation.parse(user);
+      CreateUserValidation.parse(user);
     } catch (err) {
       if (err instanceof z.ZodError) {
         JSON.parse(err.message)?.forEach(
@@ -192,10 +172,7 @@ const Login = () => {
             checked={user.condicoesDeUso}
             setValue={(value) => {
               setUser({ ...user, condicoesDeUso: value.checked });
-              setErrors((prev) => ({
-                ...prev,
-                condicoesDeUso: value.checked ? "" : "Campo obrigatório",
-              }));
+              setErrors((prev) => ({ ...prev, condicoesDeUso: "" }));
             }}
             sm
             helperText={errors.condicoesDeUso}

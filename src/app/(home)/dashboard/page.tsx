@@ -120,11 +120,14 @@ const Dashboard = () => {
               <span className="text-black font-bold">{vagas}</span>
               Vagas
             </Link>
-            <div className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-center flex-col col-span-2">
+            <Link
+              href={"/candidatos"}
+              className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-center flex-col col-span-2"
+            >
               Adicionar novos candidatos na base de currículos
               <PlusCircle size={32} className="mt-4" />
-            </div>
-            <div className="bg-white cursor-pointer max-sm:col-span-2 rounded-md p-4 flex justify-center flex-col items-center">
+            </Link>
+            <div className="bg-white max-sm:col-span-2 rounded-md p-4 flex justify-center flex-col items-center">
               {data?.dayOfWeek}
               <div>
                 <span className="text-black">{data?.day}</span> {data?.month}.
@@ -136,17 +139,23 @@ const Dashboard = () => {
               </div>
             </div>
 
-            <div className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-center flex-col col-span-2">
-              Gerenciamento de vagas e candidatos existentes
+            <Link
+              href="/candidatos"
+              className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-center flex-col col-span-2"
+            >
+              Gerenciamento de candidatos existentes
               <div className="flex text-sm items-center mt-4">
                 Ver mais
                 <ArrowRight size={20} className="ml-2" />
               </div>
-            </div>
-            <div className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-between flex-col col-span-2">
+            </Link>
+            <Link
+              href="/vagas"
+              className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-between flex-col col-span-2"
+            >
               Adicionar novas vagas de emprego
               <PlusCircle size={32} className="mt-4" />
-            </div>
+            </Link>
           </div>
         </div>
       )}

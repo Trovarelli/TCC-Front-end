@@ -9,12 +9,7 @@ import { CreateVaga } from "@/api/requests";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useUsertore } from "@/store";
-
-const vagaValidation = z.object({
-  titulo: z.string().min(1, "Campo obrigatório"),
-  caracteristicas: z.array(z.string()).min(1, "Campo obrigatório"),
-  descricao: z.string().min(1, "Campo obrigatório"),
-});
+import { CreateVagaValidator } from "@/validations";
 
 export const VagaFormModal = ({
   open,
@@ -45,7 +40,7 @@ export const VagaFormModal = ({
 
   const handleCreateEdit = async () => {
     try {
-      vagaValidation.parse(vaga);
+      CreateVagaValidator.parse(vaga);
     } catch (err) {
       if (err instanceof z.ZodError) {
         JSON.parse(err.message)?.forEach(

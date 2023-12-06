@@ -34,10 +34,6 @@ export function TextInput({
     }
   }, [showPassword]);
 
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
-
   const changeIcon = (state: TextInputProps["state"]) => {
     switch (state) {
       case "error":

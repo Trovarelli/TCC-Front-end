@@ -119,31 +119,31 @@ export default function Vagas() {
           <Spinner color="primary" size="lg" />
         </div>
       ) : (
-        <div className="md:p-10 max-w-[1200px] grid grid-cols-vagas grid-rows-vagas gap-4">
+        <div className="md:p-10 max-w-[1200px] grid md:grid-cols-vagas md:grid-rows-vagas grid-cols-12 gap-4 max-md:w-screen">
           <div
             onClick={() => {
               setSelectedVaga(defaultValues);
               setOpenCreate(true);
             }}
-            className="bg-primary cursor-pointer text-white rounded-md p-4 flex justify-between flex-col col-span-2 row-span-2"
+            className="bg-primary cursor-pointer text-white max-md:row-end-1 rounded-md p-4 flex justify-between flex-col col-span-12 md:col-span-2 md:row-span-2"
           >
             Adicionar novas vagas de emprego
             <PlusCircle size={32} className="mt-4" />
           </div>
           <Link
             href={"/candidatos"}
-            className="bg-white text-primary row-end-4 rounded-md p-4 flex justify-center items-center flex-col"
+            className="bg-white text-primary md:row-end-4 max-md:col-span-6 max-md:row-end-2 rounded-md p-4 flex justify-center items-center flex-col"
           >
             <UserList size={40} weight="fill" />
             <span className="text-black font-bold">{candidatos.length}</span>
             Candidatos
           </Link>
-          <div className="bg-white text-primary row-end-4 rounded-md p-4 flex justify-center items-center flex-col">
+          <div className="bg-white text-primary md:row-end-4 max-md:col-span-6 max-md:row-end-2 rounded-md p-4 flex justify-center items-center flex-col">
             <BriefcaseMetal size={40} weight="fill" />
             <span className="text-black font-bold">{vagas.length}</span>
             <span>Vagas</span>
           </div>
-          <div className="bg-white rounded-md p-4 flex items-center col-span-3">
+          <div className="bg-white rounded-md p-4 flex items-center md:col-span-3 col-span-12 max-md:row-end-3">
             <TextInput
               label="Pesquisar nome da vaga"
               inputType="search"
@@ -152,7 +152,7 @@ export default function Vagas() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center col-span-3 row-start-2 row-span-5">
+          <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center md:col-span-3 col-span-12 md:row-start-2 md:row-span-5">
             <div className="w-full max-h-96 overflow-y-auto">
               {vagasFiltradas.length > 0 ? (
                 vagasFiltradas.map((el, idx) => (

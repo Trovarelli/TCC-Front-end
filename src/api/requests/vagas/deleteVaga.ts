@@ -8,7 +8,7 @@ type DeleteVagaParams = {userId: string; vagaId: string}
 export const DeleteVaga = async ({userId, vagaId}: DeleteVagaParams): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.vercel.app/job/${userId}/${vagaId}`, 
+      .post(`https://tahr-api.onrender.com/job/${userId}/${vagaId}`, 
       {},
       {
         headers: {

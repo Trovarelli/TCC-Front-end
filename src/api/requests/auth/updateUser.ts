@@ -16,7 +16,7 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
     const token =  Cookies.get('token')
     return axios
     .post(
-      `https://tahr-api.vercel.app/user/${id}`,
+      `https://tahr-api.onrender.com/user/${id}`,
       {
         name: nome,
         email: email,

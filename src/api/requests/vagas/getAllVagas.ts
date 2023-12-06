@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 export const GetAllVagas = async ({userId}: {userId: string}): Promise<AxiosResponse<VagaModel[], undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .get(`https://tahr-api.vercel.app/job/${userId}`, {
+      .get(`https://tahr-api.onrender.com/job/${userId}`, {
         headers: {
           'authorization': `Bearer ${token}`,
         },
