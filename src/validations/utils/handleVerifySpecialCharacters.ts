@@ -1,5 +1,6 @@
 export const handleVerifySpecialCharacters = (s: string) => {
-    if (s.length < 6) {
+  if(s === '') return true  
+  if (s.length < 6) {
       return false;
     }
   

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { UpdateUserValidator } from "@/validations";
+import { updateUser } from "@/api/requests/auth/updateUser";
 
 const Perfil = () => {
   const router = useRouter();
@@ -71,23 +72,9 @@ const Perfil = () => {
 
     setLoading(true);
 
-    axios
-      .post(
-        `https://tahr-api.onrender.com/user/${user.id}`,
-        {
-          name: userPayload.nome,
-          email: userPayload.email,
-          password: userPayload.password,
-          company: userPayload.empresa,
-          photo: userPayload.foto,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-            authorization: `Bearer ${user.token}`,
-          },
-        }
-      )
+    const { nome, email, password, empresa, foto } = userPayload;
+
+    updateUser({ id: user.id, email, empresa, foto, nome, senha: password })
       .then((res) => {
         const { name, company, email, photo } = res.data;
 

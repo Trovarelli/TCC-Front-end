@@ -46,17 +46,17 @@ const Login = () => {
   const handleLogin = () => {
     MakeLogin({ email: user.email, password: user.password })
       .then((res) => {
-        const { token, nome, empresa, foto } = res.data;
+        const { token, name, company, photo } = res.data;
         const id = getUserIdByToken(token, secret ?? "") || "";
         Cookies.set("token", token);
 
         setUserState({
           id,
-          empresa,
-          nome,
+          empresa: company,
+          nome: name,
           token,
           email: user.email,
-          foto,
+          foto: photo,
         });
 
         setTimeout(() => router.push("/dashboard"), 1200);

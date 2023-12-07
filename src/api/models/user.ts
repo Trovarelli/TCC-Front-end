@@ -1,8 +1,8 @@
 export interface UserModel {
     id: string
-    empresa: string
-    nome: string
+    company: string
+    name: string
     token: string,
     email: string,
-    foto: string,
+    photo: string,
 }

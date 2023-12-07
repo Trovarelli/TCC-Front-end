@@ -61,7 +61,7 @@ const Login = () => {
 
     MakeLogin({ email: userLogin.email, password: userLogin.password })
       .then((res) => {
-        const { token, nome, empresa, foto } = res.data;
+        const { token, name, company, photo } = res.data;
         const id = getUserIdByToken(token, secret ?? "") || "";
         Cookies.set("token", token, {
           expires: userLogin.remember ? 1200 : 1,
@@ -69,11 +69,11 @@ const Login = () => {
 
         setUserState({
           id,
-          empresa,
-          nome,
+          empresa: company,
+          nome: name,
           token,
           email: userLogin.email,
-          foto,
+          foto: photo,
         });
 
         setTimeout(() => router.push("/dashboard"), 800);
