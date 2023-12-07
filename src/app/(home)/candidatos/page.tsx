@@ -225,7 +225,7 @@ const Candidatos = () => {
                   Não foram encontrados candidatos salvos.
                   <img src="/img/not-found.jpg" width={300} height={300}></img>
                   <span
-                    className="cursor-pointer"
+                    className="cursor-pointer font-bold"
                     onClick={() => setOpenUpload(true)}
                   >
                     Clique aqui para fazer o upload dos seus curriculos

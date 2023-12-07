@@ -5,7 +5,7 @@ import ChipInput from "@/components/Inputs/ChipInput/component";
 import { VagaFormModalProps } from "./types";
 import { Button } from "@/components/Buttons";
 import { useState } from "react";
-import { CreateVaga } from "@/api/requests";
+import { CreateVaga, UpdateVaga } from "@/api/requests";
 import { toast } from "react-toastify";
 import { z } from "zod";
 import { useUsertore } from "@/store";
@@ -84,8 +84,38 @@ export const VagaFormModal = ({
           setOpen(false);
         });
     } else {
-      alert("UPDATE");
-      setLoading(false);
+      UpdateVaga({
+        userId: id,
+        caracteristicas: vaga.caracteristicas,
+        descricao: vaga.descricao,
+        titulo: vaga.titulo,
+        vagaId: vaga._id,
+      })
+        .then(() => {
+          toast.success("vaga atualizada com sucesso");
+          setVagas((prev) =>
+            prev.map((el) => {
+              if (el._id === vaga._id) {
+                const avaliableCandidatos = candidatos.filter((candidato) =>
+                  candidato.matchField.some((c) =>
+                    el.matchField.some(
+                      (v) => v.split(":")[1] === c.split(":")[1]
+                    )
+                  )
+                );
+                const newVaga = { ...vaga, candidatos: avaliableCandidatos };
+                return newVaga;
+              }
+
+              return el;
+            })
+          );
+        })
+        .catch((err) => toast.error(err.response?.data.message))
+        .finally(() => {
+          setLoading(false);
+          setOpen(false);
+        });
     }
   };
 

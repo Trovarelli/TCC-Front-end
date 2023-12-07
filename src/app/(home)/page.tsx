@@ -70,37 +70,37 @@ export default function Home() {
         <div className="flex flex-col justify-center items-center">
           <div className=" max-w-[1300px]">
             <div className="grid grid-cols-2 gap-4 mt-10">
-              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-justify justify-center">
+              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-justify">
                 <Database
                   size={36}
                   weight="fill"
                   className="text-primary md:mr-4"
                 />
-                Gerenciamento e manutenção de base de currículos.
+                Gestão e manutenção de bases de currículos.
               </div>
-              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center justify-center">
+              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center">
                 <DeviceMobile
                   size={36}
                   weight="fill"
                   className="text-primary md:mr-4"
                 />
-                Tenha acesso de qualquer dispositivo e a qualquer momento.
+                Acesso a partir de qualquer dispositivo, em qualquer momento.
               </div>
-              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center justify-center">
+              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center">
                 <ChartBar
                   size={36}
                   weight="fill"
                   className="text-primary md:mr-4"
                 />
-                Fornecemos uma análise automática de currículos.
+                Análise automatizada de currículos.
               </div>
-              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center justify-center">
+              <div className="rounded-md border-2 hover:text-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center">
                 <Heart
                   size={36}
                   weight="fill"
                   className="text-primary md:mr-4"
                 />
-                A nossa aplicação é 100% online e totalmente gratuita.
+                Totalmente online e gratuito.
               </div>
             </div>
             <div className="border border-gray-400 mt-20 w-full"></div>
@@ -135,15 +135,16 @@ export default function Home() {
                 <img src="img/logo/logo-only.svg" width="150px" />
               </div>
               <div>
-                Bem-vindo ao TAHR (Technology Applied to Human Resources) nossa
-                tecnologia de gestão de currículos é projetada para ajudar os
-                profissionais de RH a encontrar os melhores candidatos que
-                correspondam melhor as exigências que você procura. <br />
-                <br />
-                Estamos continuamente buscando maneiras de melhorar a nossa
-                plataforma e a experiência do usuário. Estamos sempre abertos a
-                feedback dos nossos usuários e usamos essas informações para
-                impulsionar a inovação e melhorias em nossos serviços.
+                TAHR (Technology Applied to Human Resources) é uma tecnologia
+                que visa auxiliar os profissionais de Recursos Humanos na
+                identificação dos candidatos mais qualificados, alinhados de
+                maneira precisa com as exigências específicas de cada vaga de
+                emprego disponibilizada pela organização. Buscamos
+                constantemente oportunidades de aprimorar a plataforma e a
+                experiência do usuário. Estamos sempre abertos para receber
+                feedback dos usuários, e utilizmos essas informações como base
+                para impulsionar inovações e implementar melhorias nos serviços
+                prestados.
               </div>
             </div>
             <div></div>

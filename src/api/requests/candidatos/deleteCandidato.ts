@@ -8,8 +8,7 @@ type DeleteCandidatoParams = {userId: string; candidatoId: string}
 export const DeleteCandidato = async ({userId, candidatoId}: DeleteCandidatoParams): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.onrender.com/candidate/${userId}/${candidatoId}`, 
-      {},
+      .delete(`https://tahr-api.onrender.com/candidate/${userId}/${candidatoId}`, 
       {
         headers: {
           'authorization': `Bearer ${token}`,

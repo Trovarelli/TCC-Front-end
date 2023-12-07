@@ -1,18 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import { FC, useRef } from "react";
 import { ToolTipProps } from "./types";
 
 export default function ToolTip({ children, tooltip, state }: ToolTipProps) {
-  const tooltipRef = useRef<HTMLSpanElement>(null);
-
   const renderTooltipContent = () => {
     if (!tooltip) {
       return null;
     }
 
-    // Dividir a string do tooltip por '\n' para lidar com quebras de linha
     const tooltipLines = tooltip.split("\n");
 
     return (
@@ -34,12 +30,10 @@ export default function ToolTip({ children, tooltip, state }: ToolTipProps) {
             { "bg-warning": state === "warning" }
           )}
         ></div>
-        {/* Mapear as linhas do tooltip */}
         {tooltipLines.map((line, index) => (
           <span key={index}>
             {line}
             {index < tooltipLines.length - 1 && <br />}{" "}
-            {/* Adicionar <br /> exceto na última linha */}
           </span>
         ))}
       </div>

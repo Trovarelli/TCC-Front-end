@@ -19,6 +19,7 @@ const defaultValues = {
   userId: "",
   ativo: false,
   candidatos: [],
+  matchField: [],
 };
 
 export interface VagaCandidatoModel extends VagaModel {
@@ -33,42 +34,53 @@ export default function Vagas() {
   const [vagasFiltradas, setVagasFiltradas] = useState<VagaCandidatoModel[]>(
     []
   );
-  const [selectedVaga, setSelectedVaga] = useState<
-    Omit<VagaModel, "matchField">
-  >({ ...defaultValues, userId, empresa });
+  const [selectedVaga, setSelectedVaga] = useState<VagaModel>({
+    ...defaultValues,
+    userId,
+    empresa,
+  });
   const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setRenderLoading(true);
-      try {
-        const [vagasResponse, candidatosResponse] = await Promise.all([
-          GetAllVagas({ userId }),
-          GetAllCandidatos({ userId }),
-        ]);
-        setCandidatos(candidatosResponse.data);
-        const newVagas = vagasResponse.data.map((el) => {
-          const avaliableCandidatos = candidatosResponse.data.filter(
-            (candidato) =>
-              candidato.matchField.some((c) =>
-                el.matchField.some((v) => v.split(":")[1] === c.split(":")[1])
-              )
-          );
-          return {
-            ...el,
-            candidatos: avaliableCandidatos,
-          };
-        });
-        setVagas(newVagas);
-      } catch (error) {
-        if (error instanceof AxiosError)
-          toast.error(error.response?.data.message);
-      } finally {
-        setRenderLoading(false);
-      }
-    };
+  const fetchData = async () => {
+    setRenderLoading(true);
+    try {
+      const [vagasResponse, candidatosResponse] = await Promise.all([
+        GetAllVagas({ userId }),
+        GetAllCandidatos({ userId }),
+      ])
+        .then((res) => res)
+        .catch(() => []);
+      setCandidatos(candidatosResponse.data);
 
+      console.log(vagasResponse, candidatosResponse);
+
+      const newVagas = candidatosResponse.data
+        ? vagasResponse.data.map((el) => {
+            const avaliableCandidatos = candidatosResponse.data.filter(
+              (candidato) =>
+                candidato.matchField.some((c) =>
+                  el.matchField.some((v) => v.split(":")[1] === c.split(":")[1])
+                )
+            );
+            return {
+              ...el,
+              candidatos: avaliableCandidatos,
+            };
+          })
+        : vagasResponse.data.map((el) => ({ ...el, candidatos: [] }));
+
+      setVagas(newVagas);
+    } catch (error) {
+      if (error instanceof AxiosError)
+        toast.error(error.response?.data.message);
+      else toast.error("Erro interno");
+    } finally {
+      setRenderLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [userId]);
 

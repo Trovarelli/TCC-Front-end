@@ -15,7 +15,7 @@ type UpdateUserParams = {
 export const updateUser = async ({id, nome, email, senha, empresa, foto}: UpdateUserParams): Promise<AxiosResponse<UserModel, undefined>> => {
     const token =  Cookies.get('token')
     return axios
-    .post(
+    .put(
       `https://tahr-api.onrender.com/user/${id}`,
       {
         name: nome,

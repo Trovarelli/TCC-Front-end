@@ -5,7 +5,7 @@ import router from "next/router";
 export const FavoriteCandidato = async ({userId, candidatoId, favorito}: {userId: string; candidatoId: string; favorito: boolean}): Promise<AxiosResponse<undefined, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
-      .post(`https://tahr-api.onrender.com/candidate/favorite/${userId}/${candidatoId}`, 
+      .patch(`https://tahr-api.onrender.com/candidate/favorite/${userId}/${candidatoId}`, 
       {
         favorito,
       },
