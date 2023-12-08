@@ -5,7 +5,7 @@ import router from "next/router";
 
 type UpdateVagaParams = {titulo: string, descricao: string, caracteristicas: string[], userId: string, vagaId: string}
 
-export const UpdateVaga = async ({userId, caracteristicas, descricao, titulo, vagaId}: UpdateVagaParams): Promise<AxiosResponse<VagaModel, undefined>> => { 
+export const UpdateVaga = async ({userId, caracteristicas, descricao, titulo, vagaId}: UpdateVagaParams): Promise<AxiosResponse<{message: string, job: VagaModel}, undefined>> => { 
     const token =  Cookies.get('token')
     return axios
       .patch(`https://tahr-api.onrender.com/job/${userId}/${vagaId}`, 

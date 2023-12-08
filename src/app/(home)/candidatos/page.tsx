@@ -91,7 +91,6 @@ const Candidatos = () => {
         tags.filter((el) => !el.includes(":"))
       );
 
-      console.log(precisionTags, normalTags);
       setFilteredCandidatos((v) => {
         return v.filter((el) => {
           return (

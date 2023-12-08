@@ -53,25 +53,23 @@ export default function Vagas() {
         .catch(() => []);
       setCandidatos(candidatosResponse.data);
 
-      console.log(vagasResponse, candidatosResponse);
+      const newVagas = vagasResponse.data.map((vaga) => {
+        const avaliableCandidatos = candidatosResponse.data.filter(
+          (candidato) =>
+            candidato.matchField.some((c) =>
+              vaga.matchField.some((v) => {
+                const vg = v.split(":")[1];
+                const cd = c.split(":")[1];
+                return vg && cd && cd === vg;
+              })
+            )
+        );
 
-      const newVagas = candidatosResponse.data
-        ? vagasResponse.data.map((el) => {
-            const avaliableCandidatos = candidatosResponse.data.filter(
-              (candidato) =>
-                candidato.matchField.some((c) =>
-                  el.matchField.some(
-                    (v) =>
-                      v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
-                  )
-                )
-            );
-            return {
-              ...el,
-              candidatos: avaliableCandidatos,
-            };
-          })
-        : vagasResponse.data.map((el) => ({ ...el, candidatos: [] }));
+        return {
+          ...vaga,
+          candidatos: avaliableCandidatos,
+        };
+      });
 
       setVagas(newVagas);
     } catch (error) {
@@ -86,10 +84,6 @@ export default function Vagas() {
   useEffect(() => {
     fetchData();
   }, [userId]);
-
-  useEffect(() => {
-    console.log(vagas);
-  }, [vagas]);
 
   useEffect(() => {
     if (search) {

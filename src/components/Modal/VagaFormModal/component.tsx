@@ -91,20 +91,24 @@ export const VagaFormModal = ({
         titulo: vaga.titulo,
         vagaId: vaga._id,
       })
-        .then(() => {
+        .then((res) => {
+          const vagaResponse = res.data.job;
           toast.success("vaga atualizada com sucesso");
           setVagas((prev) =>
             prev.map((el) => {
-              if (el._id === vaga._id) {
+              if (el._id === vagaResponse._id) {
                 const avaliableCandidatos = candidatos.filter((candidato) =>
                   candidato.matchField.some((c) =>
-                    el.matchField.some(
+                    vagaResponse.matchField.some(
                       (v) =>
                         v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
                     )
                   )
                 );
-                const newVaga = { ...vaga, candidatos: avaliableCandidatos };
+                const newVaga = {
+                  ...vagaResponse,
+                  candidatos: avaliableCandidatos,
+                };
                 return newVaga;
               }
 
