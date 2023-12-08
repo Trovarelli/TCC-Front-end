@@ -95,9 +95,13 @@ const Candidatos = () => {
       setFilteredCandidatos((v) => {
         return v.filter((el) => {
           return (
-            el.matchField.some((filter) => precisionTags.includes(filter)) ||
-            el.matchField.some((filter) =>
-              normalTags.includes(filter.split(":")[1])
+            el.matchField.some(
+              (filter) => precisionTags.includes(filter) && filter.split(":")[1]
+            ) ||
+            el.matchField.some(
+              (filter) =>
+                normalTags.includes(filter.split(":")[1]) &&
+                filter.split(":")[1]
             )
           );
         });

@@ -113,16 +113,17 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-4 mt-10 text-white">
               <div className="rounded-md border-2 bg-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-justify justify-center">
                 <UserList size={36} weight="fill" className="md:mr-4" />
-                Visualização de todos os currículos de forma rápida e eficiente.
+                Visualização eficiente de todos os currículos.
               </div>
               <div className="rounded-md border-2 bg-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-center justify-center">
                 <FloppyDiskBack size={36} weight="fill" className="md:mr-4" />
-                Guarde os currículos necessários para futuras contratações.
+                Arquivamento de currículos necessários para futuras
+                contratações.
               </div>
               <div className="col-span-2 flex items-center justify-center">
                 <div className="rounded-md border-2 max-w-[50%] bg-primary transition-all duration-300 border-primary p-8 font-bold flex items-center justify-center max-md:flex-col max-md:text-center">
                   <FileSearch size={36} weight="fill" className="md:mr-4" />
-                  Filtragem avançada para qualquer tipo de currículo.
+                  Filtragem avançada para diversos tipos de currículos.
                 </div>
               </div>
             </div>

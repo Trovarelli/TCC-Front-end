@@ -68,7 +68,7 @@ export const VagaFormModal = ({
           const avaliableCandidatos = candidatos.filter((candidato) =>
             candidato.matchField.some((c) =>
               res.data.matchField.some(
-                (v) => v.split(":")[1] === c.split(":")[1]
+                (v) => v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
               )
             )
           );
@@ -99,7 +99,8 @@ export const VagaFormModal = ({
                 const avaliableCandidatos = candidatos.filter((candidato) =>
                   candidato.matchField.some((c) =>
                     el.matchField.some(
-                      (v) => v.split(":")[1] === c.split(":")[1]
+                      (v) =>
+                        v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
                     )
                   )
                 );

@@ -139,7 +139,7 @@ export const UploadModal = ({
         size="lg"
         className="h-[80vh] flex flex-col justify-between"
       >
-        <div className=" overflow-auto border-2 m-4 border-dashed border-gray-400 rounded-lg p-4 text-center h-[67vh] relative cursor-pointer">
+        <div className="overflow-auto border-2 m-4 border-dashed border-gray-400 rounded-lg p-4 text-center h-[67vh] relative cursor-pointer">
           <label htmlFor="fileInput" className="text-gray-600 block mb-2">
             Arraste e solte arquivos PDF aqui ou clique para selecionar
           </label>
@@ -153,7 +153,7 @@ export const UploadModal = ({
           />
 
           {files.length > 0 && (
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-3 justify-center">
               {files.map((file, index) => (
                 <div
                   key={index}

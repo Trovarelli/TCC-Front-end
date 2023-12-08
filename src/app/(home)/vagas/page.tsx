@@ -60,7 +60,10 @@ export default function Vagas() {
             const avaliableCandidatos = candidatosResponse.data.filter(
               (candidato) =>
                 candidato.matchField.some((c) =>
-                  el.matchField.some((v) => v.split(":")[1] === c.split(":")[1])
+                  el.matchField.some(
+                    (v) =>
+                      v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
+                  )
                 )
             );
             return {
@@ -83,6 +86,10 @@ export default function Vagas() {
   useEffect(() => {
     fetchData();
   }, [userId]);
+
+  useEffect(() => {
+    console.log(vagas);
+  }, [vagas]);
 
   useEffect(() => {
     if (search) {
