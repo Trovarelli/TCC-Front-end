@@ -8,6 +8,7 @@ import Spinner from "@/components/Spinner/component";
 import { Link as LinkScroll } from "react-scroll";
 import { useUsertore } from "@/store";
 import { Button } from "@/components";
+import Image from "next/image";
 
 export default function MobileNav() {
   const router = useRouter();
@@ -44,11 +45,12 @@ export default function MobileNav() {
       <div className="flex items-center">
         <div className="self-center py-3">
           <Link href={"/"}>
-            <img
-              alt="TAHR-LOGO"
+            <Image
+              alt="TAHR"
               src="/img/logo/logo-text.svg"
-              width="120px"
-            ></img>
+              width="120"
+              height="120"
+            ></Image>
           </Link>
         </div>
       </div>

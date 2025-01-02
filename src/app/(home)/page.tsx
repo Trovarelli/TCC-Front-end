@@ -13,6 +13,7 @@ import {
 } from "phosphor-react";
 import { Button } from "@/components";
 import clsx from "clsx";
+import Image from "next/image";
 
 export default function Home() {
   const router = useRouter();
@@ -133,7 +134,12 @@ export default function Home() {
             </h1>
             <div className="border-2 border-primary mt-10 mb-20 w-full p-8 grid grid-cols-1 md:grid-cols-2 gap-4 text-primary font-semibold">
               <div className="flex justify-center items-center">
-                <img src="img/logo/logo-only.svg" width="150px" />
+                <Image
+                  src="img/logo/logo-only.svg"
+                  width="150"
+                  height="150"
+                  alt="Logo"
+                />
               </div>
               <div>
                 TAHR (Technology Applied to Human Resources) é uma tecnologia

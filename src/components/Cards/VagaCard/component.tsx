@@ -2,6 +2,7 @@
 import { Pencil, Trash, X } from "phosphor-react";
 import { VagaCardProps } from "./types";
 import { useState } from "react";
+import Image from "next/image";
 import { CandidatoCard, ConfirmationModal, DefaultModal } from "@/components";
 
 export const VagaCard = ({
@@ -43,7 +44,12 @@ export const VagaCard = ({
               <div className="flex justify-center items-center flex-col">
                 Infelizmente não foram encontrados candidatos adequados esta
                 vaga.
-                <img src="/img/not-found.jpg" width={300} height={300}></img>
+                <Image
+                  src="/img/not-found.jpg"
+                  width="300"
+                  height="300"
+                  alt="NÃO ENCONTRADO"
+                />
               </div>
             )}
           </div>

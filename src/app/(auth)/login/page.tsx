@@ -12,6 +12,7 @@ import { useUsertore } from "@/store";
 import { getUserIdByToken } from "@/utils";
 import { MakeLogin } from "@/api/requests";
 import { LoginValidator } from "@/validations";
+import Image from "next/image";
 
 const Login = () => {
   const remember = Cookies.get("autoLogin");
@@ -96,7 +97,12 @@ const Login = () => {
           <ArrowUDownLeft size={26} />
         </Link>
         <div className="flex justify-center">
-          <img src="./img/logo/logo-text.svg" width="200px"></img>
+          <Image
+            src="./img/logo/logo-text.svg"
+            width="200"
+            height="200"
+            alt="TAHR"
+          />
         </div>
         <h1 className="text-title text-center font-bold text-black mt-6">
           Entre em nossa plataforma

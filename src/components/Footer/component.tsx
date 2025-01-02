@@ -1,8 +1,15 @@
+import Image from "next/image";
+
 export const Footer = () => (
   <footer className="w-full static bottom-0 bg-primary h-[32vh] z-50 flex justify-center items-center">
     <div className="grid grid-cols-2 divide-x divide-white">
       <div className="flex justify-end items-center p-4">
-        <img src="img/logo/logo-text-white.svg" width="150px" />
+        <Image
+          src="img/logo/logo-text-white.svg"
+          width="150"
+          height="150"
+          alt="TAHR"
+        />
       </div>
       <div className="flex flex-col p-4">
         <div className="text-white font-semibold text-sm text-center mb-4">

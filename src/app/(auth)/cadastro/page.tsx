@@ -11,6 +11,7 @@ import { getUserIdByToken } from "@/utils";
 import { useUsertore } from "@/store";
 import { CreateUser, MakeLogin } from "@/api/requests";
 import { CreateUserValidation } from "@/validations";
+import Image from "next/image";
 
 const Login = () => {
   const [user, setUser] = useState({
@@ -112,7 +113,12 @@ const Login = () => {
           <ArrowUDownLeft size={26} />
         </Link>
         <div className="flex justify-center">
-          <img src="./img/logo/logo-text.svg" width="200px"></img>
+          <Image
+            src="./img/logo/logo-text.svg"
+            width="200"
+            height="200"
+            alt="TAHR"
+          />
         </div>
         <h1 className="text-title text-center font-bold text-black mt-4">
           Registre-se em nossa plataforma

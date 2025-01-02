@@ -12,8 +12,9 @@ import ChipInput from "@/components/Inputs/ChipInput/component";
 import Spinner from "@/components/Spinner/component";
 import { useUsertore } from "@/store";
 import clsx from "clsx";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const Candidatos = () => {
   const [renderLoading, setRenderLoading] = useState(true);
@@ -113,7 +114,7 @@ const Candidatos = () => {
         })
       );
     }
-  }, [tags]);
+  }, [candidatos, onlyFavorites, tags]);
 
   return (
     <div className="bg-background p-4 min-h-screen">
@@ -226,7 +227,12 @@ const Candidatos = () => {
               ) : (
                 <div className="flex justify-center items-center flex-col">
                   Não foram encontrados candidatos salvos.
-                  <img src="/img/not-found.jpg" width={300} height={300}></img>
+                  <Image
+                    src="/img/not-found.jpg"
+                    width="300"
+                    height="300"
+                    alt="NÃO ENCONTRADO"
+                  ></Image>
                   <span
                     className="cursor-pointer font-bold"
                     onClick={() => setOpenUpload(true)}

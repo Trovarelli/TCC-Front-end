@@ -10,6 +10,7 @@ import { BriefcaseMetal, SquaresFour, UserList } from "phosphor-react";
 import { Profile } from "@/components/Profile";
 import { Link as LinkScroll } from "react-scroll";
 import { useUsertore } from "@/store";
+import Image from "next/image";
 
 export default function DesktopNav() {
   const router = useRouter();
@@ -54,11 +55,12 @@ export default function DesktopNav() {
         <div className="flex items-center">
           <div className="self-center py-3">
             <Link href={"/"}>
-              <img
+              <Image
                 alt="TAHR-LOGO"
                 src="/img/logo/logo-text.svg"
-                width="120px"
-              ></img>
+                width="120"
+                height="120"
+              />
             </Link>
           </div>
         </div>

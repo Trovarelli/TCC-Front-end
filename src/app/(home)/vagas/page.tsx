@@ -9,6 +9,7 @@ import Link from "next/link";
 import { BriefcaseMetal, PlusCircle, UserList } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 const defaultValues = {
   _id: "",
@@ -181,7 +182,12 @@ export default function Vagas() {
               ) : (
                 <div className="flex justify-center items-center flex-col">
                   Não foram encontradas vagas salvas.
-                  <img src="/img/not-found.jpg" width={200} height={200}></img>
+                  <Image
+                    src="/img/not-found.jpg"
+                    width="200"
+                    height="200"
+                    alt="NÃO ENCONTRADO"
+                  />
                   <span
                     className="cursor-pointer text-primary"
                     onClick={() => setOpenCreate(true)}
