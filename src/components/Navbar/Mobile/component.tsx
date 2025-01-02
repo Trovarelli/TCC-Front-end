@@ -178,7 +178,7 @@ export default function MobileNav() {
                     }
                   )}
                 >
-                  Funcionalidades
+                  Recursos
                 </LinkScroll>
                 <LinkScroll
                   to={"solucoes"}
@@ -195,7 +195,7 @@ export default function MobileNav() {
                     }
                   )}
                 >
-                  Soluções
+                  Vantagens
                 </LinkScroll>
                 <LinkScroll
                   to={"sobre-nos"}

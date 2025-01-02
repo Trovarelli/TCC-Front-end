@@ -65,7 +65,7 @@ export default function Home() {
       </div>
       <div className="col-span-2 w-full sm:rounded-[50px] rounded-2xl shadow-home p-4 right-0 left-0 ">
         <h1 id="solucoes" className="font-bold sm:mt-20 mt-10 text-center">
-          Nossas Soluções
+          Nossas Vantagens
         </h1>
         <div className="flex flex-col justify-center items-center">
           <div className=" max-w-[1300px]">
@@ -108,7 +108,7 @@ export default function Home() {
               id="funcionalidades"
               className="font-bold sm:mt-20 mt-10 text-center"
             >
-              Funcionalidades
+              Nossos Recursos
             </h1>
             <div className="grid grid-cols-2 gap-4 mt-10 text-white">
               <div className="rounded-md border-2 bg-primary transition-all duration-300 border-primary p-8 font-bold flex items-center max-md:flex-col max-md:text-justify justify-center">

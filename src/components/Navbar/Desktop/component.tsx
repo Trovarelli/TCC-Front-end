@@ -136,7 +136,7 @@ export default function DesktopNav() {
               }
             )}
           >
-            Funcionalidades
+            Recursos
           </LinkScroll>
           <LinkScroll
             to={"solucoes"}
@@ -150,7 +150,7 @@ export default function DesktopNav() {
               { "text-primary border-primary": selectedLink === "solucoes" }
             )}
           >
-            Soluções
+            Vantagens
           </LinkScroll>
           <LinkScroll
             to={"sobre-nos"}
