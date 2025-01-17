@@ -16,6 +16,7 @@ export const getJwtSecretKey = () => {
 }
 
 export const verifyAuth = async (token: string) => {
+    console.log('VERIFY', token)
     try {
         const verified = await jwtVerify(token, new TextEncoder().encode(getJwtSecretKey()))
         return verified.payload as UserJwtPayload

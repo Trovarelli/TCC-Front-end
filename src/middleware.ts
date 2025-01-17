@@ -1,37 +1,29 @@
-import { verifyAuth } from '@/middleware/auth'
-import Cookies from 'js-cookie'
-import router from 'next/router'
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { verifyAuth } from '@/middleware/auth';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get('token')?.value
+  const token = req.cookies.get('token')?.value;
 
-  const verifiedToken = token && (await verifyAuth(token).catch((err) => {
-      Cookies.remove('token')
-      router.push("/");
-      return
-  }))
-
-  if(req.nextUrl.pathname.startsWith('/login') && !verifiedToken) {
-    return 
+  const publicRoutes = ['/login', '/register', '/_next', '/img'];
+  
+  if (publicRoutes.some((route) => req.nextUrl.pathname.length === 1 || req.nextUrl.pathname.startsWith(route))) {
+    console.log('ENTROU NO IF', req.nextUrl.pathname.length)
+    return NextResponse.next();
   }
 
-  if(req.url.includes('/login') && !!verifiedToken) {
-    return NextResponse.redirect(new URL('/dashboard', req.url))
-  }
+  try {
+    const verifiedToken = token && (await verifyAuth(token));
 
-  if(!verifiedToken) {
-    if (req.nextUrl.pathname.startsWith('/api/admin')) {
-        return new Response(JSON.stringify({error: {message: 'autenticação necessária'}}))
-    }
-    
-    Cookies.remove("token");
-    
-    return NextResponse.redirect(new URL('/login', req.url))
+    if (verifiedToken) return NextResponse.next();
+
+  } catch (error) {
+    console.error('Erro ao verificar token:', error);
+  } finally {
+    return NextResponse.redirect(new URL('/login', req.url));
   }
 }
 
 export const config = {
-    matcher: ['/admin/:path*', '/login', '/dashboard'],
-}
+  matcher: '/:path*',
+};

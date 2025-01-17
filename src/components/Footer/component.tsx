@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 export const Footer = () => (
-  <footer className="w-full static bottom-0 bg-primary h-[32vh] z-50 flex justify-center items-center">
+  <footer className="w-full bottom-0 bg-primary h-[32vh] z-50 flex justify-center items-center relative">
     <div className="grid grid-cols-2 divide-x divide-white">
       <div className="flex justify-end items-center p-4">
         <Image
@@ -23,6 +23,16 @@ export const Footer = () => (
           Inscrever-se
         </a>
       </div>
+    </div>
+    <div className="text-white absolute bottom-5 right-5">
+      Desenvolvido por
+      <a
+        target="_blank"
+        href="https://www.linkedin.com/in/jos%C3%A9-trovarelli-neto-31b2801b9/"
+      >
+        <strong>José Trovarelli Neto</strong>
+      </a>
+      &copy; {new Date().getFullYear()}
     </div>
   </footer>
 );
