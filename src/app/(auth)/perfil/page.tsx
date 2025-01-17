@@ -60,7 +60,6 @@ const Perfil = () => {
       UpdateUserValidator.parse(userPayload);
     } catch (err) {
       if (err instanceof z.ZodError) {
-        console.log(JSON.parse(err.message));
         JSON.parse(err.message)?.forEach(
           (el: { path: string[]; message: string }) =>
             setErrors((prev) => ({ ...prev, [el.path[0]]: el.message }))
@@ -91,7 +90,7 @@ const Perfil = () => {
       })
       .catch((err) => {
         toast.error(err.response?.data.message);
-        console.log(err);
+        console.error(err);
       })
       .finally(() => setLoading(false));
   };

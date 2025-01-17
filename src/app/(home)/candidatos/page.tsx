@@ -32,7 +32,7 @@ const Candidatos = () => {
   const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
       .then((res) => setCandidatos(res.data))
-      .catch((err) => console.log(err.message))
+      .catch((err) => console.error(err.message))
       .finally(() => setRenderLoading(false));
   };
 

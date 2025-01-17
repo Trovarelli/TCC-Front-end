@@ -36,7 +36,7 @@ export const UploadModal = ({
         setSucess((prev) => [...prev, file.name]);
       } catch (err: any) {
         toast.error(err.response?.data.message);
-        console.log(err.response?.data.message);
+        console.error(err.response?.data.message);
       } finally {
         setIsLoading((prev) => prev.filter((el) => el !== file.name));
       }

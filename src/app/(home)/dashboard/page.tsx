@@ -29,14 +29,14 @@ const Dashboard = () => {
   const handleGetAllCandidatos = () => {
     GetAllCandidatos({ userId: id })
       .then((res) => setCandidatos(res.data.length))
-      .catch((err) => console.log(err.message))
+      .catch((err) => console.error(err.message))
       .finally(() => setRenderLoading(false));
   };
 
   const handleGetAllVagas = () => {
     GetAllVagas({ userId: id })
       .then((res) => setVagas(res.data.length))
-      .catch((err) => console.log(err.message))
+      .catch((err) => console.error(err.message))
       .finally(() => setRenderLoading(false));
   };
 

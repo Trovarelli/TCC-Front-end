@@ -82,7 +82,7 @@ const Login = () => {
       .catch((err) => {
         toast.error(err.response?.data.message || "Erro interno");
         setLoading(false);
-        console.log(err);
+        console.error(err);
       });
   };
   return (
