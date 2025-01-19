@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner/component";
 import { Link as LinkScroll } from "react-scroll";
 import { useUsertore } from "@/store";
-import { Button } from "@/components";
+import { Button, GptFormModal } from "@/components";
 import Image from "next/image";
 
 export default function MobileNav() {
@@ -17,6 +17,7 @@ export default function MobileNav() {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
   const { removeUserState, user } = useUsertore();
+  const [open, setOpen] = useState(false);
 
   const handleSelectLink = (link: string) => {
     setSelectedLink(link);
@@ -42,6 +43,7 @@ export default function MobileNav() {
 
   return (
     <div className="sm:hidden fixed mr-0 top-0 right-0 left-0 bg-white flex items-center justify-between border-b border-gray-400 px-4 z-50">
+      <GptFormModal open={open} setOpen={setOpen} />
       <div className="flex items-center">
         <div className="self-center py-3">
           <Link href={"/"}>
@@ -144,6 +146,12 @@ export default function MobileNav() {
                 >
                   Candidatos
                 </Link>
+                <div
+                  onClick={() => setOpen(true)}
+                  className="hover:text-primary flex justify-center items-center"
+                >
+                  Chave GPT
+                </div>
               </div>
 
               <div

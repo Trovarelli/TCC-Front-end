@@ -7,6 +7,8 @@ import { Button } from "@/components/Buttons";
 import { toast } from "react-toastify";
 import { useUsertore } from "@/store";
 import { CreateCandidato } from "@/api/requests";
+import clsx from "clsx";
+import { GptFormModal } from "../GPTKeyModal";
 
 export const UploadModal = ({
   open,
@@ -16,9 +18,9 @@ export const UploadModal = ({
   const [files, setFiles] = useState<File[]>([]);
   const [sucess, setSucess] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<string[]>([]);
+  const [openKey, setOpenKey] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { id } = useUsertore().user;
-
+  const { user, apiKey } = useUsertore();
   const handleUpload = async () => {
     setLoading(true);
 
@@ -27,8 +29,9 @@ export const UploadModal = ({
         const curriculum = await handleBase64Convert(file);
 
         const candidato = await CreateCandidato({
-          userId: id,
+          userId: user.id,
           curriculum,
+          apiKey,
         }).then((res) => res.data);
 
         if (candidato) setCandidatos((v) => [candidato, ...v]);
@@ -129,11 +132,26 @@ export const UploadModal = ({
 
   return (
     <>
+      <GptFormModal open={openKey} setOpen={setOpenKey} />
       <Button
         btnName="Salvar Candidatos"
         onClick={() => setOpen(true)}
         loading={loading}
+        disabled={!apiKey}
       />
+      {!apiKey && (
+        <div className="mt-2 text-sm text-gray-600">
+          *
+          <span
+            className="font-medium text-primary cursor-pointer"
+            onClick={() => setOpenKey(true)}
+          >
+            Clique aqui{" "}
+          </span>
+          para inserir sua <strong>Chave GPT</strong>. Ela é necessária para
+          ativar a análise avançada e salvar os candidatos.
+        </div>
+      )}
       <DefaultModal
         open={open}
         size="lg"

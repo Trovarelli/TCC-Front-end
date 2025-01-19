@@ -2,8 +2,11 @@
 import { useUsertore } from "@/store";
 import clsx from "clsx";
 import Link from "next/link";
-import { CaretDown, SignOut, User, X } from "phosphor-react";
-import { useState } from "react";
+import { CaretDown, Key, SignOut, User, X } from "phosphor-react";
+import { SetStateAction, useState } from "react";
+import { DefaultModal, GptFormModal } from "../Modal";
+import { TextInput } from "../Inputs";
+import { Button } from "../Buttons";
 
 interface ProfileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   logout: () => void;
@@ -12,13 +15,15 @@ interface ProfileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
   const [open, setOpen] = useState(false);
   const { nome, foto } = useUsertore().user;
+  const [infoModal, setInfoModal] = useState(false);
 
   return (
     <div className="relative">
+      <GptFormModal open={infoModal} setOpen={setInfoModal} />
       <button
         onClick={() => setOpen(!open)}
         className={clsx(
-          "text-primary font-bold bg-background hover:bg-[#c8c5e9] rounded-lg text-sm px-4 py-2 flex items-center",
+          "text-primary sm:min-w-[150px] font-bold bg-background hover:bg-[#c8c5e9] rounded-lg text-sm px-4 py-2 flex items-center",
           className
         )}
         {...rest}
@@ -38,7 +43,7 @@ export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
       </button>
       <div
         className={clsx(
-          "z-10 absolute bg-white rounded-lg shadow  dark:bg-gray-700 mt-1",
+          "z-10 absolute bg-white rounded-lg shadow  dark:bg-gray-700 mt-1 sm:min-w-[150px]",
           { hidden: !open }
         )}
       >
@@ -52,6 +57,15 @@ export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
               <User size={17} weight="bold" className="mr-2" />
               Meu Perfil
             </Link>
+          </li>
+          <li>
+            <div
+              onClick={() => setInfoModal(true)}
+              className="flex items-center px-4 py-2 bg-background hover:bg-[#c8c5e9] cursor-pointer"
+            >
+              <Key size={17} weight="bold" className="mr-2" />
+              Chave GPT
+            </div>
           </li>
           <li>
             <div

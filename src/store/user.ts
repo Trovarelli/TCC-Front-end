@@ -13,7 +13,10 @@ type userType = {
 type userStoreType = UseBoundStore<StoreApi<{
     user: userType
     setUserState: (v: userType) => void;
-    removeUserState: () => void
+    removeUserState: () => void;
+    apiKey: string;
+    setApiKey: (v: string) => void;
+    removeApiKey: () => void;
 }>>
 
   export const useUsertore: userStoreType = create(
@@ -27,8 +30,11 @@ type userStoreType = UseBoundStore<StoreApi<{
               empresa: '',
               foto: '',
             },
-            setUserState: (u: userType) => set({ user: u }),
-            removeUserState: () => set({ user: { id: '', email: '', token: '', nome: '', empresa: '', foto: '' } }),
+            apiKey: '',
+            setApiKey: (k: string) => set((p) => ({...p, apiKey: k})),
+            removeApiKey: () => set((p) => ({...p, apiKey: ''})),
+            setUserState: (u: userType) => set((p) => ({...p, user: u })),
+            removeUserState: () => set({ user: { id: '', email: '', token: '', nome: '', empresa: '', foto: ''} }),
           }),
       {
         name: 'user-storage',

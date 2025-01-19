@@ -53,6 +53,9 @@ export function Button({
           "bg-transparent text-primary border border-primary hover:bg-primary hover:text-white active:bg-primary-active":
             secondary,
         },
+        {
+          "bg-gray-400 pointer-events-none !border-none": disabled,
+        },
         { "rounded-full": rounded },
         { "w-full": fullWidth }
       )}
