@@ -1,6 +1,6 @@
-# Sistema de Filtro de Currículos
+# TAHR - Technology Applied to Human Resources
 
-O **Sistema de Filtro de Currículos** permite que os usuários criem uma conta, façam upload de currículos e, a partir de uma base de dados personalizada, busquem currículos filtrados por palavras-chave e contextos específicos. O sistema é integrado com o ChatGPT e utiliza técnicas de análise textual para identificar palavras-chave e contextos relevantes, tornando a busca mais eficiente e alinhada com os interesses do usuário.
+O **TAHR (Technology Applied to Human Resources)** é um sistema que permite que os usuários criem uma conta, façam upload de currículos e, a partir de uma base de dados personalizada, busquem currículos filtrados por palavras-chave e contextos específicos. O sistema é integrado com o ChatGPT e utiliza técnicas de análise textual para identificar palavras-chave e contextos relevantes, tornando a busca mais eficiente e alinhada com os interesses do usuário.
 
 ## 📋 Funcionalidades
 
