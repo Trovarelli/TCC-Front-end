@@ -24,11 +24,12 @@ export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
 
     const uploadFile = async (file: File) => {
       try {
-        const curriculum = await handleBase64Convert(file);
+        const formData = new FormData();
+        formData.append('curriculum', file);
 
         const candidato = await CreateCandidato({
           userId: user.id,
-          curriculum,
+          formData,
           apiKey,
         }).then((res) => res.data);
 
