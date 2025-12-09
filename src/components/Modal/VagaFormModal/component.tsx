@@ -59,10 +59,8 @@ export const VagaFormModal = ({
       CreateVaga({
         caracteristicas,
         descricao,
-        empresa,
         titulo,
         userId: id,
-        ativo,
       })
         .then((res) => {
           const avaliableCandidatos = candidatos.filter((candidato) =>
@@ -92,7 +90,7 @@ export const VagaFormModal = ({
         vagaId: vaga._id,
       })
         .then((res) => {
-          const vagaResponse = res.data.job;
+          const vagaResponse = res.data;
           toast.success("vaga atualizada com sucesso");
           setVagas((prev) =>
             prev.map((el) => {
@@ -100,7 +98,7 @@ export const VagaFormModal = ({
                 const avaliableCandidatos = candidatos.filter((candidato) =>
                   candidato.matchField.some((c) =>
                     vagaResponse.matchField.some(
-                      (v) =>
+                      (v: string) =>
                         v.split(":")[1] === c.split(":")[1] && c.split(":")[1]
                     )
                   )

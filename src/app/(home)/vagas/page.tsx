@@ -213,6 +213,7 @@ export default function Vagas() {
                   key={idx}
                   vaga={el}
                   candidatos={el.candidatos}
+                  userId={userId}
                   setOpenModal={() => handleSelectForEdit(el)}
                   onDelete={() => handleDeleteVaga(el._id)}
                 />
