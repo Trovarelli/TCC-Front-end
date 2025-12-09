@@ -8,3 +8,4 @@ export interface ChipInputProps extends Omit<InputHTMLAttributes<any>, 'type' | 
     chipsValue: string[]
     setChipsValue: (v: string[]) => void
 }
+

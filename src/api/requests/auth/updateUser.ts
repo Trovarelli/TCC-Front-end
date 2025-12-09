@@ -4,17 +4,17 @@ import Cookies from "js-cookie";
 import router from "next/router";
 
 type UpdateUserParams = {
-    id: string;
-    nome: string;
-    email: string;
-    senha: string;
-    empresa: string;
-    foto: string;    
+  id: string;
+  nome: string;
+  email: string;
+  senha: string;
+  empresa: string;
+  foto: string;
 }
 
-export const updateUser = async ({id, nome, email, senha, empresa, foto}: UpdateUserParams): Promise<AxiosResponse<UserModel, undefined>> => {
-    const token =  Cookies.get('token')
-    return axios
+export const updateUser = async ({ id, nome, email, senha, empresa, foto }: UpdateUserParams): Promise<AxiosResponse<UserModel, undefined>> => {
+  const token = Cookies.get('token')
+  return axios
     .put(
       `https://tahr-api.onrender.com/user/${id}`,
       {
@@ -30,7 +30,7 @@ export const updateUser = async ({id, nome, email, senha, empresa, foto}: Update
         },
       }
     ).catch((err) => {
-      if(err.response.status === 401) {
+      if (err.response.status === 401) {
         Cookies.remove("token");
         router.push("/");
       }

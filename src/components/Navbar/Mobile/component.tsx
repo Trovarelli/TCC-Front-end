@@ -6,7 +6,7 @@ import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner/component";
 import { Link as LinkScroll } from "react-scroll";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { Button, GptFormModal } from "@/components";
 import Image from "next/image";
 
@@ -16,7 +16,7 @@ export default function MobileNav() {
   const [loading, setLoading] = useState(false);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [selectedLink, setSelectedLink] = useState("");
-  const { removeUserState, user } = useUsertore();
+  const { removeUserState, user } = useUserStore();
   const [open, setOpen] = useState(false);
 
   const handleSelectLink = (link: string) => {
@@ -253,3 +253,5 @@ export default function MobileNav() {
     </div>
   );
 }
+
+

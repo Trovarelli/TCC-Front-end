@@ -6,3 +6,5 @@ export interface GptFormModalProps extends Omit<DefaultModalProps, 'children'> {
     setOpen: (v: boolean) => void
 }
 
+
+

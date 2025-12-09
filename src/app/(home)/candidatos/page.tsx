@@ -1,257 +1,199 @@
 "use client";
 
-import { CandidatoModel } from "@/api/models";
-import { DeleteCandidato, GetAllCandidatos } from "@/api/requests";
+import { useState } from "react";
 import {
-  CandidatoCard,
   CheckBox,
   DefaultModal,
   UploadModal,
+  LoadingScreen,
+  EmptyState,
 } from "@/components";
 import ChipInput from "@/components/Inputs/ChipInput/component";
-import Spinner from "@/components/Spinner/component";
-import { useUsertore } from "@/store";
+import { useCandidatos, useCandidatoFilter } from "@/hooks";
+import { formatTagList } from "@/utils/formatters";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import Image from "next/image";
+import Spinner from "@/components/Spinner/component";
+import { CandidatoCard } from "@/components/Cards/CandidatoCard";
+import { MagnifyingGlass, Info, Upload } from "phosphor-react";
 
 const Candidatos = () => {
-  const [renderLoading, setRenderLoading] = useState(true);
   const [openUpload, setOpenUpload] = useState(false);
   const [tags, setTags] = useState<string[]>([]);
-  const { id } = useUsertore().user;
-  const [candidatos, setCandidatos] = useState<CandidatoModel[]>([]);
-  const [filteredCandidatos, setFilteredCandidatos] = useState<
-    CandidatoModel[]
-  >([]);
-  const [localLoading, setLocalLoading] = useState(false);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [infoModal, setInfoModal] = useState(false);
 
-  const handleGetAllCandidatos = () => {
-    GetAllCandidatos({ userId: id })
-      .then((res) => setCandidatos(res.data))
-      .catch((err) => console.error(err.message))
-      .finally(() => setRenderLoading(false));
-  };
+  const {
+    candidatos,
+    loading,
+    localLoading,
+    deleteCandidato,
+    updateFavorite,
+  } = useCandidatos();
 
-  useEffect(() => {
-    handleGetAllCandidatos();
-  }, []);
+  const filteredCandidatos = useCandidatoFilter(candidatos, {
+    tags,
+    onlyFavorites,
+  });
 
-  useEffect(() => {
-    setFilteredCandidatos(() =>
-      candidatos.filter((el) => {
-        if (onlyFavorites) return el.favorito === true;
-        else return true;
-      })
-    );
-  }, [onlyFavorites, candidatos]);
-
-  const handleFormatTags = () => {
-    let string = "";
-    for (let i = 0; i < tags.length; i++) {
-      let elemento = '"' + tags[i] + '"';
-      string += elemento;
-      if (i < tags.length - 1) {
-        string += ", ";
-      }
-    }
-
-    return string;
-  };
-
-  const handleFavoriteClientCandidato = (id: string, favorite: boolean) => {
-    candidatos.map((el) => {
-      if (el._id === id) el.favorito = favorite;
-      return el;
-    });
-  };
-
-  const handleDelete = (candidatoId: string) => {
-    setLocalLoading(true);
-    DeleteCandidato({ candidatoId, userId: id })
-      .then(() => {
-        setCandidatos((v) => v.filter((el) => el._id !== candidatoId));
-      })
-      .catch((err) => toast.error(err.response?.data.message))
-      .finally(() => setLocalLoading(false));
-  };
-
-  const handleSanitizeTags = (tags: string[]) => {
-    return tags.map((tg) => tg.toLowerCase());
-  };
-
-  useEffect(() => {
-    if (tags.length > 0) {
-      const precisionTags = handleSanitizeTags(
-        tags.filter((el) => el.includes(":"))
-      );
-      const normalTags = handleSanitizeTags(
-        tags.filter((el) => !el.includes(":"))
-      );
-
-      setFilteredCandidatos((v) => {
-        return v.filter((el) => {
-          return (
-            el.matchField.some(
-              (filter) => precisionTags.includes(filter) && filter.split(":")[1]
-            ) ||
-            el.matchField.some(
-              (filter) =>
-                normalTags.includes(filter.split(":")[1]) &&
-                filter.split(":")[1]
-            )
-          );
-        });
-      });
-    } else {
-      setFilteredCandidatos(() =>
-        candidatos.filter((el) => {
-          if (onlyFavorites) return el.favorito === true;
-          else return true;
-        })
-      );
-    }
-  }, [candidatos, onlyFavorites, tags]);
+  if (loading) {
+    return <LoadingScreen message="Carregando candidatos..." />;
+  }
 
   return (
-    <div className="bg-background p-4 min-h-screen">
-      {renderLoading ? (
-        <div className="flex h-screen w-screen justify-center items-center">
-          <Spinner color="primary" size="lg" />
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6 pt-20 md:pt-24">
+      <div className="max-w-7xl mx-auto">
+        {}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Candidatos</h1>
+          <p className="text-gray-600">
+            Gerencie e organize todos os seus candidatos
+          </p>
         </div>
-      ) : (
-        <div>
-          <div className="w-full bg-white rounded-md p-3 grid grid-cols-2 gap-3 sm:divide-x sm:divide-gray-400">
-            <div className="flex flex-col justify-start w-full gap-4 max-sm:col-span-2">
-              <UploadModal
-                setOpen={setOpenUpload}
-                open={openUpload}
-                setCandidatos={setCandidatos}
-              />
-              <div className="p-2 border border-black rounded-md">
-                <div className="col-span-3 text-center font-bold mb-3">
-                  Busca Avançada
+
+        {}
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="grid md:grid-cols-2 gap-6">
+            {}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
+                  <MagnifyingGlass size={20} weight="bold" className="text-white" />
                 </div>
-                <ChipInput
-                  label={"Pesquisar Candidatos"}
-                  fullWidth
-                  chipsValue={tags}
-                  setChipsValue={setTags}
-                />
+                <h3 className="text-lg font-semibold text-gray-900">Busca Avançada</h3>
               </div>
+              <ChipInput
+                label="Pesquisar por competências, experiência, etc."
+                fullWidth
+                chipsValue={tags}
+                setChipsValue={setTags}
+              />
+              <button
+                onClick={() => setOpenUpload(true)}
+                className="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+              >
+                <Upload size={20} weight="bold" />
+                Fazer Upload de Currículos
+              </button>
             </div>
-            <div className="px-3 flex flex-col items-center gap-3 max-sm:col-span-2">
-              <div className="text-center font-bold">Pré-definições</div>
-              <div className="text-justify">
-                Nossa busca avançada permite que você filtre candidatos por meio
-                de tags, basta digitar a característica que deseja filtrar para
-                que os candidatos com tal característica sejam exibidos.
-                <br></br>
-                Caso queira filtrar com mais precisão, para mais informações{" "}
-                <span
-                  className="text-primary cursor-pointer"
-                  onClick={() => setInfoModal((prev) => !prev)}
-                >
-                  clique aqui.
-                </span>
-                <DefaultModal open={infoModal}>
-                  <div className="flex flex-col">
-                    <div
-                      className="w-full cursor-pointer text-primary flex justify-end pr-3"
-                      onClick={() => setInfoModal(false)}
-                    >
-                      X
-                    </div>
-                    <div className="flex flex-col px-3 pb-3">
-                      <div>
-                        Para mais precisão em seu filtro basta inserir uma chave
-                        antes do parametro utilizado pelo filtro, por exemplo:
-                        <strong>nome:jose</strong>. Aqui estão algumas das
-                        chaves que poderão ser usadas para tornar sua busca mais
-                        precisa:
-                      </div>
-                      <ul className="font-bold ml-3">
-                        <li>nome</li>
-                        <li>nivelProfissional</li>
-                        <li>idade</li>
-                        <li>caracteristicas</li>
-                        <li>escolaridade</li>
-                        <li>experiencia</li>
-                      </ul>
-                    </div>
-                  </div>
-                </DefaultModal>
+
+            {}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                  <Info size={20} weight="bold" className="text-white" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900">Filtros</h3>
               </div>
+              <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                Use tags para filtrar candidatos. Digite características como{" "}
+                <span className="inline-block bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">
+                  Python
+                </span>{" "}
+                <span className="inline-block bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">
+                  React
+                </span>{" "}
+                ou{" "}
+                <span className="inline-block bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-xs font-medium">
+                  Sênior
+                </span>
+              </p>
+              <button
+                onClick={() => setInfoModal(true)}
+                className="text-indigo-600 hover:text-indigo-700 font-medium text-sm flex items-center gap-1"
+              >
+                <Info size={16} weight="fill" />
+                Ver filtros avançados
+              </button>
             </div>
           </div>
-          <div className="relative">
-            <div
-              className={
-                "w-full bg-white rounded-md p-3 mt-5 text-primary max-h-[100vh] overflow-y-scroll"
-              }
-            >
-              <div className="grid grid-cols-12">
-                <div
-                  className={clsx(
-                    "col-span-10 max-md:col-span-12 transition-all duration-100",
-                    {
-                      "opacity-0": tags.length == 0,
-                    }
-                  )}
-                >
-                  Aqui, uma busca de candidatos que possuem
-                  <strong>{handleFormatTags()}</strong> em seu currículo.
-                </div>
-                <div className="col-span-2 max-md:col-span-12">
-                  <div className="flex justify-end items-center w-full">
-                    <CheckBox
-                      label={"Somente favoritos"}
-                      checked={onlyFavorites}
-                      setValue={(value) => setOnlyFavorites((prev) => !prev)}
-                    />
-                  </div>
-                </div>
-              </div>
-              {filteredCandidatos.length > 0 ? (
-                filteredCandidatos?.map((el, idx) => (
-                  <CandidatoCard
-                    onFavoriteClientCandidato={handleFavoriteClientCandidato}
-                    candidato={el}
-                    key={idx}
-                    onDelete={() => handleDelete(el._id)}
-                  />
-                ))
-              ) : (
-                <div className="flex justify-center items-center flex-col">
-                  Não foram encontrados candidatos salvos.
-                  <Image
-                    src="/img/not-found.jpg"
-                    width="300"
-                    height="300"
-                    alt="NÃO ENCONTRADO"
-                  ></Image>
-                  <span
-                    className="cursor-pointer font-bold"
-                    onClick={() => setOpenUpload(true)}
-                  >
-                    Clique aqui para fazer o upload dos seus curriculos
-                  </span>
-                </div>
-              )}
+        </div>
+
+        {}
+        <div className="bg-white rounded-lg shadow-md p-6 relative">
+          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className={clsx("text-sm", { "opacity-0": tags.length === 0 })}>
+              <span className="text-gray-600">Buscando por:</span>{" "}
+              <strong className="text-indigo-600">{formatTagList(tags)}</strong>
             </div>
-            {localLoading && (
-              <div className="absolute inset-0 flex justify-center items-center z-50 bg-white bg-opacity-40">
-                <Spinner color="primary" size="md" />
-              </div>
+            <CheckBox
+              label="Somente favoritos"
+              checked={onlyFavorites}
+              setValue={() => setOnlyFavorites((prev) => !prev)}
+            />
+          </div>
+
+          <div className="space-y-3">
+            {filteredCandidatos.length > 0 ? (
+              filteredCandidatos.map((candidato, idx) => (
+                <CandidatoCard
+                  onFavoriteClientCandidato={updateFavorite}
+                  candidato={candidato}
+                  key={idx}
+                  onDelete={() => deleteCandidato(candidato._id)}
+                />
+              ))
+            ) : (
+              <EmptyState
+                title="Nenhum candidato encontrado"
+                description="Faça o upload de currículos para começar a gerenciar seus candidatos"
+                actionLabel="Fazer Upload"
+                onAction={() => setOpenUpload(true)}
+              />
             )}
           </div>
+
+          {localLoading && (
+            <div className="absolute inset-0 flex justify-center items-center bg-white/80 rounded-lg">
+              <Spinner color="primary" size="md" />
+            </div>
+          )}
         </div>
-      )}
+      </div>
+
+      {}
+      <UploadModal open={openUpload} setOpen={setOpenUpload} />
+
+      <DefaultModal open={infoModal}>
+        <div className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="text-xl font-semibold text-gray-900">Filtros Avançados</h3>
+            <button
+              onClick={() => setInfoModal(false)}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              ✕
+            </button>
+          </div>
+
+          <p className="text-gray-600 text-sm mb-4">
+            Para filtrar com precisão, use o formato:{" "}
+            <code className="bg-gray-100 text-gray-800 px-2 py-1 rounded font-mono text-xs">
+              chave:valor
+            </code>
+          </p>
+
+          <div className="space-y-2">
+            <div className="text-sm font-semibold text-gray-700 mb-2">Chaves disponíveis:</div>
+            <ul className="grid grid-cols-2 gap-2 text-sm">
+              <li className="bg-gray-50 p-2 rounded">
+                <code className="text-indigo-600 font-mono text-xs">nome:jose</code>
+              </li>
+              <li className="bg-gray-50 p-2 rounded">
+                <code className="text-indigo-600 font-mono text-xs">idade:25</code>
+              </li>
+              <li className="bg-gray-50 p-2 rounded">
+                <code className="text-indigo-600 font-mono text-xs">nivelProfissional:senior</code>
+              </li>
+              <li className="bg-gray-50 p-2 rounded">
+                <code className="text-indigo-600 font-mono text-xs">escolaridade:superior</code>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </DefaultModal>
     </div>
   );
 };
 
 export default Candidatos;
+

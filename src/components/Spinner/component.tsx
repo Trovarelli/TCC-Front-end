@@ -14,3 +14,5 @@ export default function Spinner({ color = "white", size }: SpinnerProps) {
     ></div>
   );
 }
+
+

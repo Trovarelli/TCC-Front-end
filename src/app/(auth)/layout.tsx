@@ -14,3 +14,5 @@ export const metadata = {
 export default function AuthLayout({ children }: AuthLayoutProps) {
   return <>{children}</>;
 }
+
+

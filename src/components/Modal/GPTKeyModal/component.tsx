@@ -4,11 +4,11 @@ import { DefaultModal } from "../DefaultModal";
 import { GptFormModalProps } from "./types";
 import { Button } from "@/components/Buttons";
 import { useEffect, useState } from "react";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 
 export const GptFormModal = ({ open, setOpen }: GptFormModalProps) => {
   const [key, setKey] = useState("");
-  const { setApiKey, apiKey } = useUsertore();
+  const { setApiKey, apiKey } = useUserStore();
 
   const handleSave = () => {
     setApiKey(key);
@@ -44,12 +44,12 @@ export const GptFormModal = ({ open, setOpen }: GptFormModalProps) => {
             <li>
               Acesse sua conta na OpenAI através do site:{" "}
               <a
-                href="https://platform.openai.com"
+                href="https://platform.openai.com/api-keys"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary underline"
               >
-                https://platform.openai.com
+                https://platform.openai.com/api-keys
               </a>
               .
             </li>
@@ -82,13 +82,11 @@ export const GptFormModal = ({ open, setOpen }: GptFormModalProps) => {
             className="mr-2"
             color="error"
             onClick={handleCancel}
-            // loading={loading}
           />
           <Button
             btnName={"Salvar"}
             color="success"
             onClick={handleSave}
-            // loading={loading}
           />
         </div>
       </div>

@@ -12,3 +12,5 @@ export interface VagaFormModalProps extends Omit<DefaultModalProps, 'children'> 
     title: string
 }
 
+
+

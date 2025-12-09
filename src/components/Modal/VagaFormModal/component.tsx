@@ -8,7 +8,7 @@ import { useState } from "react";
 import { CreateVaga, UpdateVaga } from "@/api/requests";
 import { toast } from "react-toastify";
 import { z } from "zod";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { CreateVagaValidator } from "@/validations";
 
 export const VagaFormModal = ({
@@ -26,7 +26,7 @@ export const VagaFormModal = ({
     caracteristicas: "",
     descricao: "",
   });
-  const { id, empresa } = useUsertore().user;
+  const { id, empresa } = useUserStore().user;
 
   const handleSetTags = (v: string[]) => {
     setVaga({ ...vaga, caracteristicas: v });
@@ -184,3 +184,5 @@ export const VagaFormModal = ({
     </DefaultModal>
   );
 };
+
+

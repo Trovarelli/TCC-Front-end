@@ -1,48 +1,50 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: "Manrope", sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  /* display: flex;
-  justify-content: center; */
-  font-weight: 400;
-  color: rgb(31, 31, 31);
-  background-color: rgb(245, 245, 245);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl font-bold text-gray-900;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl font-semibold text-gray-800;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl font-semibold text-gray-800;
+  }
 }
 
-h1 {
-  font-size: 1.75rem;
-  line-height: 2.25rem;
-}
-h2 {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-h3 {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-}
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition: background-color 600000s 0s, color 600000s 0s;
+@layer components {
+  .card {
+    @apply bg-white rounded-lg shadow-md p-4 transition-shadow hover:shadow-lg;
+  }
+
+  .btn-primary {
+    @apply bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-white hover:bg-gray-50 text-indigo-600 border border-indigo-600 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
+  }
 }
 
-/* width */
+/* Custom scrollbar */
 ::-webkit-scrollbar {
-  @apply w-2 bg-[#c0c0c0]
-
+  @apply w-2 bg-gray-100;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-400 rounded-full
+  @apply bg-gray-400 rounded-full hover:bg-gray-500;
 }

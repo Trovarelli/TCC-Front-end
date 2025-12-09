@@ -7,3 +7,4 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<any>, 'type'> {
     fullWidth?: boolean
     options: {key: string, value: string | number | readonly string[] | undefined}[]
 }
+

@@ -6,3 +6,4 @@ export interface TextAreaProps extends Omit<TextareaHTMLAttributes<any>, 'type'>
     helperText?: string
     fullWidth?: boolean
 }
+

@@ -1,25 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 import Cookies from "js-cookie";
-import router from "next/router";
 
-export const FavoriteCandidato = async ({userId, candidatoId, favorito}: {userId: string; candidatoId: string; favorito: boolean}): Promise<AxiosResponse<undefined, undefined>> => { 
-    const token =  Cookies.get('token')
-    return axios
-      .patch(`https://tahr-api.onrender.com/candidate/favorite/${userId}/${candidatoId}`, 
-      {
-        favorito,
-      },
+export const FavoriteCandidato = async ({ userId, candidatoId, favorito }: { userId: string; candidatoId: string; favorito: boolean }): Promise<AxiosResponse> => {
+  const token = Cookies.get('token');
+  return axios
+    .patch(
+      `https://tahr-api.onrender.com/candidate/${userId}/${candidatoId}`,
+      { favorito },
       {
         headers: {
           'authorization': `Bearer ${token}`,
         },
-      })
-      .then((res) => res)
-      .catch((err) => {
-        if(err.response.status === 401) {
-          Cookies.remove("token");
-          router.push("/");
-        }
-        throw new Error(err)
-      })
-  };
+      }
+    )
+};

@@ -8,3 +8,4 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
     secondary?: boolean
     color?: 'primary' | 'info' | 'success' | 'error' | 'warning'
 }
+

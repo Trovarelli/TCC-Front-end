@@ -7,3 +7,4 @@ export const LoginValidator = z.object({
       .min(1, "Campo obrigatório"),
     password: z.string().min(1, "Campo obrigatório"),
   });
+

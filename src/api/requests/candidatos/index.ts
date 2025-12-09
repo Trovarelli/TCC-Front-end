@@ -3,3 +3,4 @@ export * from './createCandidato'
 export * from './deleteCandidato'
 export * from './getCurriculo'
 export * from './favoriteCandidato'
+

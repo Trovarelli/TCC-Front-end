@@ -4,14 +4,14 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
- 
+
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       gridTemplateColumns: {
-       
+
         'vagas': 'repeat(5, minmax(30px, 1fr))',
       },
       gridTemplateRows: {
@@ -31,9 +31,9 @@ module.exports = {
       },
       keyframes: {
         customSpinner: {
-          '50%': { transform: 'rotatez(180deg)', 'border-radius': '55%'},
+          '50%': { transform: 'rotatez(180deg)', 'border-radius': '55%' },
           '100%': {
-          transform: 'rotatez(360deg)'
+            transform: 'rotatez(360deg)'
           }
         }
       },
@@ -41,17 +41,17 @@ module.exports = {
         customSpinner: 'customSpinner 1s ease-in-out infinite',
       },
       colors: {
-        'primary': '#5344FF',
-        'primary-active': '#3023c9',
+        'primary': '#6366f1',
+        'primary-active': '#4f46e5',
         'error': '#ef4444',
-        'error-active': '#e61a1a',
+        'error-active': '#dc2626',
         'success': '#10b981',
-        'success-active': '#08B922',
+        'success-active': '#059669',
         'info': '#3b82f6',
-        'info-active': '#2877F6',
+        'info-active': '#2563eb',
         'warning': '#eab308',
-        'warning-active': '#EADE00',
-        'background': '#E0DDFF'
+        'warning-active': '#ca8a04',
+        'background': '#f8fafc'
       },
       fontSize: {
         'title': '1.6rem',

@@ -5,5 +5,6 @@ export interface VagaCardProps {
     candidatos: CandidatoModel[]
     userId: string;
     setOpenModal: () => void;
-    onDelete: () => Promise<void>; // Agora especificamos que a função retorna uma Promise<void>
+    onDelete: () => Promise<void>; 
   }
+

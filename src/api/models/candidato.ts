@@ -17,3 +17,5 @@ export interface CandidatoModel {
     nivelProfissional?: 'estagiario' | 'junior' | 'pleno' | 'senior'
     matchField: string[]
 }
+
+

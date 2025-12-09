@@ -49,3 +49,4 @@ import { handleVerifySpecialCharacters, handleVerifyName } from "./utils";
       message: "As senhas devem ser iguais",
     }
   );
+

@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
 import { Button, CheckBox, TextInput } from "@/components";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { getUserIdByToken } from "@/utils";
 import { MakeLogin } from "@/api/requests";
 import { LoginValidator } from "@/validations";
@@ -22,7 +22,7 @@ const Login = () => {
     remember: !!remember,
   });
 
-  const { setUserState } = useUsertore();
+  const { setUserState } = useUserStore();
 
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -157,3 +157,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

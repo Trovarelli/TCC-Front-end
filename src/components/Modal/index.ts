@@ -4,3 +4,4 @@ export * from './VagaFormModal'
 export * from './CandidatoModal'
 export * from './UploadModal'
 export * from './GPTKeyModal'
+

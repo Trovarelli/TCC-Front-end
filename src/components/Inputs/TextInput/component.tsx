@@ -54,12 +54,12 @@ export function TextInput({
         {...props}
         id={id}
         className={clsx(
-          "block px-2.5 pb-2.5 pt-4 bg-white focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-black rounded-md border  appearance-none focus:outline-none focus:ring-0 focus:border-2 peer",
-          { "border-error": state === "error" },
-          { "border-info": state === "info" },
-          { "border-warning": state === "warning" },
-          { "border-success": state === "success" },
-          { "border-primary": !state }
+          "block px-2.5 pb-2.5 pt-4 bg-transparent focus:px-[9px] focus:pb-[9px] focus:pt-[15px] focus:pr-12 pr-12 w-full text-sm text-gray-900 rounded-lg border-2 appearance-none focus:outline-none focus:ring-0 peer transition-all",
+          { "border-red-500 focus:border-red-600": state === "error" },
+          { "border-blue-500 focus:border-blue-600": state === "info" },
+          { "border-yellow-500 focus:border-yellow-600": state === "warning" },
+          { "border-green-500 focus:border-green-600": state === "success" },
+          { "border-gray-300 focus:border-indigo-600": !state }
         )}
         placeholder=" "
         value={value}
@@ -68,12 +68,13 @@ export function TextInput({
       <label
         htmlFor={id}
         className={clsx(
-          "absolute text-sm cursor-text duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1",
-          { "peer-focus:text-error text-error": state === "error" },
-          { "peer-focus:text-info text-info": state === "info" },
-          { "peer-focus:text-warning text-warning": state === "warning" },
-          { "peer-focus:text-success text-success": state === "success" },
-          { "text-gray-500": !state }
+          "absolute text-sm cursor-text duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1",
+          "before:content-[''] before:absolute before:inset-0 before:bg-white before:-z-10 before:rounded",
+          { "peer-focus:text-red-600 text-red-600": state === "error" },
+          { "peer-focus:text-blue-600 text-blue-600": state === "info" },
+          { "peer-focus:text-yellow-600 text-yellow-600": state === "warning" },
+          { "peer-focus:text-green-600 text-green-600": state === "success" },
+          { "text-gray-600 peer-focus:text-indigo-600": !state }
         )}
       >
         {label}
@@ -83,16 +84,10 @@ export function TextInput({
           className={clsx(
             "absolute bg-white top-1/2 right-0 transform -translate-x-1/2 -translate-y-1/2 z-10",
             { hidden: !state },
-            { "text-error": state === "error" },
-            {
-              "text-info": state === "info",
-            },
-            {
-              "text-success": state === "success",
-            },
-            {
-              "text-warning": state === "warning",
-            }
+            { "text-red-500": state === "error" },
+            { "text-blue-500": state === "info" },
+            { "text-green-500": state === "success" },
+            { "text-yellow-500": state === "warning" }
           )}
         >
           {!!state && changeIcon(state)}
@@ -102,18 +97,12 @@ export function TextInput({
         <div
           onClick={() => setShowPassword(!showPassword)}
           className={clsx(
-            "absolute text-primary cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
+            "absolute text-indigo-600 cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
             { "right-10": !!state },
-            { "!text-error": state === "error" },
-            {
-              "!text-info": state === "info",
-            },
-            {
-              "!text-success": state === "success",
-            },
-            {
-              "!text-warning": state === "warning",
-            }
+            { "!text-red-500": state === "error" },
+            { "!text-blue-500": state === "info" },
+            { "!text-green-500": state === "success" },
+            { "!text-yellow-500": state === "warning" }
           )}
         >
           {showPassword ? <Eye size={26} /> : <EyeSlash size={26} />}
@@ -122,7 +111,7 @@ export function TextInput({
       {inputType === "search" && (
         <div
           className={clsx(
-            "absolute text-primary cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
+            "absolute text-indigo-600 cursor-pointer bg-white top-1/2 right-0 transition-all duration-100 transform -translate-x-1/2 -translate-y-1/2 z-10",
             { "right-10": !!state }
           )}
         >
@@ -132,3 +121,5 @@ export function TextInput({
     </div>
   );
 }
+
+

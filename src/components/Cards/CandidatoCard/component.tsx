@@ -69,55 +69,58 @@ export const CandidatoCard = ({
         title="Deseja excluir este candidato?"
         description="Ao deletar este candidato todos os dados salvos serão perdidos."
       />
-      <div className="my-2 grid grid-cols-12 gap-2 w-full p-4 bg-[#D1CEFC] rounded-md text-sm py-6 relative">
+
+      <div className="bg-white border border-gray-200 rounded-lg p-4 hover:border-indigo-300 hover:shadow-md transition-all relative">
         {onDelete && (
-          <div className="absolute right-2 top-2">
-            <div
-              onClick={() => setOpenDelete(!openDelete)}
-              className="flex justify-center items-center p-[0.35rem] rounded-full bg-white text-center"
-            >
-              <Trash
-                size={16}
-                className="cursor-pointer text-primary"
-                weight="fill"
-              />
+          <button
+            onClick={() => setOpenDelete(true)}
+            className="absolute top-3 right-3 w-8 h-8 rounded-full bg-red-50 hover:bg-red-100 text-red-600 flex items-center justify-center transition-colors"
+          >
+            <Trash size={16} weight="fill" />
+          </button>
+        )}
+
+        <div className="grid md:grid-cols-12 gap-4 items-center pr-8">
+          {}
+          <div className="md:col-span-3 space-y-1">
+            <div className="text-xs text-gray-500">Nome</div>
+            <div className="font-semibold text-gray-900">{candidato.nome}</div>
+            <div className="text-xs text-gray-500">
+              {candidato.idade ? `${candidato.idade} anos` : "Idade não informada"}
             </div>
           </div>
-        )}
-        <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
-          <span className="text-primary">Idade</span>
-          <span className=" text-black">
-            {candidato.idade ? `${candidato.idade} anos` : "Não informado."}
-          </span>
-        </div>
-        <div className="font-bold flex flex-col col-span-2 max-sm:col-span-6">
-          <span className="text-primary">Nome</span>
-          <span className=" text-black">{candidato.nome}</span>
-        </div>
-        <div className="flex items-center max-sm:hidden col-span-5 max-md:col-span-4">
-          {sanitizedCaracteristicas.slice(0, 4).map((el, idx) => (
-            <div
-              key={idx}
+
+          {}
+          <div className="md:col-span-6 flex flex-wrap gap-1.5">
+            {sanitizedCaracteristicas.slice(0, 5).map((el, idx) => (
+              <span
+                key={idx}
+                className="inline-block bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded text-xs font-medium hover:bg-indigo-100 cursor-pointer transition-colors"
+                onClick={() => setOpenPDF(true)}
+              >
+                {el}
+              </span>
+            ))}
+            {sanitizedCaracteristicas.length > 5 && (
+              <span className="inline-block bg-gray-100 text-gray-600 px-2.5 py-1 rounded text-xs font-medium">
+                +{sanitizedCaracteristicas.length - 5}
+              </span>
+            )}
+          </div>
+
+          {}
+          <div className="md:col-span-3 flex justify-end">
+            <button
               onClick={() => setOpenPDF(true)}
-              className="px-4 py-1 m-1 text-white bg-primary cursor-pointer rounded-full max-md:opacity-0"
+              className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-4 py-2 rounded-lg text-sm flex items-center gap-2 transition-colors"
             >
-              {el}
-            </div>
-          ))}
-          <span className="max-md:opacity-0">
-            + {sanitizedCaracteristicas.length - 4}
-          </span>
-        </div>
-        <div className="max-sm:col-span-12 text-white col-span-3 max-md:col-span-4 flex items-center justify-center">
-          <div
-            onClick={() => setOpenPDF(true)}
-            className="bg-primary flex font-bold h-fit items-center justify-center max-sm:w-full px-5 py-3 rounded-full cursor-pointer"
-          >
-            Visualizar Currículo
-            <ArrowRight size={16} weight="bold" className="ml-2" />
+              Ver Currículo
+              <ArrowRight size={16} weight="bold" />
+            </button>
           </div>
         </div>
       </div>
     </>
   );
 };
+

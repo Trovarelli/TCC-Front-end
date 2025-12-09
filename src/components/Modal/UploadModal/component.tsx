@@ -5,22 +5,20 @@ import { DefaultModal } from "../DefaultModal";
 import { Checks, SpinnerGap, X } from "phosphor-react";
 import { Button } from "@/components/Buttons";
 import { toast } from "react-toastify";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { CreateCandidato } from "@/api/requests";
 import clsx from "clsx";
 import { GptFormModal } from "../GPTKeyModal";
+import { useCandidatos } from "@/hooks";
 
-export const UploadModal = ({
-  open,
-  setOpen,
-  setCandidatos,
-}: UploadModalProps) => {
+export const UploadModal = ({ open, setOpen }: UploadModalProps) => {
   const [files, setFiles] = useState<File[]>([]);
   const [sucess, setSucess] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<string[]>([]);
   const [openKey, setOpenKey] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user, apiKey } = useUsertore();
+  const { user, apiKey } = useUserStore();
+  const { addCandidate } = useCandidatos();
   const handleUpload = async () => {
     setLoading(true);
 
@@ -34,7 +32,7 @@ export const UploadModal = ({
           apiKey,
         }).then((res) => res.data);
 
-        if (candidato) setCandidatos((v) => [candidato, ...v]);
+        if (candidato) addCandidate(candidato);
 
         setSucess((prev) => [...prev, file.name]);
       } catch (err: any) {
@@ -203,3 +201,5 @@ export const UploadModal = ({
     </>
   );
 };
+
+

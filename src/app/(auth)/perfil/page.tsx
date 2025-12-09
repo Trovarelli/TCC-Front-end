@@ -1,7 +1,7 @@
 "use client";
 import { z } from "zod";
 import { Button, TextInput } from "@/components";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useRef, useState } from "react";
@@ -12,7 +12,7 @@ import { updateUser } from "@/api/requests/auth/updateUser";
 const Perfil = () => {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { user, setUserState } = useUsertore();
+  const { user, setUserState } = useUserStore();
   const [loading, setLoading] = useState(false);
   const [userPayload, setUserPayload] = useState({
     nome: user.nome,
@@ -221,11 +221,13 @@ const Perfil = () => {
         type="file"
         accept="image/*"
         onChange={handleImageChange}
-        style={{ display: "none" }} // Torna o input de arquivo invisível
-        ref={fileInputRef} // Associa a referência ao input de arquivo
+        style={{ display: "none" }} 
+        ref={fileInputRef} 
       />
     </div>
   );
 };
 
 export default Perfil;
+
+

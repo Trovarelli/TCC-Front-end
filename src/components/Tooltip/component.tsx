@@ -47,3 +47,5 @@ export default function ToolTip({ children, tooltip, state }: ToolTipProps) {
     </div>
   );
 }
+
+

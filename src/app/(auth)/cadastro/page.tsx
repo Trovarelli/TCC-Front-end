@@ -8,7 +8,7 @@ import { ArrowUDownLeft } from "phosphor-react";
 import Link from "next/link";
 import { Button, CheckBox, TextInput } from "@/components";
 import { getUserIdByToken } from "@/utils";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { CreateUser, MakeLogin } from "@/api/requests";
 import { CreateUserValidation } from "@/validations";
 import Image from "next/image";
@@ -25,7 +25,7 @@ const Login = () => {
   const secret = process.env.JWT_SECRET_KEY;
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { setUserState } = useUsertore();
+  const { setUserState } = useUserStore();
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -199,3 +199,5 @@ const Login = () => {
 };
 
 export default Login;
+
+

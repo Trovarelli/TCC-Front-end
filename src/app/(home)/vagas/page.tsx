@@ -1,15 +1,13 @@
 "use client";
 import { CandidatoModel, VagaModel } from "@/api/models";
 import { DeleteVaga, GetAllCandidatos, GetAllVagas } from "@/api/requests";
-import { TextInput, VagaCard, VagaFormModal } from "@/components";
-import Spinner from "@/components/Spinner/component";
-import { useUsertore } from "@/store";
+import { TextInput, VagaCard, VagaFormModal, LoadingScreen, EmptyState } from "@/components";
+import { useUserStore } from "@/store/user";
 import { AxiosError } from "axios";
 import Link from "next/link";
-import { BriefcaseMetal, PlusCircle, UserList } from "phosphor-react";
+import { BriefcaseMetal, PlusCircle, UserList, MagnifyingGlass } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Image from "next/image";
 
 const defaultValues = {
   _id: "",
@@ -30,11 +28,9 @@ export interface VagaCandidatoModel extends VagaModel {
 export default function Vagas() {
   const [renderLoading, setRenderLoading] = useState(true);
   const [openCreate, setOpenCreate] = useState(false);
-  const { id: userId, empresa } = useUsertore().user;
+  const { id: userId, empresa } = useUserStore().user;
   const [vagas, setVagas] = useState<VagaCandidatoModel[]>([]);
-  const [vagasFiltradas, setVagasFiltradas] = useState<VagaCandidatoModel[]>(
-    []
-  );
+  const [vagasFiltradas, setVagasFiltradas] = useState<VagaCandidatoModel[]>([]);
   const [selectedVaga, setSelectedVaga] = useState<VagaModel>({
     ...defaultValues,
     userId,
@@ -49,9 +45,7 @@ export default function Vagas() {
       const [vagasResponse, candidatosResponse] = await Promise.all([
         GetAllVagas({ userId }),
         GetAllCandidatos({ userId }),
-      ])
-        .then((res) => res)
-        .catch(() => []);
+      ]);
       setCandidatos(candidatosResponse.data);
 
       const newVagas = vagasResponse.data.map((vaga) => {
@@ -96,7 +90,7 @@ export default function Vagas() {
         "i"
       );
       const filteredItems = vagas.filter((option) =>
-        regexPattern.test(option.descricao)
+        regexPattern.test(option.descricao) || regexPattern.test(option.titulo)
       );
       setVagasFiltradas(filteredItems);
     } else {
@@ -105,7 +99,7 @@ export default function Vagas() {
   }, [search, vagas]);
 
   const handleSelectForEdit = (vaga: VagaModel) => {
-    setOpenCreate((prev) => !prev);
+    setOpenCreate(true);
     setSelectedVaga(vaga);
   };
 
@@ -117,8 +111,12 @@ export default function Vagas() {
       });
   };
 
+  if (renderLoading) {
+    return <LoadingScreen message="Carregando vagas..." />;
+  }
+
   return (
-    <div className="bg-background p-4 flex items-center min-h-screen justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50 p-6 pt-24">
       <VagaFormModal
         title="Criar Vaga"
         setVagas={setVagas}
@@ -128,78 +126,112 @@ export default function Vagas() {
         open={openCreate}
         candidatos={candidatos}
       />
-      {renderLoading ? (
-        <div className="flex h-screen w-screen justify-center items-center">
-          <Spinner color="primary" size="lg" />
+
+      <div className="max-w-7xl mx-auto">
+        {}
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2">Vagas</h1>
+          <p className="text-xl text-gray-600">
+            Gerencie suas vagas e encontre os melhores candidatos
+          </p>
         </div>
-      ) : (
-        <div className="md:p-10 max-w-[1200px] grid md:grid-cols-vagas md:grid-rows-vagas grid-cols-12 gap-4 max-md:w-screen">
-          <div
+
+        {}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          {}
+          <button
             onClick={() => {
               setSelectedVaga(defaultValues);
               setOpenCreate(true);
             }}
-            className="bg-primary cursor-pointer text-white max-md:row-end-1 rounded-md p-4 flex justify-between flex-col col-span-12 md:col-span-2 md:row-span-2"
+            className="md:col-span-2 card-gradient min-h-[160px] flex flex-col justify-between group cursor-pointer"
           >
-            Adicionar novas vagas de emprego
-            <PlusCircle size={32} className="mt-4" />
-          </div>
-          <Link
-            href={"/candidatos"}
-            className="bg-white text-primary md:row-end-4 max-md:col-span-6 max-md:row-end-2 rounded-md p-4 flex justify-center items-center flex-col"
-          >
-            <UserList size={40} weight="fill" />
-            <span className="text-black font-bold">{candidatos.length}</span>
-            Candidatos
+            <div>
+              <h3 className="text-2xl font-bold mb-2">Criar Nova Vaga</h3>
+              <p className="text-white/90">
+                Adicione novas oportunidades de emprego
+              </p>
+            </div>
+            <div className="flex justify-end">
+              <PlusCircle size={48} className="group-hover:scale-110 transition-transform" weight="fill" />
+            </div>
+          </button>
+
+          {}
+          <Link href="/candidatos" className="card group hover:scale-105">
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mb-3">
+                <UserList size={32} weight="fill" className="text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                {candidatos.length}
+              </div>
+              <div className="text-sm text-gray-600">Candidatos</div>
+            </div>
           </Link>
-          <div className="bg-white text-primary md:row-end-4 max-md:col-span-6 max-md:row-end-2 rounded-md p-4 flex justify-center items-center flex-col">
-            <BriefcaseMetal size={40} weight="fill" />
-            <span className="text-black font-bold">{vagas.length}</span>
-            <span>Vagas</span>
+
+          {}
+          <div className="card">
+            <div className="flex flex-col items-center justify-center h-full text-center">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center mb-3">
+                <BriefcaseMetal size={32} weight="fill" className="text-white" />
+              </div>
+              <div className="text-3xl font-bold text-gray-900 mb-1">
+                {vagas.length}
+              </div>
+              <div className="text-sm text-gray-600">Vagas Criadas</div>
+            </div>
           </div>
-          <div className="bg-white rounded-md p-4 flex items-center md:col-span-3 col-span-12 max-md:row-end-3">
+        </div>
+
+        {}
+        <div className="card p-6 mb-6">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+              <MagnifyingGlass size={24} weight="bold" className="text-white" />
+            </div>
             <TextInput
-              label="Pesquisar nome da vaga"
+              label="Pesquisar vaga por título ou descrição"
               inputType="search"
               fullWidth
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <div className="bg-white rounded-md px-4 py-2 flex flex-col items-center md:col-span-3 col-span-12 md:row-start-2 md:row-span-5">
-            <div className="w-full max-h-96 overflow-y-auto">
-              {vagasFiltradas.length > 0 ? (
-                vagasFiltradas.map((el, idx) => (
-                  <VagaCard
-                    key={idx}
-                    vaga={el}
-                    candidatos={el.candidatos}
-                    userId={userId}
-                    setOpenModal={() => handleSelectForEdit(el)}
-                    onDelete={() => handleDeleteVaga(el._id)}
-                  />
-                ))
-              ) : (
-                <div className="flex justify-center items-center flex-col">
-                  Não foram encontradas vagas salvas.
-                  <Image
-                    src="/img/not-found.jpg"
-                    width="200"
-                    height="200"
-                    alt="NÃO ENCONTRADO"
-                  />
-                  <span
-                    className="cursor-pointer text-primary"
-                    onClick={() => setOpenCreate(true)}
-                  >
-                    Clique aqui para fazer poder criar sua primeira vaga!
-                  </span>
-                </div>
-              )}
-            </div>
+        </div>
+
+        {}
+        <div className="card p-6">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">
+            {search ? `Resultados para "${search}"` : "Todas as Vagas"}
+          </h2>
+
+          <div className="space-y-4">
+            {vagasFiltradas.length > 0 ? (
+              vagasFiltradas.map((el, idx) => (
+                <VagaCard
+                  key={idx}
+                  vaga={el}
+                  candidatos={el.candidatos}
+                  setOpenModal={() => handleSelectForEdit(el)}
+                  onDelete={() => handleDeleteVaga(el._id)}
+                />
+              ))
+            ) : (
+              <EmptyState
+                title="Nenhuma vaga encontrada"
+                description={search 
+                  ? "Tente ajustar sua busca ou criar uma nova vaga"
+                  : "Comece criando sua primeira vaga para atrair candidatos qualificados"
+                }
+                actionLabel="Criar Primeira Vaga"
+                onAction={() => setOpenCreate(true)}
+              />
+            )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
+

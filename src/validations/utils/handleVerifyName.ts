@@ -10,3 +10,4 @@ export const handleVerifyName = (nome: string) => {
     return firstName?.length >= 3 && lastName?.length >= 3;
   }
   
+

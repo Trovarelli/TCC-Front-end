@@ -7,3 +7,4 @@ export interface TextInputProps extends Omit<InputHTMLAttributes<any>, 'type'> {
     inputType?: 'password' | 'text' | 'number' | "search"
     fullWidth?: boolean
 }
+

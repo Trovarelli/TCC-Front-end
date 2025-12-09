@@ -1,5 +1,5 @@
 "use client";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import clsx from "clsx";
 import Link from "next/link";
 import { CaretDown, Key, SignOut, User, X } from "phosphor-react";
@@ -14,7 +14,7 @@ interface ProfileProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
   const [open, setOpen] = useState(false);
-  const { nome, foto } = useUsertore().user;
+  const { nome, foto } = useUserStore().user;
   const [infoModal, setInfoModal] = useState(false);
 
   return (
@@ -81,3 +81,5 @@ export const Profile = ({ logout, className, ...rest }: ProfileProps) => {
     </div>
   );
 };
+
+

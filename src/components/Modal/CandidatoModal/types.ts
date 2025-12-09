@@ -6,3 +6,5 @@ export interface PDFRenderModalProps extends Omit<DefaultModalProps, 'children'>
     candidato: CandidatoModel
     onFavoriteClientCandidato?: (id: string, favorite: boolean) => void
 }
+
+

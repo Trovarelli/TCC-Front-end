@@ -5,3 +5,4 @@ export interface CandidatoCardProps {
     candidato: CandidatoModel
     onFavoriteClientCandidato?: (id: string, favorite: boolean) => void
 }
+

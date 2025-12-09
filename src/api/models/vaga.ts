@@ -8,3 +8,4 @@ export interface VagaModel {
     ativo?: boolean,
     matchField: string[]
 }
+

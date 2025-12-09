@@ -6,3 +6,5 @@ export interface UserModel {
     email: string,
     photo: string,
 }
+
+

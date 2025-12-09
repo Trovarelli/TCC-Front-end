@@ -50,3 +50,4 @@ export const CreateUserValidation = z
       message: "Por favor esteja de acordo com as nossas condições de uso",
     }
   );
+

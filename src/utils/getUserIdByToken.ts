@@ -4,3 +4,4 @@ export const getUserIdByToken = (token: string, secret: string): string | undefi
     const decoded = jwt.verify(token, secret as string) as JwtPayload
     return decoded?.key
 }
+

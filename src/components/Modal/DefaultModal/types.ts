@@ -6,3 +6,4 @@ export interface DefaultModalProps {
   children: ReactNode;
   className?: string;
 }
+

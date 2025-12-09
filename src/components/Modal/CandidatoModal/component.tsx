@@ -1,10 +1,9 @@
 "use client";
 import { PDFRenderModalProps } from "./types";
 import { DefaultModal } from "../DefaultModal";
-import { Heart, X } from "phosphor-react";
+import { Heart, X, Download, Envelope, Phone, GraduationCap, Briefcase, Star, User } from "phosphor-react";
 import { useState } from "react";
-import { Button } from "@/components/Buttons";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import { FavoriteCandidato, GetCurriculo } from "@/api/requests";
 import { toast } from "react-toastify";
 import clsx from "clsx";
@@ -16,14 +15,14 @@ export const CandidatoModal = ({
   onFavoriteClientCandidato,
 }: PDFRenderModalProps) => {
   const [favorite, setFavorite] = useState(candidato.favorito || false);
-  const { empresa, id } = useUsertore().user;
+  const { empresa, id } = useUserStore().user;
   const [loading, setLoading] = useState(false);
   const [favoriteLoading, setFavoriteLoading] = useState(false);
 
   const downloadPDF = (base64String: string) => {
     const downloadLink = document.createElement("a");
     downloadLink.href = base64String;
-    downloadLink.download = `Curriculo ${candidato.nome}.pdf`;
+    downloadLink.download = `Curriculo_${candidato.nome}.pdf`;
     downloadLink.click();
   };
 
@@ -31,9 +30,7 @@ export const CandidatoModal = ({
     setLoading(true);
     GetCurriculo({ userId: id, candidatoId: candidato._id })
       .then((res) => downloadPDF(res.data.curriculo))
-      .catch((err) => {
-        toast.error("Erro ao baixar curriculo");
-      })
+      .catch(() => toast.error("Erro ao baixar currículo"))
       .finally(() => setLoading(false));
   };
 
@@ -41,150 +38,214 @@ export const CandidatoModal = ({
     setFavoriteLoading(true);
     FavoriteCandidato({ userId: id, candidatoId: candidato._id, favorito: v })
       .then(() => {
-        onFavoriteClientCandidato &&
-          onFavoriteClientCandidato(candidato._id, v);
+        onFavoriteClientCandidato && onFavoriteClientCandidato(candidato._id, v);
         setFavorite(v);
+        toast.success(v ? "Candidato favoritado!" : "Favorito removido");
       })
-      .catch(() => {
-        toast.error("Erro ao favoritar candidato, tente novamente mais tarde");
-      })
+      .catch(() => toast.error("Erro ao favoritar candidato"))
       .finally(() => setFavoriteLoading(false));
   };
 
   return (
-    <DefaultModal
-      open={open}
-      size="lg"
-      className="h-[80vh] overflow-y-scroll pb-4"
-    >
-      <div className="w-full flex justify-end">
-        <X
-          onClick={() => setOpen(false)}
-          size={18}
-          className="cursor-pointer mr-1 mt-1"
-        />
-      </div>
-      <div className="w-full h-full p-4 flex flex-col gap-5">
-        <div className="grid grid-cols-12">
-          <div className="col-span-9 max-md:col-span-12">
-            <div className="text-lg text-black font-bold flex gap-3 items-center justify-start max-md:justify-between">
-              {candidato.nome}
+    <DefaultModal open={open} size="lg" className="max-h-[90vh] overflow-hidden flex flex-col">
+      {}
+      <div className="sticky top-0 bg-white border-b border-gray-200 p-6 pb-4 z-10">
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-3 mb-2">
+              <h2 className="text-2xl font-bold text-gray-900">{candidato.nome}</h2>
               {onFavoriteClientCandidato && (
-                <Heart
-                  weight={favorite ? "fill" : "bold"}
-                  className={clsx(
-                    "text-primary cursor-pointer text-[1.6rem] max-md:text-[1.8rem]",
-                    {
-                      "animate-pulse pointer-events-none": favoriteLoading,
-                    }
-                  )}
+                <button
                   onClick={() => handleFavoriteCandidato(!favorite)}
-                />
+                  disabled={favoriteLoading}
+                  className={clsx(
+                    "transition-all",
+                    { "animate-pulse pointer-events-none": favoriteLoading }
+                  )}
+                >
+                  <Heart
+                    weight={favorite ? "fill" : "bold"}
+                    size={28}
+                    className={clsx(
+                      "transition-colors",
+                      favorite ? "text-red-500" : "text-gray-400 hover:text-red-500"
+                    )}
+                  />
+                </button>
               )}
             </div>
-
-            <div>- {candidato.idade ? candidato.idade + " anos" : ""}</div>
-            <div>{candidato.profissao ? "- " + candidato.profissao : ""}</div>
-          </div>
-          <div className="col-span-3 max-md:col-span-12 flex justify-end items-center">
-            <Button
-              onClick={() => handleGetCurriculo()}
-              btnName={"Baixar Curriculo"}
-              fullWidth
-              loading={loading}
-            ></Button>
-          </div>
-        </div>
-        <div className="grid grid-cols-12 gap-4 relative pb-4">
-          <div className="col-span-7 max-md:col-span-12 flex flex-col gap-4">
-            {candidato.escolaridade && candidato.escolaridade.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <div className="ml-3 font-bold text-primary">Escolaridade</div>
-                <div className="border-t border-gray-400 w-full"></div>
-                <div className="text-black">
-                  {candidato.escolaridade?.map((el, idx) => (
-                    <p key={idx}>- {el}</p>
-                  ))}
+            <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+              {candidato.idade && (
+                <div className="flex items-center gap-1.5">
+                  <User size={16} weight="bold" />
+                  <span>{candidato.idade} anos</span>
                 </div>
-              </div>
-            )}
-            {candidato.experiencia && candidato.experiencia.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <div className="ml-3 font-bold text-primary">Experiências</div>
-                <div className="border-t border-gray-400 w-full"></div>
-                <div className="text-black">
-                  {candidato.experiencia?.map((el, idx) => (
-                    <p key={idx}> - {el}</p>
-                  ))}
+              )}
+              {candidato.profissao && (
+                <div className="flex items-center gap-1.5">
+                  <Briefcase size={16} weight="bold" />
+                  <span>{candidato.profissao}</span>
                 </div>
-              </div>
-            )}
-            {candidato.competencias && candidato.competencias.length > 0 && (
-              <div className="flex flex-col gap-2">
-                <div className="ml-3 font-bold text-primary">Competencias</div>
-                <div className="border-t border-gray-400 w-full"></div>
-                <div className="text-black grid grid-cols-4">
-                  {candidato.competencias?.map((el, idx) => (
-                    <div className="col-span-2 max-sm:col-span-4" key={idx}>
-                      - {el}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="border-l border-gray-400 absolute h-full right-[41.5%] z-50 max-md:hidden"></div>
-
-          <div className="col-span-5 max-md:col-span-12 flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <div className="ml-3 font-bold text-primary">Nível</div>
-              <div className="border-t border-gray-400 w-full"></div>
-              <div className="text-white px-6 rounded-full bg-primary w-fit">
-                {candidato.nivelProfissional}
-              </div>
+              )}
+              {candidato.nivelProfissional && (
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 font-medium text-xs">
+                  {candidato.nivelProfissional}
+                </span>
+              )}
             </div>
-            {((candidato?.telefone && candidato.telefone.length > 0) ||
-              candidato.email) && (
-              <div className="flex flex-col gap-2">
-                <div className="ml-3 font-bold text-primary">Contato</div>
-                <div className="border-t border-gray-400 w-full"></div>
-                <div className="flex flex-col gap-2">
-                  <a
-                    href={`mailto:${candidato.email}?&subject=Contato ${empresa}`}
-                  >
-                    - {candidato?.email}
-                  </a>
-                  <div className="text-black grid grid-cols-4">
-                    {candidato?.telefone?.map((el, idx) => (
-                      <div className="col-span-2 max-sm:col-span-4" key={idx}>
-                        - {el}
-                      </div>
-                    ))}
+          </div>
+          <button
+            onClick={() => setOpen(false)}
+            className="ml-4 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <X size={20} className="text-gray-600" />
+          </button>
+        </div>
+
+        <button
+          onClick={handleGetCurriculo}
+          disabled={loading}
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        >
+          {loading ? (
+            <>Baixando...</>
+          ) : (
+            <>
+              <Download size={20} weight="bold" />
+              Baixar Currículo
+            </>
+          )}
+        </button>
+      </div>
+
+      {}
+      <div className="p-6 overflow-y-auto flex-1">
+        <div className="grid md:grid-cols-2 gap-6">
+          {}
+          <div className="space-y-6">
+            {}
+            {candidato.escolaridade && candidato.escolaridade.length > 0 && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center">
+                    <GraduationCap size={18} weight="bold" className="text-indigo-600" />
                   </div>
+                  <h3 className="font-semibold text-gray-900">Escolaridade</h3>
+                </div>
+                <ul className="space-y-2">
+                  {candidato.escolaridade.map((el, idx) => (
+                    <li key={idx} className="text-sm text-gray-700 flex items-start">
+                      <span className="text-indigo-600 mr-2">•</span>
+                      <span>{el}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {}
+            {candidato.experiencia && candidato.experiencia.length > 0 && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                    <Briefcase size={18} weight="bold" className="text-purple-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Experiências</h3>
+                </div>
+                <ul className="space-y-2">
+                  {candidato.experiencia.map((el, idx) => (
+                    <li key={idx} className="text-sm text-gray-700 flex items-start">
+                      <span className="text-purple-600 mr-2">•</span>
+                      <span>{el}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {}
+            {candidato.competencias && candidato.competencias.length > 0 && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <Star size={18} weight="bold" className="text-green-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Competências</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {candidato.competencias.map((el, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-block bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm text-gray-700"
+                    >
+                      {el}
+                    </span>
+                  ))}
                 </div>
               </div>
             )}
-            {candidato?.caracteristicas &&
-              candidato.caracteristicas.length > 0 && (
-                <div className="flex flex-col gap-2">
-                  <div className="ml-3 font-bold text-primary">
-                    Características
+          </div>
+
+          {}
+          <div className="space-y-6">
+            {}
+            {(candidato.email || (candidato.telefone && candidato.telefone.length > 0)) && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <Envelope size={18} weight="bold" className="text-blue-600" />
                   </div>
-                  <div className="border-t border-gray-400 w-full"></div>
-                  <div className="flex flex-col gap-2">
-                    <div className="text-black grid grid-cols-4">
-                      {candidato.caracteristicas.map((el, idx) => (
-                        <div key={idx} className="col-span-2 max-sm:col-span-4">
-                          - {el}
+                  <h3 className="font-semibold text-gray-900">Contato</h3>
+                </div>
+                <div className="space-y-2">
+                  {candidato.email && (
+                    <a
+                      href={`mailto:${candidato.email}?subject=Contato ${empresa}`}
+                      className="flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-700 transition-colors"
+                    >
+                      <Envelope size={16} weight="bold" />
+                      <span>{candidato.email}</span>
+                    </a>
+                  )}
+                  {candidato.telefone && candidato.telefone.length > 0 && (
+                    <div className="space-y-1">
+                      {candidato.telefone.map((tel, idx) => (
+                        <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
+                          <Phone size={16} weight="bold" />
+                          <span>{tel}</span>
                         </div>
                       ))}
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
+            )}
+
+            {}
+            {candidato.caracteristicas && candidato.caracteristicas.length > 0 && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                    <Star size={18} weight="bold" className="text-orange-600" />
+                  </div>
+                  <h3 className="font-semibold text-gray-900">Características</h3>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {candidato.caracteristicas.map((el, idx) => (
+                    <span
+                      key={idx}
+                      className="inline-block bg-white border border-gray-200 px-3 py-1.5 rounded-lg text-sm text-gray-700"
+                    >
+                      {el}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </DefaultModal>
   );
 };
+

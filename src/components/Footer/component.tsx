@@ -28,7 +28,7 @@ export const Footer = () => (
       Desenvolvido por
       <a
         target="_blank"
-        href="https://www.linkedin.com/in/jos%C3%A9-trovarelli-neto-31b2801b9/"
+        href="https://www.linkedin.com/in/jose-trovarelli-neto/"
       >
         <strong>José Trovarelli Neto</strong>
       </a>

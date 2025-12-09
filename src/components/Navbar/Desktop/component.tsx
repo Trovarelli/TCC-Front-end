@@ -9,7 +9,7 @@ import Spinner from "@/components/Spinner/component";
 import { BriefcaseMetal, SquaresFour, UserList } from "phosphor-react";
 import { Profile } from "@/components/Profile";
 import { Link as LinkScroll } from "react-scroll";
-import { useUsertore } from "@/store";
+import { useUserStore } from "@/store/user";
 import Image from "next/image";
 
 export default function DesktopNav() {
@@ -19,14 +19,14 @@ export default function DesktopNav() {
   const [loading, setLoading] = useState(false);
   const token = Cookies.get("token");
   const [selectedLink, setSelectedLink] = useState("");
-  const { removeUserState } = useUsertore();
+  const { removeUserState } = useUserStore();
 
   useEffect(() => {
     setToken(!!token);
   }, [token]);
 
   const selectedItem = (link: string) => {
-    if (link === path) return "text-primary border-primary";
+    if (link === path) return "text-indigo-600 border-indigo-600 bg-indigo-50";
   };
 
   const handleLogout = () => {
@@ -43,69 +43,71 @@ export default function DesktopNav() {
   return (
     <nav
       className={clsx(
-        "max-sm:hidden fixed flex items-center z-50 shadow-sm justify-center mr-0 top-0 right-0 left-0  px-2 sm:px-4 rounded",
-        { "bg-white": hasToken },
-        {
-          "backdrop-blur-md bg-black bg-opacity-5 border-b border-[#747bff]":
-            !hasToken,
-        }
+        "max-sm:hidden fixed flex items-center z-50 justify-center top-0 right-0 left-0 px-4 transition-all",
+        hasToken
+          ? "bg-white/80 backdrop-blur-lg border-b border-gray-200 shadow-sm"
+          : "bg-white/70 backdrop-blur-md border-b border-indigo-100"
       )}
     >
-      <div className="container flex justify-around font-bold mx-auto">
+      <div className="container flex justify-between items-center mx-auto py-3">
+        {}
         <div className="flex items-center">
-          <div className="self-center py-3">
-            <Link href={"/"}>
-              <Image
-                alt="TAHR-LOGO"
-                src="/img/logo/logo-text.svg"
-                width="120"
-                height="120"
-              />
-            </Link>
-          </div>
+          <Link href="/" className="group">
+            <Image
+              alt="TAHR-LOGO"
+              src="/img/logo/logo-text.svg"
+              width="130"
+              height="130"
+              className="group-hover:scale-105 transition-transform"
+            />
+          </Link>
         </div>
+
+        {}
         <div
           className={clsx(
-            "grid grid-cols-3 gap-3 transition-all min-w-[400px]",
+            "flex gap-2 transition-all",
             { hidden: !hasToken }
           )}
         >
           <Link
-            href={"/dashboard"}
-            className={`${selectedItem(
-              "/dashboard"
-            )} flex hover:text-primary border-b-4 border-black hover:border-primary flex-col justify-center px-4`}
+            href="/dashboard"
+            className={clsx(
+              "flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all duration-300",
+              "hover:bg-indigo-50 hover:text-indigo-600",
+              selectedItem("/dashboard") || "text-gray-700"
+            )}
           >
-            <div className=" flex justify-center items-center">
-              <SquaresFour size={26} weight="fill" className="mr-2" />
-              Dashboard
-            </div>
+            <SquaresFour size={22} weight="fill" />
+            Dashboard
           </Link>
           <Link
-            href={"/vagas"}
-            className={`${selectedItem(
-              "/vagas"
-            )} flex hover:text-primary border-b-4 border-black hover:border-primary flex-col justify-center px-4`}
+            href="/vagas"
+            className={clsx(
+              "flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all duration-300",
+              "hover:bg-indigo-50 hover:text-indigo-600",
+              selectedItem("/vagas") || "text-gray-700"
+            )}
           >
-            <div className=" flex justify-center items-center">
-              <BriefcaseMetal size={26} weight="fill" className="mr-2" />
-              Vagas
-            </div>
+            <BriefcaseMetal size={22} weight="fill" />
+            Vagas
           </Link>
           <Link
-            href={"/candidatos"}
-            className={`${selectedItem(
-              "/candidatos"
-            )} flex hover:text-primary border-b-4 border-black hover:border-primary flex-col justify-center px-4`}
+            href="/candidatos"
+            className={clsx(
+              "flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold transition-all duration-300",
+              "hover:bg-indigo-50 hover:text-indigo-600",
+              selectedItem("/candidatos") || "text-gray-700"
+            )}
           >
-            <div className=" flex justify-center items-center">
-              <UserList size={26} weight="fill" className="mr-2" />
-              Candidatos
-            </div>
+            <UserList size={22} weight="fill" />
+            Candidatos
           </Link>
         </div>
+
+        {}
         <div
-          className={clsx("transition-all grid grid-cols-4 gap-4", {
+          className={clsx("flex gap-4 text-sm font-medium", {
             hidden: hasToken,
           })}
         >
@@ -117,73 +119,73 @@ export default function DesktopNav() {
             duration={500}
             onClick={() => setSelectedLink("home")}
             className={clsx(
-              "hover:text-primary cursor-pointer flex justify-center items-center",
-              { "text-primary border-primary": selectedLink === "home" }
+              "cursor-pointer px-3 py-2 rounded-lg transition-all hover:text-indigo-600 hover:bg-indigo-50",
+              { "text-indigo-600 bg-indigo-50": selectedLink === "home" }
             )}
           >
             Home
           </LinkScroll>
           <LinkScroll
-            to={"funcionalidades"}
+            to="funcionalidades"
             spy={true}
             smooth={true}
             offset={-100}
             duration={500}
             onClick={() => setSelectedLink("funcionalidades")}
             className={clsx(
-              "hover:text-primary cursor-pointer flex justify-center items-center",
-              {
-                "text-primary border-primary":
-                  selectedLink === "funcionalidades",
-              }
+              "cursor-pointer px-3 py-2 rounded-lg transition-all hover:text-indigo-600 hover:bg-indigo-50",
+              { "text-indigo-600 bg-indigo-50": selectedLink === "funcionalidades" }
             )}
           >
             Recursos
           </LinkScroll>
           <LinkScroll
-            to={"solucoes"}
+            to="solucoes"
             spy={true}
             smooth={true}
             offset={-100}
             duration={500}
             onClick={() => setSelectedLink("solucoes")}
             className={clsx(
-              "hover:text-primary cursor-pointer flex justify-center items-center",
-              { "text-primary border-primary": selectedLink === "solucoes" }
+              "cursor-pointer px-3 py-2 rounded-lg transition-all hover:text-indigo-600 hover:bg-indigo-50",
+              { "text-indigo-600 bg-indigo-50": selectedLink === "solucoes" }
             )}
           >
             Vantagens
           </LinkScroll>
           <LinkScroll
-            to={"sobre-nos"}
+            to="sobre-nos"
             spy={true}
             smooth={true}
             offset={-100}
             duration={500}
             onClick={() => setSelectedLink("sobre-nos")}
             className={clsx(
-              "hover:text-primary cursor-pointer flex justify-center items-center",
-              { "text-primary border-primary": selectedLink === "sobre-nos" }
+              "cursor-pointer px-3 py-2 rounded-lg transition-all hover:text-indigo-600 hover:bg-indigo-50",
+              { "text-indigo-600 bg-indigo-50": selectedLink === "sobre-nos" }
             )}
           >
             Sobre nós
           </LinkScroll>
         </div>
+
+        {}
         <div className="flex items-center justify-center">
           {loading ? (
             <Spinner color="primary" />
           ) : hasToken ? (
             <Profile logout={handleLogout} />
           ) : (
-            <Button
+            <button
               onClick={() => router.push("/login")}
-              btnName="Entrar"
-              rounded
-              size="lg"
-            />
+              className="btn-primary"
+            >
+              Entrar
+            </button>
           )}
         </div>
       </div>
     </nav>
   );
 }
+
