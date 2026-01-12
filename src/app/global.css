@@ -38,6 +38,53 @@
   .btn-secondary {
     @apply bg-white hover:bg-gray-50 text-indigo-600 border border-indigo-600 font-medium px-4 py-2 rounded-lg transition-colors duration-200;
   }
+
+  .card-gradient {
+    @apply bg-gradient-to-br from-indigo-600 to-purple-700 text-white rounded-2xl p-6 shadow-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl overflow-hidden relative border border-white/10;
+  }
+
+  .card-gradient h3 {
+    @apply text-white mb-2;
+  }
+
+  .card-gradient p {
+    @apply text-white/90;
+  }
+
+  .shine-effect::after {
+    content: "";
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] transition-transform duration-1000 pointer-events-none;
+  }
+
+  .shine-effect:hover::after {
+    @apply translate-x-[200%];
+  }
+}
+
+button,
+a,
+.card,
+[role="button"],
+[onclick] {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+*:focus-visible {
+  @apply outline-2 outline-offset-2 outline-indigo-600;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button,
+a,
+div[onclick],
+span[onclick] {
+  cursor: pointer;
 }
 
 /* Custom scrollbar */
