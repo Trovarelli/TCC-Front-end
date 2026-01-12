@@ -5,7 +5,7 @@ export const FavoriteCandidato = async ({ userId, candidatoId, favorito }: { use
   const token = Cookies.get('token');
   return axios
     .patch(
-      `https://tahr-api.onrender.com/candidate/${userId}/${candidatoId}`,
+      `https://tahr-api.onrender.com/candidate/favorite/${userId}/${candidatoId}`,
       { favorito },
       {
         headers: {

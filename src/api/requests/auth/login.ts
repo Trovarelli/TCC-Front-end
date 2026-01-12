@@ -11,7 +11,7 @@ type UserLogin = {
 export const MakeLogin = async ({ email, password }: UserLogin): Promise<AxiosResponse<UserModel, undefined>> => {
   return axios
     .post(
-      "https://tahr-api.onrender.com/login",
+      "https://tahr-api.onrender.com/auth/login",
       {
         email,
         password,
